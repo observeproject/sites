@@ -1050,6 +1050,24 @@ labels:
   severity: warning
 {{< /code >}}
  
+### mimir_autoscaling_querier
+
+##### MimirQuerierAutoscalerNotActive
+
+{{< code lang="yaml" >}}
+alert: MimirQuerierAutoscalerNotActive
+annotations:
+  message: The Horizontal Pod Autoscaler (HPA) {{ $labels.horizontalpodautoscaler
+    }} in {{ $labels.namespace }} is not active.
+expr: |
+  kube_horizontalpodautoscaler_status_condition{horizontalpodautoscaler=~"(keda-hpa-querier)|(keda-hpa-ruler-querier)",condition="ScalingActive",status="false"}
+  * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+  > 0
+for: 1h
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MimirContinuousTestNotRunningOnWrites
