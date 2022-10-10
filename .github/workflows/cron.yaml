@@ -22,7 +22,7 @@ jobs:
         message: 'assets,site/content: daily assets regeneration'
       env:
         # This is necessary in order to push a commit to the repo
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.OBSERVABILITY_SITE_TOKEN }}
 
 
 
