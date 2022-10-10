@@ -1,5 +1,5 @@
 ---
-title: Obervability Stack Mixins
+title: Observability Stack Mixins
 ---
 
 A mixin is a set of Grafana dashboards and Prometheus rules and alerts, packaged together in a reuseable and extensible bundle.
