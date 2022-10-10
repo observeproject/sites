@@ -1,8 +1,8 @@
 ---
-baseURL: "https://monitoring.mixins.dev/"
+baseURL: "https://stack.observability.udmire.cn/"
 # baseURL: ""
 languageCode: "en-us"
-title: "Monitoring Mixins"
+title: "Mixins for Observability Stack"
 
 theme: 'ace-documentation'
 
@@ -13,9 +13,9 @@ permalinks:
   post: /:filename/
 
 params:
-  project_name: Monitoring Mixins
+  project_name: Mixins for Observability Stack
 
-  project_tagline: Combination of alerts, recording rules, and dashboards for prometheus exporters
+  project_tagline: Combination of alerts, recording rules, and dashboards for Observability Stack components
 
   disableSearch: true
   disableReadmoreNav: true
@@ -33,6 +33,6 @@ menu:
       url: "https://github.com/monitoring-mixins/docs"
       weight: 2
     - name: "GitHub"
-      url: "https://github.com/monitoring-mixins/website"
+      url: "https://github.com/observeproject/sites"
       weight: 3
 
