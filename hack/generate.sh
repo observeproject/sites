@@ -14,6 +14,7 @@ download_mixin() {
 	local mixin="$1"
 	local repo="$2"
 	local subdir="$3"
+	local customfile="$4"
 
 	git clone --depth 1 "$repo" "${TMPDIR}/$mixin"
 	mkdir -p "${TOP}/${MANIFESTS}/${mixin}/dashboards"
@@ -22,10 +23,17 @@ download_mixin() {
 		if [ -f "jsonnetfile.json" ]; then
 			jb install
 		fi
-	
-		jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/alerts.yaml" || :
-		jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/rules.yaml" || :
-		jsonnet -J vendor -m "${TOP}/${MANIFESTS}/${mixin}/dashboards" -e '(import "mixin.libsonnet").grafanaDashboards' || :
+
+		if [ -f "${TOP}/custom/$customfile" ]; then
+			cp ${TOP}/custom/$customfile ./
+			jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "'$customfile'").prometheusAlerts)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/alerts.yaml" || :
+			jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "'$customfile'").prometheusRules)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/rules.yaml" || :
+			jsonnet -J vendor -m "${TOP}/${MANIFESTS}/${mixin}/dashboards" -e '(import "'$customfile'").grafanaDashboards' || :
+		else
+			jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/alerts.yaml" || :
+			jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' | gojsontoyaml > "${TOP}/${MANIFESTS}/${mixin}/rules.yaml" || :
+			jsonnet -J vendor -m "${TOP}/${MANIFESTS}/${mixin}/dashboards" -e '(import "mixin.libsonnet").grafanaDashboards' || :
+		fi
 	)
 }
 
@@ -87,8 +95,11 @@ for mixin in $(cat "$CONFIG" | jq -r '.mixins[].name'); do
 	subdir="$(cat "$CONFIG" | jq -r ".mixins[] | select(.name == \"$mixin\") | .subdir")"
 	text="$(cat "$CONFIG" | jq -r ".mixins[] | select(.name == \"$mixin\") | .description")"
 	if [ "$text" == "null" ]; then text=""; fi
+	customfile="$(cat "$CONFIG" | jq -r ".mixins[] | select(.name == \"$mixin\") | .customfile")"
+	if [ "$customfile" == "null" ]; then customfile=""; fi
+
 	set +u
-	download_mixin "$mixin" "$repo" "$subdir"
+	download_mixin "$mixin" "$repo" "$subdir" "$customfile"
 	#set -u
 
 	mkdir -p "site/content/${mixin}"
