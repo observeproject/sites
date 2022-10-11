@@ -16,7 +16,7 @@ jobs:
     - run: make generate
     - uses: EndBug/add-and-commit@v4
       with:
-        add: 'assets/ content/'
+        add: 'assets/ content/ static/'
         author_name: "github-actions[bot]"
         author_email: "github-actions@users.noreply.github.com"
         message: 'assets,content: daily assets regeneration'
