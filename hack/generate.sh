@@ -83,7 +83,7 @@ cd "${TOP}" || exit 1
 # remove generated assets and temporary directory
 rm -rf "$MANIFESTS" "$TMPDIR"
 # remove generated site content
-find site/content/ ! -name '_index.md' -type f -exec rm -rf {} +
+find content/ ! -name '_index.md' -type f -exec rm -rf {} +
 
 mkdir -p "${TMPDIR}"
 
@@ -102,8 +102,8 @@ for mixin in $(cat "$CONFIG" | jq -r '.mixins[].name'); do
 	download_mixin "$mixin" "$repo" "$subdir" "$customfile"
 	#set -u
 
-	mkdir -p "site/content/${mixin}"
-	file="site/content/${mixin}/_index.md"
+	mkdir -p "content/${mixin}"
+	file="content/${mixin}/_index.md"
 	# Create header
 	if [ -n "$subdir" ]; then
 		location="$repo/tree/master/$subdir"
@@ -138,5 +138,4 @@ for mixin in $(cat "$CONFIG" | jq -r '.mixins[].name'); do
 done
 
 cd "${TOP}" || exit 1
-mkdir -p "site/static"
-cp -f "${CONFIG}" "site/static/"
+cp -f "${CONFIG}" "static/"

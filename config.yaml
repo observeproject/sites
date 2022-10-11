@@ -4,7 +4,7 @@ baseURL: "https://stack.observability.udmire.cn/"
 languageCode: "en-us"
 title: "Mixins for Observability Stack"
 
-theme: 'ace-documentation'
+theme: 'ace'
 
 # Google analytics
 # googleAnalytics: UA-123456789-1
