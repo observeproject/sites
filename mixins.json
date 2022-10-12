@@ -1,0 +1,17 @@
+{
+    "mixins": [
+        {
+            "name": "kubernetes",
+            "source": "https://github.com/kubernetes-monitoring/kubernetes-mixin",
+            "subdir": "",
+            "description": "A set of Grafana dashboards and Prometheus alerts for Kubernetes."
+        },
+        {
+            "name": "mimir",
+            "source": "https://github.com/grafana/mimir",
+            "subdir": "operations/mimir-mixin",
+            "customfile": "mimir-custom.libsonnet",
+            "description": "The mimir Mixin is a set of configurable, reusable, and extensible alerts and dashboards for Mimir/Cortex."
+        }
+    ]
+}
