@@ -1,5 +1,5 @@
 ---
-baseURL: "https://observeproject.github.io/sites/"
+baseURL: "https://stack.observability.udmire.cn/"
 # baseURL: ""
 languageCode: "en-us"
 title: "Mixins for Observability Stack"
