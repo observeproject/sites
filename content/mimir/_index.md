@@ -202,6 +202,28 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MimirRingMembersMismatch
+
+{{< code lang="yaml" >}}
+alert: MimirRingMembersMismatch
+annotations:
+  message: |
+    Number of members in Mimir ingester hash ring does not match the expected number in {{ $labels.cluster }}/{{ $labels.namespace }}.
+expr: |
+  (
+    avg by(cluster, namespace) (sum by(cluster, namespace, pod) (cortex_ring_members{name="ingester",job=~"(.*/)?(ingester.*|cortex|mimir|mimir-write)"}))
+    != sum by(cluster, namespace) (up{job=~"(.*/)?(ingester.*|cortex|mimir|mimir-write)"})
+  )
+  and
+  (
+    count by(cluster, namespace) (cortex_build_info) > 0
+  )
+for: 15m
+labels:
+  component: ingester
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_instance_limits_alerts
 
 ##### MimirIngesterReachingSeriesLimit
@@ -530,7 +552,7 @@ annotations:
   message: Mimir instance {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
     }} sees incorrect number of gossip members.
 expr: |
-  avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~".+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir)"})
+  avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~".+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|query-scheduler|cortex|mimir)"})
 for: 15m
 labels:
   severity: warning
