@@ -148,6 +148,25 @@ Copy</button></div><div id=clipboard_e612527e0d><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=mimirringmembersmismatch>MimirRingMembersMismatch</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_4659d5bc31>
+Copy</button></div><div id=clipboard_4659d5bc31><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MimirRingMembersMismatch</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    </span>    <span style=color:#ae81ff>Number of members in Mimir ingester hash ring does not match the expected number in {{ $labels.cluster }}/{{ $labels.namespace }}.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    avg by(cluster, namespace) (sum by(cluster, namespace, pod) (cortex_ring_members{name=&#34;ingester&#34;,job=~&#34;(.*/)?(ingester.*|cortex|mimir|mimir-write)&#34;}))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    != sum by(cluster, namespace) (up{job=~&#34;(.*/)?(ingester.*|cortex|mimir|mimir-write)&#34;})
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    count by(cluster, namespace) (cortex_build_info) &gt; 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>component</span><span style=color:#111>:</span> <span style=color:#ae81ff>ingester</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
 </span></span></code></pre></div></div></div><h3 id=mimir_instance_limits_alerts>mimir_instance_limits_alerts</h3><h5 id=mimiringesterreachingserieslimit>MimirIngesterReachingSeriesLimit</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_6672fa2210>
 Copy</button></div><div id=clipboard_6672fa2210><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MimirIngesterReachingSeriesLimit</span>
@@ -407,14 +426,14 @@ Copy</button></div><div id=clipboard_267ff8c8f3><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
-</span></span></code></pre></div></div></div><h3 id=gossip_alerts>gossip_alerts</h3><h5 id=mimirgossipmembersmismatch>MimirGossipMembersMismatch</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_7f8ee7909d>
-Copy</button></div><div id=clipboard_7f8ee7909d><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span></code></pre></div></div></div><h3 id=gossip_alerts>gossip_alerts</h3><h5 id=mimirgossipmembersmismatch>MimirGossipMembersMismatch</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_53e3e70c5e>
+Copy</button></div><div id=clipboard_53e3e70c5e><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MimirGossipMembersMismatch</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Mimir instance {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace</span>
 </span></span><span style=display:flex><span>    }} <span style=color:#ae81ff>sees incorrect number of gossip members.</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~&#34;.+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir)&#34;})</span>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~&#34;.+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|query-scheduler|cortex|mimir)&#34;})</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
