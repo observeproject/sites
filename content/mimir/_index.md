@@ -202,6 +202,23 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MimirDistributorForwardingErrorRate
+
+{{< code lang="yaml" >}}
+alert: MimirDistributorForwardingErrorRate
+annotations:
+  message: |
+    Mimir in {{ $labels.cluster }}/{{ $labels.namespace }} has a high failure rate when forwarding samples.
+expr: |
+  sum by (cluster, namespace) (rate(cortex_distributor_forward_errors_total{}[1m]))
+  /
+  sum by (cluster, namespace) (rate(cortex_distributor_forward_requests_total{}[1m]))
+  > 0.01
+for: 5m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### MimirRingMembersMismatch
 
 {{< code lang="yaml" >}}
