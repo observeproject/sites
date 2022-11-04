@@ -559,6 +559,24 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MimirRulerRemoteEvaluationFailing
+
+{{< code lang="yaml" >}}
+alert: MimirRulerRemoteEvaluationFailing
+annotations:
+  message: |
+    Mimir Ruler {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is failing to perform {{ printf "%.2f" $value }}% of remote evaluations when communicating with ruler-query-frontend.
+expr: |
+  100 * (
+  sum by (cluster, namespace) (rate(cortex_request_duration_seconds_count{route="/httpgrpc.HTTP/Handle", status_code=~"5..", job=~".*/(ruler-query-frontend.*)"}[5m]))
+    /
+  sum by (cluster, namespace) (rate(cortex_request_duration_seconds_count{route="/httpgrpc.HTTP/Handle", job=~".*/(ruler-query-frontend.*)"}[5m]))
+  ) > 1
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### gossip_alerts
 
 ##### MimirGossipMembersMismatch
