@@ -18,24 +18,6 @@ Complete list of pregenerated alerts is available [here](https://github.com/obse
 
 ### tempo_alerts
 
-##### TempoRequestErrors
-
-{{< code lang="yaml" >}}
-alert: TempoRequestErrors
-annotations:
-  message: |
-    {{ $labels.job }} {{ $labels.route }} is experiencing {{ printf "%.2f" $value }}% errors.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoRequestErrors
-expr: |
-  100 * sum(rate(tempo_request_duration_seconds_count{status_code=~"5.."}[1m])) by (cluster, namespace, job, route)
-    /
-  sum(rate(tempo_request_duration_seconds_count[1m])) by (cluster, namespace, job, route)
-    > 10
-for: 15m
-labels:
-  severity: critical
-{{< /code >}}
- 
 ##### TempoRequestLatency
 
 {{< code lang="yaml" >}}
