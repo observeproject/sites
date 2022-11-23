@@ -620,7 +620,7 @@ annotations:
     }} sees incorrect number of gossip members.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#mimirgossipmembersmismatch
 expr: |
-  avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~".+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir)"})
+  avg by (cluster, namespace) (memberlist_client_cluster_members_count) != sum by (cluster, namespace) (up{job=~".+/(alertmanager|compactor|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)"})
 for: 15m
 labels:
   severity: warning
@@ -2413,6 +2413,8 @@ Following dashboards are generated from mixins and hosted on github:
 - [mimir-config](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-config.json)
 - [mimir-object-store](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-object-store.json)
 - [mimir-overrides](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-overrides.json)
+- [mimir-overview-networking](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-overview-networking.json)
+- [mimir-overview-resources](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-overview-resources.json)
 - [mimir-overview](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-overview.json)
 - [mimir-queries](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-queries.json)
 - [mimir-reads-networking](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-reads-networking.json)

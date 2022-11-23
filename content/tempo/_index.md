@@ -306,4 +306,5 @@ Following dashboards are generated from mixins and hosted on github:
 - [tempo-reads](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-reads.json)
 - [tempo-resources](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-resources.json)
 - [tempo-rollout-progress](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-rollout-progress.json)
+- [tempo-tenants](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-tenants.json)
 - [tempo-writes](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-writes.json)
