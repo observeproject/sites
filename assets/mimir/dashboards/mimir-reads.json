@@ -2952,7 +2952,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": true,
                "steppedLine": false,
                "targets": [
@@ -3028,7 +3028,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3104,95 +3104,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(cortex_bucket_stores_gate_queries_in_flight{cluster=~\"$cluster\", namespace=~\"$namespace\", component=\"store-gateway\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
-                     "legendFormat": "Total",
-                     "legendLink": null,
-                     "step": 10
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Inflight requests",
-               "tooltip": {
-                  "shared": false,
-                  "sort": 0,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": false
-                  }
-               ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Blocks object store (store-gateway accesses)",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$datasource",
-               "fill": 1,
-               "id": 40,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
-               "linewidth": 1,
-               "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3264,7 +3176,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 41,
+               "id": 40,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3284,7 +3196,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3348,7 +3260,19 @@
                      "show": false
                   }
                ]
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Blocks object store (store-gateway accesses)",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
             {
                "aliasColors": { },
                "bars": false,
@@ -3356,7 +3280,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 42,
+               "id": 41,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3376,7 +3300,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3440,19 +3364,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -3460,7 +3372,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 43,
+               "id": 42,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3480,7 +3392,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3552,7 +3464,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 44,
+               "id": 43,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3572,7 +3484,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3644,7 +3556,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 45,
+               "id": 44,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3664,7 +3576,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3748,7 +3660,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 46,
+               "id": 45,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3768,7 +3680,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": true,
                "steppedLine": false,
                "targets": [
@@ -3824,7 +3736,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 47,
+               "id": 46,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3844,7 +3756,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -3900,7 +3812,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 48,
+               "id": 47,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -3920,95 +3832,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
-               "stack": false,
-               "steppedLine": false,
-               "targets": [
-                  {
-                     "expr": "sum(cortex_bucket_stores_gate_queries_in_flight{cluster=~\"$cluster\", namespace=~\"$namespace\", component=\"querier\"})",
-                     "format": "time_series",
-                     "intervalFactor": 2,
-                     "legendFormat": "Total",
-                     "legendLink": null,
-                     "step": 10
-                  }
-               ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
-               "title": "Inflight requests",
-               "tooltip": {
-                  "shared": false,
-                  "sort": 0,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": false
-                  }
-               ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Blocks object store (querier accesses)",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
-            {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
-               "datasource": "$datasource",
-               "fill": 1,
-               "id": 49,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
-               "linewidth": 1,
-               "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -4080,7 +3904,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 50,
+               "id": 48,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -4100,7 +3924,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -4164,7 +3988,19 @@
                      "show": false
                   }
                ]
-            },
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Blocks object store (querier accesses)",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
             {
                "aliasColors": { },
                "bars": false,
@@ -4172,7 +4008,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 51,
+               "id": 49,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -4192,7 +4028,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -4256,19 +4092,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "aliasColors": { },
                "bars": false,
@@ -4276,7 +4100,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 52,
+               "id": 50,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -4296,7 +4120,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -4368,7 +4192,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 53,
+               "id": 51,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -4388,7 +4212,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
@@ -4460,7 +4284,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "id": 54,
+               "id": 52,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -4480,7 +4304,7 @@
                "renderer": "flot",
                "seriesOverrides": [ ],
                "spaceLength": 10,
-               "span": 4,
+               "span": 3,
                "stack": false,
                "steppedLine": false,
                "targets": [
