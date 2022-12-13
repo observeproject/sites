@@ -232,6 +232,24 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MimirIngesterInstanceHasNoTenants
+
+{{< code lang="yaml" >}}
+alert: MimirIngesterInstanceHasNoTenants
+annotations:
+  message: Mimir ingester {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
+    }} has no tenants assigned.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#mimiringesterinstancehasnotenants
+expr: |
+  (min by(cluster, namespace, pod) (cortex_ingester_memory_users) == 0)
+  and on (cluster, namespace)
+  # Only if there's a least 1 tenant in Mimir.
+  (max by(cluster, namespace) (cortex_ingester_memory_users) > 0)
+for: 1h
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ##### MimirRingMembersMismatch
 
 {{< code lang="yaml" >}}
