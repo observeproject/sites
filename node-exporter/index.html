@@ -1,0 +1,365 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><link rel=alternate type=application/rss+xml href=https://stack.observability.udmire.cn/node-exporter/index.xml title="Mixins for Observability Stack"><link rel=canonical href=https://stack.observability.udmire.cn/node-exporter/><title>node-exporter | Mixins for Observability Stack</title><link href=https://stack.observability.udmire.cn/css/fontawesome.min.css rel=stylesheet><link rel=stylesheet href=https://stack.observability.udmire.cn/css/ace.min.css></head><body><nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow sticky-top" id=navbarMain><div class=container><div><a class=navbar-brand href=/>Mixins for Observability Stack</a></div><button class="navbar-toggler navbar-toggler-right collapsed" type=button data-toggle=collapse data-target=#navbarMainCollapse aria-controls=navbarMainCollapse aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarMainCollapse><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=/>Homepage</a></li><li class=nav-item><a class=nav-link href=https://github.com/monitoring-mixins/docs>About mixins</a></li><li class=nav-item><a class=nav-link href=https://github.com/observeproject/sites>GitHub</a></li></ul></div></div><div class=feed-icons><a href=https://stack.observability.udmire.cn/node-exporter/index.xml><img src=/img/feed-icon.svg alt="RSS feed"></a></div></nav><div class=container-fluid><div class=row><div class="docs-sidenav order-0 col-12 col-md-3 col-lg-2 col-xl-2 position-sticky border-right"><nav class="navbar navbar-expand-md navbar-light pl-0"><button class="navbar-toggler navbar-toggler-right collapsed" type=button data-toggle=collapse data-target=#sidenav-left-collapse aria-controls=sidenav-left-collapse aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse align-items-start flex-column" id=sidenav-left-collapse><ul class="navbar-nav flex-column pt-3"><li data-nav-id=/kube-state-metrics/ class="nav-item my-1"><a class="nav-link p-0" href=/kube-state-metrics/><h6>kube-state-metrics</h6></a></li><li data-nav-id=/kubernetes/ class="nav-item my-1"><a class="nav-link p-0" href=/kubernetes/><h6>kubernetes</h6></a></li><li data-nav-id=/loki/ class="nav-item my-1"><a class="nav-link p-0" href=/loki/><h6>loki</h6></a></li><li data-nav-id=/mimir/ class="nav-item my-1"><a class="nav-link p-0" href=/mimir/><h6>mimir</h6></a></li><li data-nav-id=/node-exporter/ class="nav-item my-1 active"><a class="nav-link p-0" href=/node-exporter/><h6>node-exporter</h6></a></li><li data-nav-id=/tempo/ class="nav-item my-1"><a class="nav-link p-0" href=/tempo/><h6>tempo</h6></a></li></ul></div></nav></div><div class="docs-toc large order-lg-2 order-md-0 order-xs-1 col-12 col-lg-3 col-xl-3 position-sticky border-left"><div class=docs-toc><nav id=TableOfContents><ul><li><a href=#overview>Overview</a></li><li><a href=#alerts>Alerts</a><ul><li><a href=#node-exporter>node-exporter</a></li></ul></li><li><a href=#recording-rules>Recording rules</a><ul><li><a href=#node-exporterrules>node-exporter.rules</a></li></ul></li><li><a href=#dashboards>Dashboards</a></li></ul></nav></div></div><div class="main col-12 order-1 col-md-9 col-lg-9 col-xl-7 py-3"><h1>node-exporter</h1><h2 id=overview>Overview</h2><p>The Node Mixin is a set of configurable, reusable, and extensible alerts and dashboards based on the metrics exported by the Node Exporter. The mixin creates recording and alerting rules for Prometheus and suitable dashboard descriptions for Grafana.</p><div class="card my-3 border-top-0 border-right-0 border-bottom-0 border-left border-danger rounded" style=border-width:4px!important><div class="wrap border border-left-0 rounded"><div class="card-body pt-1">Jsonnet source code is available at <a href=https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin>github.com/prometheus/node_exporter</a></div></div></div><h2 id=alerts>Alerts</h2><div class="card my-3 border-top-0 border-right-0 border-bottom-0 border-left border-warning rounded" style=border-width:4px!important><div class="wrap border border-left-0 rounded"><div class="card-body pt-1">Complete list of pregenerated alerts is available <a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/alerts.yaml>here</a>.</div></div></div><h3 id=node-exporter>node-exporter</h3><h5 id=nodefilesystemspacefillingup>NodeFilesystemSpaceFillingUp</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_4b2374db84>
+Copy</button></div><div id=clipboard_4b2374db84><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemSpaceFillingUp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available space left and is filling up.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem is predicted to run out of space within the next 24 hours.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_size_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 40
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    predict_linear(node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;}[6h], 24*60*60) &lt; 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemspacefillingup-1>NodeFilesystemSpaceFillingUp</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_8e458b2a51>
+Copy</button></div><div id=clipboard_8e458b2a51><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemSpaceFillingUp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available space left and is filling up fast.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem is predicted to run out of space within the next 4 hours.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_size_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 20
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    predict_linear(node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;}[6h], 4*60*60) &lt; 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemalmostoutofspace>NodeFilesystemAlmostOutOfSpace</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_b8f9fca84d>
+Copy</button></div><div id=clipboard_b8f9fca84d><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemAlmostOutOfSpace</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available space left.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem has less than 5% space left.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_size_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 5
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>30m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemalmostoutofspace-1>NodeFilesystemAlmostOutOfSpace</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9a2953e799>
+Copy</button></div><div id=clipboard_9a2953e799><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemAlmostOutOfSpace</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available space left.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem has less than 3% space left.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_avail_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_size_bytes{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 3
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>30m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemfilesfillingup>NodeFilesystemFilesFillingUp</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_837a3761e7>
+Copy</button></div><div id=clipboard_837a3761e7><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemFilesFillingUp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available inodes left and is filling up.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem is predicted to run out of inodes within the next 24 hours.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_files{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 40
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    predict_linear(node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;}[6h], 24*60*60) &lt; 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemfilesfillingup-1>NodeFilesystemFilesFillingUp</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_d3f3f7d5e4>
+Copy</button></div><div id=clipboard_d3f3f7d5e4><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemFilesFillingUp</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available inodes left and is filling up fast.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem is predicted to run out of inodes within the next 4 hours.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_files{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 20
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    predict_linear(node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;}[6h], 4*60*60) &lt; 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemalmostoutoffiles>NodeFilesystemAlmostOutOfFiles</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9982da168a>
+Copy</button></div><div id=clipboard_9982da168a><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemAlmostOutOfFiles</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available inodes left.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem has less than 5% inodes left.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_files{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 5
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefilesystemalmostoutoffiles-1>NodeFilesystemAlmostOutOfFiles</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_453bb4640f>
+Copy</button></div><div id=clipboard_453bb4640f><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFilesystemAlmostOutOfFiles</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem on {{ $labels.device }} at {{ $labels.instance }} has only</span>
+</span></span><span style=display:flex><span>    {{ <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}% available inodes left.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Filesystem has less than 3% inodes left.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_files_free{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} / node_filesystem_files{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} * 100 &lt; 3
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filesystem_readonly{job=&#34;node_exporter&#34;,fstype!=&#34;&#34;,mountpoint!=&#34;&#34;} == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=nodenetworkreceiveerrs>NodeNetworkReceiveErrs</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_b945025ef6>
+Copy</button></div><div id=clipboard_b945025ef6><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeNetworkReceiveErrs</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#d88200>&#39;{{ $labels.instance }} interface {{ $labels.device }} has encountered
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    {{ printf &#34;%.0f&#34; $value }} receive errors in the last two minutes.&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Network interface is reporting many receive errors.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>rate(node_network_receive_errs_total[2m]) / rate(node_network_receive_packets_total[2m]) &gt; 0.01</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodenetworktransmiterrs>NodeNetworkTransmitErrs</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_0d5ce521c0>
+Copy</button></div><div id=clipboard_0d5ce521c0><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeNetworkTransmitErrs</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#d88200>&#39;{{ $labels.instance }} interface {{ $labels.device }} has encountered
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    {{ printf &#34;%.0f&#34; $value }} transmit errors in the last two minutes.&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Network interface is reporting many transmit errors.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>rate(node_network_transmit_errs_total[2m]) / rate(node_network_transmit_packets_total[2m]) &gt; 0.01</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>1h</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodehighnumberconntrackentriesused>NodeHighNumberConntrackEntriesUsed</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_d04a53473d>
+Copy</button></div><div id=clipboard_d04a53473d><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeHighNumberConntrackEntriesUsed</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#d88200>&#39;{{ $value | humanizePercentage }} of conntrack entries are used.&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Number of conntrack are getting close to the limit.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>(node_nf_conntrack_entries / node_nf_conntrack_entries_limit) &gt; 0.75</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodetextfilecollectorscrapeerror>NodeTextFileCollectorScrapeError</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_1f52f0b2b8>
+Copy</button></div><div id=clipboard_1f52f0b2b8><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeTextFileCollectorScrapeError</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Node Exporter text file collector failed to scrape.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Node Exporter text file collector failed to scrape.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>node_textfile_scrape_error{job=&#34;node_exporter&#34;} == 1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodeclockskewdetected>NodeClockSkewDetected</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_cb1442c8ca>
+Copy</button></div><div id=clipboard_cb1442c8ca><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeClockSkewDetected</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Clock on {{ $labels.instance }} is out of sync by more than 300s. Ensure</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>NTP is configured correctly on this host.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Clock skew detected.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_timex_offset_seconds{job=&#34;node_exporter&#34;} &gt; 0.05
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    deriv(node_timex_offset_seconds{job=&#34;node_exporter&#34;}[5m]) &gt;= 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  or
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_timex_offset_seconds{job=&#34;node_exporter&#34;} &lt; -0.05
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    deriv(node_timex_offset_seconds{job=&#34;node_exporter&#34;}[5m]) &lt;= 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>10m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodeclocknotsynchronising>NodeClockNotSynchronising</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_1e13e35623>
+Copy</button></div><div id=clipboard_1e13e35623><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeClockNotSynchronising</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>Clock on {{ $labels.instance }} is not synchronising. Ensure NTP is</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>configured on this host.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Clock not synchronising.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  min_over_time(node_timex_sync_status{job=&#34;node_exporter&#34;}[5m]) == 0
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  node_timex_maxerror_seconds{job=&#34;node_exporter&#34;} &gt;= 16</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>10m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=noderaiddegraded>NodeRAIDDegraded</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_dbc2e9cc20>
+Copy</button></div><div id=clipboard_dbc2e9cc20><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeRAIDDegraded</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>RAID array &#39;{{ $labels.device }}&#39; on {{ $labels.instance }} is in degraded</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>state due to one or more disks failures. Number of spare drives is insufficient</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>to fix issue automatically.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>RAID Array is degraded</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>node_md_disks_required{job=&#34;node_exporter&#34;,device!=&#34;&#34;} - ignoring (state) (node_md_disks{state=&#34;active&#34;,job=&#34;node_exporter&#34;,device!=&#34;&#34;}) &gt; 0</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=noderaiddiskfailure>NodeRAIDDiskFailure</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_4c33da9fe4>
+Copy</button></div><div id=clipboard_4c33da9fe4><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeRAIDDiskFailure</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>At least one device in RAID array on {{ $labels.instance }} failed.</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>Array &#39;{{ $labels.device }}&#39; needs attention and possibly a disk swap.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Failed device in RAID array</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>node_md_disks{state=&#34;failed&#34;,job=&#34;node_exporter&#34;,device!=&#34;&#34;} &gt; 0</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefiledescriptorlimit>NodeFileDescriptorLimit</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_7d786dab9e>
+Copy</button></div><div id=clipboard_7d786dab9e><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFileDescriptorLimit</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>File descriptors limit at {{ $labels.instance }} is currently at {{</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}%.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Kernel is predicted to exhaust file descriptors limit soon.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filefd_allocated{job=&#34;node_exporter&#34;} * 100 / node_filefd_maximum{job=&#34;node_exporter&#34;} &gt; 70
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=nodefiledescriptorlimit-1>NodeFileDescriptorLimit</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9389c240a3>
+Copy</button></div><div id=clipboard_9389c240a3><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeFileDescriptorLimit</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#ae81ff>File descriptors limit at {{ $labels.instance }} is currently at {{</span>
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>printf &#34;%.2f&#34; $value }}%.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Kernel is predicted to exhaust file descriptors limit soon.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_filefd_allocated{job=&#34;node_exporter&#34;} * 100 / node_filefd_maximum{job=&#34;node_exporter&#34;} &gt; 90
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h2 id=recording-rules>Recording rules</h2><div class="card my-3 border-top-0 border-right-0 border-bottom-0 border-left border-warning rounded" style=border-width:4px!important><div class="wrap border border-left-0 rounded"><div class="card-body pt-1">Complete list of pregenerated recording rules is available <a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/rules.yaml>here</a>.</div></div></div><h3 id=node-exporterrules>node-exporter.rules</h3><h5 id=instancenode_num_cpusum>instance:node_num_cpu:sum</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_c9450838f3>
+Copy</button></div><div id=clipboard_c9450838f3><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  count without (cpu, mode) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_cpu_seconds_total{job=&#34;node_exporter&#34;,mode=&#34;idle&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_num_cpu:sum</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_cpu_utilisationrate5m>instance:node_cpu_utilisation:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_f99b9f403b>
+Copy</button></div><div id=clipboard_f99b9f403b><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  1 - avg without (cpu) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    sum without (mode) (rate(node_cpu_seconds_total{job=&#34;node_exporter&#34;, mode=~&#34;idle|iowait|steal&#34;}[5m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_cpu_utilisation:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_load1_per_cpuratio>instance:node_load1_per_cpu:ratio</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_ebde78d2f2>
+Copy</button></div><div id=clipboard_ebde78d2f2><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_load1{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  /
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    instance:node_num_cpu:sum{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_load1_per_cpu:ratio</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_memory_utilisationratio>instance:node_memory_utilisation:ratio</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9935fa198c>
+Copy</button></div><div id=clipboard_9935fa198c><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  1 - (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      node_memory_MemAvailable_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      or
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        node_memory_Buffers_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        +
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        node_memory_Cached_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        +
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        node_memory_MemFree_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        +
+</span></span></span><span style=display:flex><span><span style=color:#d88200>        node_memory_Slab_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      )
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    )
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  /
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    node_memory_MemTotal_bytes{job=&#34;node_exporter&#34;}
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_memory_utilisation:ratio</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_vmstat_pgmajfaultrate5m>instance:node_vmstat_pgmajfault:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_181033c430>
+Copy</button></div><div id=clipboard_181033c430><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>rate(node_vmstat_pgmajfault{job=&#34;node_exporter&#34;}[5m])</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_vmstat_pgmajfault:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instance_devicenode_disk_io_time_secondsrate5m>instance_device:node_disk_io_time_seconds:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_1d91709773>
+Copy</button></div><div id=clipboard_1d91709773><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>rate(node_disk_io_time_seconds_total{job=&#34;node_exporter&#34;, device!=&#34;&#34;}[5m])</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance_device:node_disk_io_time_seconds:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instance_devicenode_disk_io_time_weighted_secondsrate5m>instance_device:node_disk_io_time_weighted_seconds:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_fc927c5fa5>
+Copy</button></div><div id=clipboard_fc927c5fa5><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  </span>  <span style=color:#ae81ff>rate(node_disk_io_time_weighted_seconds_total{job=&#34;node_exporter&#34;, device!=&#34;&#34;}[5m])</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance_device:node_disk_io_time_weighted_seconds:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_network_receive_bytes_excluding_lorate5m>instance:node_network_receive_bytes_excluding_lo:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_fdb2b789cf>
+Copy</button></div><div id=clipboard_fdb2b789cf><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum without (device) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    rate(node_network_receive_bytes_total{job=&#34;node_exporter&#34;, device!=&#34;lo&#34;}[5m])
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_network_receive_bytes_excluding_lo:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_network_transmit_bytes_excluding_lorate5m>instance:node_network_transmit_bytes_excluding_lo:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_718debd3b9>
+Copy</button></div><div id=clipboard_718debd3b9><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum without (device) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    rate(node_network_transmit_bytes_total{job=&#34;node_exporter&#34;, device!=&#34;lo&#34;}[5m])
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_network_transmit_bytes_excluding_lo:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_network_receive_drop_excluding_lorate5m>instance:node_network_receive_drop_excluding_lo:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_a9a24cb14f>
+Copy</button></div><div id=clipboard_a9a24cb14f><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum without (device) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    rate(node_network_receive_drop_total{job=&#34;node_exporter&#34;, device!=&#34;lo&#34;}[5m])
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_network_receive_drop_excluding_lo:rate5m</span>
+</span></span></code></pre></div></div></div><h5 id=instancenode_network_transmit_drop_excluding_lorate5m>instance:node_network_transmit_drop_excluding_lo:rate5m</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_15271e3f0e>
+Copy</button></div><div id=clipboard_15271e3f0e><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum without (device) (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    rate(node_network_transmit_drop_total{job=&#34;node_exporter&#34;, device!=&#34;lo&#34;}[5m])
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>record</span><span style=color:#111>:</span> <span style=color:#ae81ff>instance:node_network_transmit_drop_excluding_lo:rate5m</span>
+</span></span></code></pre></div></div></div><h2 id=dashboards>Dashboards</h2><p>Following dashboards are generated from mixins and hosted on github:</p><ul><li><a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/node-cluster-rsrc-use.json>node-cluster-rsrc-use</a></li><li><a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/node-rsrc-use.json>node-rsrc-use</a></li><li><a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/nodes-darwin.json>nodes-darwin</a></li><li><a href=https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/nodes.json>nodes</a></li></ul><div class=row></div></div></div></div><script src=https://stack.observability.udmire.cn/lib/jquery.min.js></script>
+<script src=https://stack.observability.udmire.cn/lib/popper.min.js></script>
+<script src=https://stack.observability.udmire.cn/js/bootstrap.min.js></script>
+<script type=text/javascript src=/plugins/lunr.min.js></script>
+<script type=text/javascript src=/plugins/auto-complete.js></script>
+<link href=/plugins/auto-complete.css rel=stylesheet><script type=text/javascript>var baseurl="https://stack.observability.udmire.cn/"</script><script type=text/javascript src=/plugins/search.js></script>
+<script type=text/javascript src=/plugins/clipboard.js></script>
+<script>new ClipboardJS(".btn")</script></body></html>
