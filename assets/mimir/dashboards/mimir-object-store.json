@@ -12,7 +12,7 @@
    },
    "editable": true,
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "links": [
       {
@@ -24,7 +24,7 @@
             "mimir"
          ],
          "targetBlank": false,
-         "title": "Mimir dashboards",
+         "title": "Metric dashboards",
          "type": "dashboards"
       }
    ],
@@ -944,8 +944,8 @@
       "list": [
          {
             "current": {
-               "text": "default",
-               "value": "default"
+               "text": "cortex",
+               "value": "cortex"
             },
             "hide": 0,
             "label": "Data Source",
@@ -1036,7 +1036,7 @@
       ]
    },
    "timezone": "utc",
-   "title": "Mimir / Object Store",
+   "title": "Metric / Object Store",
    "uid": "e1324ee2a434f4158c00a9ee279d3292",
    "version": 0
 }

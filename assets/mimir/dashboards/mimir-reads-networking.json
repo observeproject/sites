@@ -12,7 +12,7 @@
    },
    "editable": true,
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "links": [
       {
@@ -24,7 +24,7 @@
             "mimir"
          ],
          "targetBlank": false,
-         "title": "Mimir dashboards",
+         "title": "Metric dashboards",
          "type": "dashboards"
       }
    ],
@@ -406,7 +406,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by(pod) (rate(container_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?query-frontend.*\"}[$__rate_interval]))",
+                     "expr": "sum by(pod) (rate(container_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{pod}}",
@@ -482,7 +482,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by(pod) (rate(container_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?query-frontend.*\"}[$__rate_interval]))",
+                     "expr": "sum by(pod) (rate(container_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{pod}}",
@@ -534,6 +534,346 @@
                "datasource": "$datasource",
                "fill": 0,
                "id": 7,
+               "legend": {
+                  "avg": false,
+                  "current": false,
+                  "max": false,
+                  "min": false,
+                  "show": true,
+                  "total": false,
+                  "values": false
+               },
+               "lines": true,
+               "linewidth": 1,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 3,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "avg(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"})",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "avg",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"})",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "highest",
+                     "legendLink": null,
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Inflight requests (per pod)",
+               "tooltip": {
+                  "shared": false,
+                  "sort": 0,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 0,
+               "id": 8,
+               "legend": {
+                  "avg": false,
+                  "current": false,
+                  "max": false,
+                  "min": false,
+                  "show": true,
+                  "total": false,
+                  "values": false
+               },
+               "lines": true,
+               "linewidth": 1,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 3,
+               "stack": false,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "avg(sum by(pod) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"}))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "avg",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "max(sum by(pod) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"}))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "highest",
+                     "legendLink": null,
+                     "step": 10
+                  },
+                  {
+                     "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?(gateway|cortex-gw|cortex-gw-internal).*\"})",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "limit",
+                     "legendLink": null,
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "TCP connections (per pod)",
+               "tooltip": {
+                  "shared": false,
+                  "sort": 0,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Gateway",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 10,
+               "id": 9,
+               "legend": {
+                  "avg": false,
+                  "current": false,
+                  "max": false,
+                  "min": false,
+                  "show": true,
+                  "total": false,
+                  "values": false
+               },
+               "lines": true,
+               "linewidth": 0,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 3,
+               "stack": true,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum by(pod) (rate(container_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?query-frontend.*\"}[$__rate_interval]))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{pod}}",
+                     "legendLink": null,
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Receive bandwidth",
+               "tooltip": {
+                  "shared": false,
+                  "sort": 0,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "Bps",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 10,
+               "id": 10,
+               "legend": {
+                  "avg": false,
+                  "current": false,
+                  "max": false,
+                  "min": false,
+                  "show": true,
+                  "total": false,
+                  "values": false
+               },
+               "lines": true,
+               "linewidth": 0,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "percentage": false,
+               "pointradius": 5,
+               "points": false,
+               "renderer": "flot",
+               "seriesOverrides": [ ],
+               "spaceLength": 10,
+               "span": 3,
+               "stack": true,
+               "steppedLine": false,
+               "targets": [
+                  {
+                     "expr": "sum by(pod) (rate(container_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",pod=~\"(.*-mimir-)?query-frontend.*\"}[$__rate_interval]))",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{pod}}",
+                     "legendLink": null,
+                     "step": 10
+                  }
+               ],
+               "thresholds": [ ],
+               "timeFrom": null,
+               "timeShift": null,
+               "title": "Transmit bandwidth",
+               "tooltip": {
+                  "shared": false,
+                  "sort": 0,
+                  "value_type": "individual"
+               },
+               "type": "graph",
+               "xaxis": {
+                  "buckets": null,
+                  "mode": "time",
+                  "name": null,
+                  "show": true,
+                  "values": [ ]
+               },
+               "yaxes": [
+                  {
+                     "format": "Bps",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "aliasColors": { },
+               "bars": false,
+               "dashLength": 10,
+               "dashes": false,
+               "datasource": "$datasource",
+               "fill": 0,
+               "id": 11,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -617,7 +957,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 8,
+               "id": 12,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -721,7 +1061,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 9,
+               "id": 13,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -797,7 +1137,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 10,
+               "id": 14,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -873,7 +1213,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 11,
+               "id": 15,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -957,7 +1297,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 12,
+               "id": 16,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1061,7 +1401,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 13,
+               "id": 17,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1137,7 +1477,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 14,
+               "id": 18,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1213,7 +1553,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 15,
+               "id": 19,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1297,7 +1637,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 16,
+               "id": 20,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1401,7 +1741,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 17,
+               "id": 21,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1477,7 +1817,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 18,
+               "id": 22,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1553,7 +1893,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 19,
+               "id": 23,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1637,7 +1977,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 20,
+               "id": 24,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1741,7 +2081,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 21,
+               "id": 25,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1817,7 +2157,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 10,
-               "id": 22,
+               "id": 26,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1893,7 +2233,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 23,
+               "id": 27,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -1977,7 +2317,7 @@
                "dashes": false,
                "datasource": "$datasource",
                "fill": 0,
-               "id": 24,
+               "id": 28,
                "legend": {
                   "avg": false,
                   "current": false,
@@ -2080,8 +2420,8 @@
       "list": [
          {
             "current": {
-               "text": "default",
-               "value": "default"
+               "text": "cortex",
+               "value": "cortex"
             },
             "hide": 0,
             "label": "Data Source",
@@ -2170,7 +2510,7 @@
       ]
    },
    "timezone": "utc",
-   "title": "Mimir / Reads networking",
+   "title": "Metric / Reads networking",
    "uid": "54b2a0a4748b3bd1aefa92ce5559a1c2",
    "version": 0
 }

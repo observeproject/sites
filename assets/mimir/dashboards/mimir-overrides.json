@@ -12,7 +12,7 @@
    },
    "editable": true,
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "links": [
       {
@@ -24,7 +24,7 @@
             "mimir"
          ],
          "targetBlank": false,
-         "title": "Mimir dashboards",
+         "title": "Metric dashboards",
          "type": "dashboards"
       }
    ],
@@ -151,8 +151,8 @@
       "list": [
          {
             "current": {
-               "text": "default",
-               "value": "default"
+               "text": "cortex",
+               "value": "cortex"
             },
             "hide": 0,
             "label": "Data Source",
@@ -260,7 +260,7 @@
       ]
    },
    "timezone": "utc",
-   "title": "Mimir / Overrides",
+   "title": "Metric / Overrides",
    "uid": "1e2c358600ac53f09faea133f811b5bb",
    "version": 0
 }

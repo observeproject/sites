@@ -12,7 +12,7 @@
    },
    "editable": true,
    "gnetId": null,
-   "graphTooltip": 0,
+   "graphTooltip": 1,
    "hideControls": false,
    "links": [
       {
@@ -24,7 +24,7 @@
             "mimir"
          ],
          "targetBlank": false,
-         "title": "Mimir dashboards",
+         "title": "Metric dashboards",
          "type": "dashboards"
       }
    ],
@@ -1351,8 +1351,8 @@
       "list": [
          {
             "current": {
-               "text": "default",
-               "value": "default"
+               "text": "cortex",
+               "value": "cortex"
             },
             "hide": 0,
             "label": "Data Source",
@@ -1472,7 +1472,7 @@
       ]
    },
    "timezone": "utc",
-   "title": "Mimir / Top tenants",
+   "title": "Metric / Top tenants",
    "uid": "bc6e12d4fe540e4a1785b9d3ca0ffdd9",
    "version": 0
 }
