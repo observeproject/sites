@@ -1101,6 +1101,8 @@ annotations:
     }} has not successfully cleaned up blocks in the last 6 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotsuccessfullycleanedupblocks
 expr: |
+  # The "last successful run" metric is updated even if the compactor owns no tenants,
+  # so this alert correctly doesn't fire if compactor has nothing to do.
   (time() - cortex_compactor_block_cleanup_last_successful_run_timestamp_seconds > 60 * 60 * 6)
 for: 1h
 labels:
@@ -1116,6 +1118,8 @@ annotations:
     }} has not run compaction in the last 24 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotsuccessfullyruncompaction
 expr: |
+  # The "last successful run" metric is updated even if the compactor owns no tenants,
+  # so this alert correctly doesn't fire if compactor has nothing to do.
   (time() - cortex_compactor_last_successful_run_timestamp_seconds > 60 * 60 * 24)
   and
   (cortex_compactor_last_successful_run_timestamp_seconds > 0)
@@ -1134,6 +1138,8 @@ annotations:
     }} has not run compaction in the last 24 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotsuccessfullyruncompaction
 expr: |
+  # The "last successful run" metric is updated even if the compactor owns no tenants,
+  # so this alert correctly doesn't fire if compactor has nothing to do.
   cortex_compactor_last_successful_run_timestamp_seconds == 0
 for: 24h
 labels:
@@ -1165,9 +1171,13 @@ annotations:
     }} has not uploaded any block in the last 24 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotuploadedblocks
 expr: |
-  (time() - thanos_objstore_bucket_last_successful_upload_time{component="compactor"} > 60 * 60 * 24)
+  (time() - (max by(cluster, namespace, pod) (thanos_objstore_bucket_last_successful_upload_time{component="compactor"})) > 60 * 60 * 24)
   and
-  (thanos_objstore_bucket_last_successful_upload_time{component="compactor"} > 0)
+  (max by(cluster, namespace, pod) (thanos_objstore_bucket_last_successful_upload_time{component="compactor"}) > 0)
+  and
+  # Only if some compactions have started. We don't want to fire this alert if the compactor has nothing to do
+  # (e.g. there are more replicas than required because running as part of mimir-backend).
+  (sum by(cluster, namespace, pod) (rate(cortex_compactor_group_compaction_runs_started_total[24h])) > 0)
 for: 15m
 labels:
   severity: critical
@@ -1182,7 +1192,11 @@ annotations:
     }} has not uploaded any block in the last 24 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotuploadedblocks
 expr: |
-  thanos_objstore_bucket_last_successful_upload_time{component="compactor"} == 0
+  (max by(cluster, namespace, pod) (thanos_objstore_bucket_last_successful_upload_time{component="compactor"}) == 0)
+  and
+  # Only if some compactions have started. We don't want to fire this alert if the compactor has nothing to do
+  # (e.g. there are more replicas than required because running as part of mimir-backend).
+  (sum by(cluster, namespace, pod) (rate(cortex_compactor_group_compaction_runs_started_total[24h])) > 0)
 for: 24h
 labels:
   severity: critical
