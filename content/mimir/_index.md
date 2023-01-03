@@ -254,6 +254,28 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricRulerInstanceHasNoRuleGroups
+
+{{< code lang="yaml" >}}
+alert: MetricRulerInstanceHasNoRuleGroups
+annotations:
+  message: Metric ruler {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
+    }} has no rule groups assigned.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrulerinstancehasnorulegroups
+expr: |
+  # Alert on ruler instances in microservices mode that have no rule groups assigned,
+  min by(cluster, namespace, pod) (cortex_ruler_managers_total{pod=~"(.*-mimir-)?ruler.*"}) == 0
+  # but only if other ruler instances of the same cell do have rule groups assigned
+  and on (cluster, namespace)
+  (max by(cluster, namespace) (cortex_ruler_managers_total) > 0)
+  # and there are more than two instances overall
+  and on (cluster, namespace)
+  (count by (cluster, namespace) (cortex_ruler_managers_total) > 2)
+for: 1h
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ##### MetricRingMembersMismatch
 
 {{< code lang="yaml" >}}
@@ -819,6 +841,27 @@ expr: |
 for: 15m
 labels:
   severity: critical
+{{< /code >}}
+ 
+##### MetricAlertmanagerInstanceHasNoTenants
+Metric alertmanager {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
+https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricalertmanagerinstancehasnotenants
+
+{{< code lang="yaml" >}}
+alert: MetricAlertmanagerInstanceHasNoTenants
+annotations:
+  message: Metric alertmanager {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
+    }} owns no tenants.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricalertmanagerinstancehasnotenants
+expr: |
+  # Alert on alertmanager instances in microservices mode that own no tenants,
+  min by(cluster, namespace, pod) (cortex_alertmanager_tenants_owned{pod=~"(.*-mimir-)?alertmanager.*"}) == 0
+  # but only if other instances of the same cell do have tenants assigned.
+  and on (cluster, namespace)
+  max by(cluster, namespace) (cortex_alertmanager_tenants_owned) > 0
+for: 1h
+labels:
+  severity: warning
 {{< /code >}}
  
 ### mimir_blocks_alerts
