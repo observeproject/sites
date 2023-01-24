@@ -1199,7 +1199,7 @@ annotations:
     }} failed to run 2 consecutive compactions.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotsuccessfullyruncompaction
 expr: |
-  increase(cortex_compactor_runs_failed_total[2h]) >= 2
+  increase(cortex_compactor_runs_failed_total{reason!="shutdown"}[2h]) >= 2
 labels:
   reason: consecutive-failures
   severity: critical
@@ -1279,9 +1279,32 @@ expr: |
       + on(cluster, namespace, horizontalpodautoscaler) group_right label_replace(kube_horizontalpodautoscaler_spec_target_metric*0, "metric", "$1", "metric_name", "(.+)")
       > 0
   )
-  # Do not alert if metric is 0, because in that case we expect the HPA to be inactive.
-  unless on (cluster, namespace, metric)
-  (label_replace(keda_metrics_adapter_scaler_metrics_value, "namespace", "$0", "exported_namespace", ".+") == 0)
+  # Alert only if the scaling metric exists and is > 0. If the KEDA ScaledObject is configured to scale down 0,
+  # then HPA ScalingActive may be false when expected to run 0 replicas. In this case, the scaling metric exported
+  # by KEDA could not exist at all or being exposed with a value of 0.
+  and on (cluster, namespace, metric)
+  (label_replace(keda_metrics_adapter_scaler_metrics_value, "namespace", "$0", "exported_namespace", ".+") > 0)
+for: 1h
+labels:
+  severity: critical
+{{< /code >}}
+ 
+##### MetricAutoscalerKedaFailing
+
+{{< code lang="yaml" >}}
+alert: MetricAutoscalerKedaFailing
+annotations:
+  message: The Keda ScaledObject {{ $labels.scaledObject }} in {{ $labels.namespace
+    }} is experiencing errors.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricautoscalerkedafailing
+expr: |
+  (
+      # Find KEDA scalers reporting errors.
+      label_replace(rate(keda_metrics_adapter_scaler_errors[5m]), "namespace", "$1", "exported_namespace", "(.*)")
+      # Match only Mimir namespaces.
+      * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+  )
+  > 0
 for: 1h
 labels:
   severity: critical
