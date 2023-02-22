@@ -146,18 +146,27 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricMemcachedRequestErrors
+##### MetricCacheRequestErrors
 
 {{< code lang="yaml" >}}
-alert: MetricMemcachedRequestErrors
+alert: MetricCacheRequestErrors
 annotations:
   message: |
-    Memcached {{ $labels.name }} used by Metric {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ printf "%.2f" $value }}% errors for {{ $labels.operation }} operation.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricmemcachedrequesterrors
+    The cache {{ $labels.name }} used by Metric {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ printf "%.2f" $value }}% errors for {{ $labels.operation }} operation.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccacherequesterrors
 expr: |
   (
-    sum by(cluster, namespace, name, operation) (rate(thanos_memcached_operation_failures_total[1m])) /
-    sum by(cluster, namespace, name, operation) (rate(thanos_memcached_operations_total[1m]))
+    sum by(cluster, namespace, name, operation) (
+      rate(thanos_memcached_operation_failures_total[1m])
+      or
+      rate(thanos_cache_operation_failures_total[1m])
+    )
+    /
+    sum by(cluster, namespace, name, operation) (
+      rate(thanos_memcached_operations_total[1m])
+      or
+      rate(thanos_cache_operations_total[1m])
+    )
   ) * 100 > 5
 for: 5m
 labels:
