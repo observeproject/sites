@@ -1306,7 +1306,7 @@
          ]
       }
    ],
-   "refresh": "10s",
+   "refresh": "",
    "rows": null,
    "schemaVersion": 27,
    "style": "dark",
