@@ -223,24 +223,6 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricDistributorForwardingErrorRate
-
-{{< code lang="yaml" >}}
-alert: MetricDistributorForwardingErrorRate
-annotations:
-  message: |
-    Metric in {{ $labels.cluster }}/{{ $labels.namespace }} has a high failure rate when forwarding samples.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricdistributorforwardingerrorrate
-expr: |
-  sum by (cluster, namespace) (rate(cortex_distributor_forward_errors_total{}[1m]))
-  /
-  sum by (cluster, namespace) (rate(cortex_distributor_forward_requests_total{}[1m]))
-  > 0.01
-for: 5m
-labels:
-  severity: critical
-{{< /code >}}
- 
 ##### MetricIngesterInstanceHasNoTenants
 
 {{< code lang="yaml" >}}
