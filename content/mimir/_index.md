@@ -1060,31 +1060,6 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricQuerierHighRefetchRate
-
-{{< code lang="yaml" >}}
-alert: MetricQuerierHighRefetchRate
-annotations:
-  message: Metric Queries in {{ $labels.cluster }}/{{ $labels.namespace }} are refetching
-    series from different store-gateways (because of missing blocks) for the {{ printf
-    "%.0f" $value }}% of queries.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricquerierhighrefetchrate
-expr: |
-  100 * (
-    (
-      sum by(cluster, namespace) (rate(cortex_querier_storegateway_refetches_per_query_count[5m]))
-      -
-      sum by(cluster, namespace) (rate(cortex_querier_storegateway_refetches_per_query_bucket{le="0.0"}[5m]))
-    )
-    /
-    sum by(cluster, namespace) (rate(cortex_querier_storegateway_refetches_per_query_count[5m]))
-  )
-  > 1
-for: 10m
-labels:
-  severity: warning
-{{< /code >}}
- 
 ##### MetricStoreGatewayHasNotSyncTheBucket
 
 {{< code lang="yaml" >}}
