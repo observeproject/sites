@@ -435,6 +435,7 @@ expr: |
 for: 30m
 labels:
   severity: warning
+  workload_type: statefulset
 {{< /code >}}
  
 ##### MetricRolloutStuck
@@ -459,6 +460,7 @@ expr: |
 for: 30m
 labels:
   severity: warning
+  workload_type: deployment
 {{< /code >}}
  
 ##### RolloutOperatorNotReconciling
@@ -1108,21 +1110,6 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricTenantHasPartialBlocks
-
-{{< code lang="yaml" >}}
-alert: MetricTenantHasPartialBlocks
-annotations:
-  message: Metric tenant {{ $labels.user }} in {{ $labels.cluster }}/{{ $labels.namespace
-    }} has {{ $value }} partial blocks.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metrictenanthaspartialblocks
-expr: |
-  max by(cluster, namespace, user) (cortex_bucket_blocks_partials_count) > 0
-for: 6h
-labels:
-  severity: warning
-{{< /code >}}
- 
 ### mimir_compactor_alerts
 
 ##### MetricCompactorHasNotSuccessfullyCleanedUpBlocks
@@ -1214,6 +1201,7 @@ expr: |
 for: 15m
 labels:
   severity: critical
+  time_period: 24h
 {{< /code >}}
  
 ##### MetricCompactorHasNotUploadedBlocks
@@ -1222,7 +1210,7 @@ labels:
 alert: MetricCompactorHasNotUploadedBlocks
 annotations:
   message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace
-    }} has not uploaded any block in the last 24 hours.
+    }} has not uploaded any block since its start.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasnotuploadedblocks
 expr: |
   (max by(cluster, namespace, pod) (thanos_objstore_bucket_last_successful_upload_time{component="compactor"}) == 0)
@@ -1233,6 +1221,7 @@ expr: |
 for: 24h
 labels:
   severity: critical
+  time_period: since-start
 {{< /code >}}
  
 ##### MetricCompactorSkippedBlocksWithOutOfOrderChunks
