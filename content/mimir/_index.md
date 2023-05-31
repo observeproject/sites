@@ -525,7 +525,10 @@ expr: |
     container_memory_rss{container=~"(ingester|mimir-write|mimir-backend)"}
       /
     ( container_spec_memory_limit_bytes{container=~"(ingester|mimir-write|mimir-backend)"} > 0 )
-  ) > 0.65
+  )
+  # Match only Mimir namespaces.
+  * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+  > 0.65
 for: 15m
 labels:
   severity: warning
@@ -546,7 +549,10 @@ expr: |
     container_memory_rss{container=~"(ingester|mimir-write|mimir-backend)"}
       /
     ( container_spec_memory_limit_bytes{container=~"(ingester|mimir-write|mimir-backend)"} > 0 )
-  ) > 0.8
+  )
+  # Match only Mimir namespaces.
+  * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+  > 0.8
 for: 15m
 labels:
   severity: critical
