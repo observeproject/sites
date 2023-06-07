@@ -164,6 +164,21 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### TempoBlockListRisingQuickly
+
+{{< code lang="yaml" >}}
+alert: TempoBlockListRisingQuickly
+annotations:
+  message: Tempo block list length is up 40 percent over the last 7 days.  Consider
+    scaling compactors.
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoBlockListRisingQuickly
+expr: |
+  avg(tempodb_blocklist_length{namespace=".*"}) / avg(tempodb_blocklist_length{namespace=".*", job=~"$namespace/$component"} offset 7d) > 1.4
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### TempoBadOverrides
 
 {{< code lang="yaml" >}}
