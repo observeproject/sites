@@ -499,8 +499,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -675,8 +674,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -739,8 +737,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -915,8 +912,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -990,8 +986,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1066,24 +1061,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1170,8 +1162,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Requests/s",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -1359,8 +1350,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1535,8 +1525,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -1599,8 +1588,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1775,8 +1763,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -1839,8 +1826,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -2015,8 +2001,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -2079,8 +2064,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -2155,24 +2139,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_kv_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -2259,8 +2240,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2428,8 +2408,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{item_type}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2516,8 +2495,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2684,8 +2662,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "items",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2772,8 +2749,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2940,8 +2916,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "items",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -3028,8 +3003,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -3196,8 +3170,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "items",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -3284,8 +3257,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -3352,8 +3324,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Error rate",
@@ -3395,24 +3366,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3487,24 +3455,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3591,24 +3556,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3683,24 +3645,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3775,24 +3734,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3867,24 +3823,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -3971,8 +3924,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -4039,8 +3991,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{operation}}",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Error rate",
@@ -4082,24 +4033,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4174,24 +4122,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4278,24 +4223,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4370,24 +4312,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4462,24 +4401,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4554,24 +4490,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -4657,7 +4590,7 @@
             "query": "label_values(cortex_build_info, cluster)",
             "refresh": 1,
             "regex": "",
-            "sort": 2,
+            "sort": 1,
             "tagValuesQuery": "",
             "tags": [ ],
             "tagsQuery": "",
@@ -4681,7 +4614,7 @@
             "query": "label_values(cortex_build_info{cluster=~\"$cluster\"}, namespace)",
             "refresh": 1,
             "regex": "",
-            "sort": 2,
+            "sort": 1,
             "tagValuesQuery": "",
             "tags": [ ],
             "tagsQuery": "",

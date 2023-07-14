@@ -573,8 +573,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -749,8 +748,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -813,8 +811,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -989,8 +986,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -1053,8 +1049,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1229,8 +1224,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "Per pod p99 latency",
@@ -1293,8 +1287,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1369,24 +1362,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-hatracker\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_kv_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-hatracker\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-hatracker\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1482,8 +1472,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1558,24 +1547,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-(lifecycler|ring)\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_kv_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-(lifecycler|ring)\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", kv_name=~\"distributor-(lifecycler|ring)\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1671,8 +1657,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   }
                ],
                "thresholds": [ ],
@@ -1747,24 +1732,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", kv_name=~\"ingester-.*\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_kv_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", kv_name=~\"ingester-.*\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", kv_name=~\"ingester-.*\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1855,16 +1837,14 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "successful",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_shipper_upload_failures_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "failed",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -1940,24 +1920,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\",component=\"ingester\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\",component=\"ingester\",operation=\"upload\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\",component=\"ingester\",operation=\"upload\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -2048,16 +2025,14 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "successful",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_tsdb_compactions_failed_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "failed",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2133,24 +2108,21 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th Percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum(rate(cortex_ingester_tsdb_compaction_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th Percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_tsdb_compaction_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_ingester_tsdb_compaction_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -2241,16 +2213,14 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "successful",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_tsdb_wal_truncations_failed_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "failed",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2329,16 +2299,14 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "successful",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_tsdb_checkpoint_creations_failed_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "failed",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2404,8 +2372,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "avg",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "title": "WAL truncations latency (includes checkpointing)",
@@ -2450,16 +2417,14 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "WAL",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   },
                   {
                      "expr": "sum(rate(cortex_ingester_tsdb_mmap_chunk_corruptions_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\"}[$__rate_interval]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "mmap-ed chunks",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2547,8 +2512,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "incoming exemplars",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2624,8 +2588,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "received exemplars",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2701,8 +2664,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "ingested exemplars",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2778,8 +2740,7 @@
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "appended exemplars",
-                     "legendLink": null,
-                     "step": 10
+                     "legendLink": null
                   }
                ],
                "thresholds": [ ],
@@ -2865,7 +2826,7 @@
             "query": "label_values(cortex_build_info, cluster)",
             "refresh": 1,
             "regex": "",
-            "sort": 2,
+            "sort": 1,
             "tagValuesQuery": "",
             "tags": [ ],
             "tagsQuery": "",
@@ -2889,7 +2850,7 @@
             "query": "label_values(cortex_build_info{cluster=~\"$cluster\"}, namespace)",
             "refresh": 1,
             "regex": "",
-            "sort": 2,
+            "sort": 1,
             "tagValuesQuery": "",
             "tags": [ ],
             "tagsQuery": "",
