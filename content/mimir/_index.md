@@ -489,21 +489,6 @@ labels:
  
 ### mimir-provisioning
 
-##### MetricProvisioningTooManyActiveSeries
-
-{{< code lang="yaml" >}}
-alert: MetricProvisioningTooManyActiveSeries
-annotations:
-  message: |
-    The number of in-memory series per ingester in {{ $labels.cluster }}/{{ $labels.namespace }} is too high.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricprovisioningtoomanyactiveseries
-expr: |
-  avg by (cluster, namespace) (cortex_ingester_memory_series) > 1.6e6
-for: 2h
-labels:
-  severity: warning
-{{< /code >}}
- 
 ##### MetricProvisioningTooManyWrites
 
 {{< code lang="yaml" >}}
