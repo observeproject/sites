@@ -489,21 +489,6 @@ labels:
  
 ### mimir-provisioning
 
-##### MetricProvisioningTooManyWrites
-
-{{< code lang="yaml" >}}
-alert: MetricProvisioningTooManyWrites
-annotations:
-  message: |
-    Ingesters in {{ $labels.cluster }}/{{ $labels.namespace }} ingest too many samples per second.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricprovisioningtoomanywrites
-expr: |
-  avg by (cluster, namespace) (cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m) > 80e3
-for: 15m
-labels:
-  severity: warning
-{{< /code >}}
- 
 ##### MetricAllocatingTooMuchMemory
 
 {{< code lang="yaml" >}}
