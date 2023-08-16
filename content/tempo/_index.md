@@ -193,6 +193,20 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### TempoUserConfigurableOverridesReloadFailing
+
+{{< code lang="yaml" >}}
+alert: TempoUserConfigurableOverridesReloadFailing
+annotations:
+  message: Greater than 5 user-configurable overides reloads failed in the past hour.
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoTenantIndexFailures
+expr: |
+  sum by (cluster, namespace) (increase(tempo_overrides_user_configurable_overrides_reload_failed_total{}[1h])) > 5 and
+  sum by (cluster, namespace) (increase(tempo_overrides_user_configurable_overrides_reload_failed_total{}[5m])) > 0
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### TempoProvisioningTooManyWrites
 
 {{< code lang="yaml" >}}
