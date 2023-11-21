@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         go-version: '^1.14'
-    - run: make generate
+    - run: make
     - uses: EndBug/add-and-commit@v4
       with:
         add: 'assets/ content/ static/'
