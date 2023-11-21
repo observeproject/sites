@@ -8,11 +8,16 @@
             "description": "A set of Grafana dashboards and Prometheus alerts for Kubernetes."
         },
         {
-            "name": "mimir",
-            "source": "https://github.com/grafana/mimir",
-            "subdir": "operations/mimir-mixin",
-            "customfile": "mimir-custom.libsonnet",
-            "description": "The mimir Mixin is a set of configurable, reusable, and extensible alerts and dashboards for Mimir/Cortex."
+            "name": "coredns",
+            "source": "https://github.com/povilasv/coredns-mixin.git",
+            "subdir": "",
+            "customfile": "coredns-custom.libsonnet"
+        },
+       {
+            "name": "kube-state-metrics",
+            "source": "https://github.com/kubernetes/kube-state-metrics",
+            "subdir": "jsonnet/kube-state-metrics-mixin",
+            "customfile": "kube-state-metrics-custom.libsonnet"
         },
         {
             "name": "node-exporter",
@@ -22,10 +27,11 @@
             "description": "The Node Mixin is a set of configurable, reusable, and extensible alerts and dashboards based on the metrics exported by the Node Exporter. The mixin creates recording and alerting rules for Prometheus and suitable dashboard descriptions for Grafana."
         },
         {
-            "name": "kube-state-metrics",
-            "source": "https://github.com/kubernetes/kube-state-metrics",
-            "subdir": "jsonnet/kube-state-metrics-mixin",
-            "customfile": "kube-state-metrics-custom.libsonnet"
+            "name": "mimir",
+            "source": "https://github.com/grafana/mimir",
+            "subdir": "operations/mimir-mixin",
+            "customfile": "mimir-custom.libsonnet",
+            "description": "The mimir Mixin is a set of configurable, reusable, and extensible alerts and dashboards for Mimir/Cortex."
         },
         {
             "name": "loki",
@@ -38,6 +44,24 @@
             "source": "https://github.com/grafana/tempo",
             "subdir": "operations/tempo-mixin",
             "customfile": "tempo-custom.libsonnet"
+        },
+        {
+            "name": "pyroscope",
+            "source": "https://github.com/grafana/pyroscope.git",
+            "subdir": "operations/pyroscope/jsonnet/pyroscope-mixin/pyroscope-mixin",
+            "customfile": "tempo-custom.libsonnet"
+        },
+        {
+            "name": "grafana",
+            "source": "https://github.com/grafana/grafana.git",
+            "subdir": "grafana-mixin",
+            "customfile": "grafana-agent-custom.libsonnet"
+        },
+        {
+            "name": "grafana-agent",
+            "source": "https://github.com/grafana/agent.git",
+            "subdir": "operations/agent-flow-mixin",
+            "customfile": "grafana-agent-custom.libsonnet"
         }
     ]
 }
