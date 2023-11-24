@@ -107,6 +107,28 @@ expr: |
 for: 5m
 {{< /code >}}
  
+### agent_controller
+
+##### SlowComponentEvaluations
+
+{{< code lang="yaml" >}}
+alert: SlowComponentEvaluations
+annotations:
+  message: Flow component evaluations are taking too long.
+expr: sum by (cluster, namespace, component_id) (rate(agent_component_evaluation_slow_seconds[10m])) > 0
+for: 15m
+{{< /code >}}
+ 
+##### UnhealthyComponents
+
+{{< code lang="yaml" >}}
+alert: UnhealthyComponents
+annotations:
+  message: Unhealthy Flow components detected.
+expr: sum(agent_component_controller_running_components{health_type!="healthy"}) > 0
+for: 15m
+{{< /code >}}
+ 
 ## Dashboards
 Following dashboards are generated from mixins and hosted on github:
 
