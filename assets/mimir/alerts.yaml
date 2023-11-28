@@ -856,21 +856,21 @@ groups:
     labels:
       severity: critical
       time_period: since-start
-  - alert: MetricCompactorSkippedBlocksWithOutOfOrderChunks
+  - alert: MetricCompactorSkippedUnhealthyBlocks
     annotations:
-      message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored blocks with out of order chunks.
-      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedblockswithoutoforderchunks
+      message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored unhealthy blocks.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedunhealthyblocks
     expr: |
-      increase(cortex_compactor_blocks_marked_for_no_compaction_total{reason="block-index-out-of-order-chunk"}[5m]) > 0
+      increase(cortex_compactor_blocks_marked_for_no_compaction_total[5m]) > 0
     for: 1m
     labels:
       severity: warning
-  - alert: MetricCompactorSkippedBlocksWithOutOfOrderChunks
+  - alert: MetricCompactorSkippedUnhealthyBlocks
     annotations:
-      message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored blocks with out of order chunks.
-      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedblockswithoutoforderchunks
+      message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored unhealthy blocks.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedunhealthyblocks
     expr: |
-      increase(cortex_compactor_blocks_marked_for_no_compaction_total{reason="block-index-out-of-order-chunk"}[5m]) > 1
+      increase(cortex_compactor_blocks_marked_for_no_compaction_total[5m]) > 1
     for: 30m
     labels:
       severity: critical
