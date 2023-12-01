@@ -1046,22 +1046,6 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricQuerierHasNotScanTheBucket
-
-{{< code lang="yaml" >}}
-alert: MetricQuerierHasNotScanTheBucket
-annotations:
-  message: Metric Querier {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not successfully scanned the bucket since {{ $value | humanizeDuration }}.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricquerierhasnotscanthebucket
-expr: |
-  (time() - cortex_querier_blocks_last_successful_scan_timestamp_seconds > 60 * 30)
-  and
-  cortex_querier_blocks_last_successful_scan_timestamp_seconds > 0
-for: 5m
-labels:
-  severity: critical
-{{< /code >}}
- 
 ##### MetricStoreGatewayHasNotSyncTheBucket
 
 {{< code lang="yaml" >}}
