@@ -836,19 +836,6 @@ Copy</button></div><div id=clipboard_7506d57a8f><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>3m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
-</span></span></code></pre></div></div></div><h5 id=metricquerierhasnotscanthebucket>MetricQuerierHasNotScanTheBucket</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_d6722c4f76>
-Copy</button></div><div id=clipboard_d6722c4f76><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricQuerierHasNotScanTheBucket</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric Querier {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not successfully scanned the bucket since {{ $value | humanizeDuration }}.</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricquerierhasnotscanthebucket</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  (time() - cortex_querier_blocks_last_successful_scan_timestamp_seconds &gt; 60 * 30)
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  and
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  cortex_querier_blocks_last_successful_scan_timestamp_seconds &gt; 0</span>  
-</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
 </span></span></code></pre></div></div></div><h5 id=metricstoregatewayhasnotsyncthebucket>MetricStoreGatewayHasNotSyncTheBucket</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_7bbb29912a>
 Copy</button></div><div id=clipboard_7bbb29912a><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricStoreGatewayHasNotSyncTheBucket</span>
