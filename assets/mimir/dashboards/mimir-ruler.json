@@ -572,7 +572,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
+                     "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{status}}",
@@ -647,7 +647,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3",
+                     "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "99th percentile",
@@ -655,7 +655,7 @@
                      "step": 10
                   },
                   {
-                     "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3",
+                     "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "50th percentile",
@@ -663,7 +663,7 @@
                      "step": 10
                   },
                   {
-                     "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})",
+                     "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Average",
@@ -739,7 +739,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.99, sum by (route, le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw|cortex-gw-internal))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))",
+                     "expr": "histogram_quantile(0.99, sum by (route, le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{ route }}",
