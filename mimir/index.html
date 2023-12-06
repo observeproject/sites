@@ -523,8 +523,8 @@ Copy</button></div><div id=clipboard_18c5c733e6><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
-</span></span></code></pre></div></div></div><h3 id=gossip_alerts>gossip_alerts</h3><h5 id=metricgossipmemberstoohigh>MetricGossipMembersTooHigh</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_576168eb74>
-Copy</button></div><div id=clipboard_576168eb74><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span></code></pre></div></div></div><h3 id=gossip_alerts>gossip_alerts</h3><h5 id=metricgossipmemberstoohigh>MetricGossipMembersTooHigh</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_a9367b6211>
+Copy</button></div><div id=clipboard_a9367b6211><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricGossipMembersTooHigh</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>One or more Metric instances in {{ $labels.cluster }}/{{ $labels.namespace }} consistently sees a higher than expected number of gossip members.</span>
@@ -532,12 +532,12 @@ Copy</button></div><div id=clipboard_576168eb74><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
 </span></span></span><span style=display:flex><span><span style=color:#d88200>  max by (cluster, namespace) (memberlist_client_cluster_members_count)
 </span></span></span><span style=display:flex><span><span style=color:#d88200>  &gt;
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  (sum by (cluster, namespace) (up{job=~&#34;.+/(admin-api|alertmanager|compactor.*|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)&#34;}) + 10)</span>  
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (sum by (cluster, namespace) (up{job=~&#34;.+/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)&#34;}) + 10)</span>  
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>20m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
-</span></span></code></pre></div></div></div><h5 id=metricgossipmemberstoolow>MetricGossipMembersTooLow</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_ab4aa6c8e5>
-Copy</button></div><div id=clipboard_ab4aa6c8e5><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span></code></pre></div></div></div><h5 id=metricgossipmemberstoolow>MetricGossipMembersTooLow</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_938cc80c8c>
+Copy</button></div><div id=clipboard_938cc80c8c><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricGossipMembersTooLow</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>One or more Metric instances in {{ $labels.cluster }}/{{ $labels.namespace }} consistently sees a lower than expected number of gossip members.</span>
@@ -545,7 +545,7 @@ Copy</button></div><div id=clipboard_ab4aa6c8e5><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
 </span></span></span><span style=display:flex><span><span style=color:#d88200>  min by (cluster, namespace) (memberlist_client_cluster_members_count)
 </span></span></span><span style=display:flex><span><span style=color:#d88200>  &lt;
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  (sum by (cluster, namespace) (up{job=~&#34;.+/(admin-api|alertmanager|compactor.*|distributor|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)&#34;}) * 0.5)</span>  
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (sum by (cluster, namespace) (up{job=~&#34;.+/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)&#34;}) * 0.5)</span>  
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>20m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
