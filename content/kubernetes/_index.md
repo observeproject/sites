@@ -517,7 +517,7 @@ https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md
 {{< code lang="yaml" >}}
 alert: KubePersistentVolumeFillingUp
 annotations:
-  description: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} is only {{ $value | humanizePercentage }} free.
+  description: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} on Cluster {{ $labels.cluster }} is only {{ $value | humanizePercentage }} free.
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumefillingup
   summary: PersistentVolume is filling up.
 expr: |
@@ -528,9 +528,9 @@ expr: |
   ) < 0.03
   and
   kubelet_volume_stats_used_bytes{job="kubelet"} > 0
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_access_mode{ access_mode="ReadOnlyMany"} == 1
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_labels{label_excluded_from_alerts="true"} == 1
 for: 1m
 labels:
@@ -543,7 +543,7 @@ https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md
 {{< code lang="yaml" >}}
 alert: KubePersistentVolumeFillingUp
 annotations:
-  description: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} is expected to fill up within four days. Currently {{ $value | humanizePercentage }} is available.
+  description: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} on Cluster {{ $labels.cluster }} is expected to fill up within four days. Currently {{ $value | humanizePercentage }} is available.
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumefillingup
   summary: PersistentVolume is filling up.
 expr: |
@@ -556,9 +556,9 @@ expr: |
   kubelet_volume_stats_used_bytes{job="kubelet"} > 0
   and
   predict_linear(kubelet_volume_stats_available_bytes{job="kubelet"}[6h], 4 * 24 * 3600) < 0
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_access_mode{ access_mode="ReadOnlyMany"} == 1
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_labels{label_excluded_from_alerts="true"} == 1
 for: 1h
 labels:
@@ -571,7 +571,7 @@ https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md
 {{< code lang="yaml" >}}
 alert: KubePersistentVolumeInodesFillingUp
 annotations:
-  description: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} only has {{ $value | humanizePercentage }} free inodes.
+  description: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} on Cluster {{ $labels.cluster }} only has {{ $value | humanizePercentage }} free inodes.
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumeinodesfillingup
   summary: PersistentVolumeInodes are filling up.
 expr: |
@@ -582,9 +582,9 @@ expr: |
   ) < 0.03
   and
   kubelet_volume_stats_inodes_used{job="kubelet"} > 0
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_access_mode{ access_mode="ReadOnlyMany"} == 1
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_labels{label_excluded_from_alerts="true"} == 1
 for: 1m
 labels:
@@ -597,7 +597,7 @@ https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md
 {{< code lang="yaml" >}}
 alert: KubePersistentVolumeInodesFillingUp
 annotations:
-  description: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} is expected to run out of inodes within four days. Currently {{ $value | humanizePercentage }} of its inodes are free.
+  description: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim }} in Namespace {{ $labels.namespace }} on Cluster {{ $labels.cluster }} is expected to run out of inodes within four days. Currently {{ $value | humanizePercentage }} of its inodes are free.
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumeinodesfillingup
   summary: PersistentVolumeInodes are filling up.
 expr: |
@@ -610,9 +610,9 @@ expr: |
   kubelet_volume_stats_inodes_used{job="kubelet"} > 0
   and
   predict_linear(kubelet_volume_stats_inodes_free{job="kubelet"}[6h], 4 * 24 * 3600) < 0
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_access_mode{ access_mode="ReadOnlyMany"} == 1
-  unless on(namespace, persistentvolumeclaim)
+  unless on(cluster, namespace, persistentvolumeclaim)
   kube_persistentvolumeclaim_labels{label_excluded_from_alerts="true"} == 1
 for: 1h
 labels:
@@ -625,7 +625,7 @@ https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md
 {{< code lang="yaml" >}}
 alert: KubePersistentVolumeErrors
 annotations:
-  description: The persistent volume {{ $labels.persistentvolume }} has status {{ $labels.phase }}.
+  description: The persistent volume {{ $labels.persistentvolume }} on Cluster {{ $labels.cluster }} has status {{ $labels.phase }}.
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepersistentvolumeerrors
   summary: PersistentVolume is having issues with provisioning.
 expr: |
@@ -2079,8 +2079,8 @@ record: 'node_namespace_pod:kube_pod_info:'
 expr: |
   count by (cluster, node) (
     node_cpu_seconds_total{mode="idle",job="node-exporter"}
-    * on (namespace, pod) group_left(node)
-    topk by(namespace, pod) (1, node_namespace_pod:kube_pod_info:)
+    * on (cluster, namespace, pod) group_left(node)
+    topk by(cluster, namespace, pod) (1, node_namespace_pod:kube_pod_info:)
   )
 record: node:node_num_cpu:sum
 {{< /code >}}
