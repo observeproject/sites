@@ -641,22 +641,19 @@
                      "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})",
                      "format": "time_series",
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -876,22 +873,19 @@
                      "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})",
                      "format": "time_series",
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
@@ -1111,22 +1105,19 @@
                      "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=\"/cortex.Ingester/Push\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
-                     "refId": "A",
-                     "step": 10
+                     "refId": "A"
                   },
                   {
                      "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=\"/cortex.Ingester/Push\"})) * 1e3",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
-                     "refId": "B",
-                     "step": 10
+                     "refId": "B"
                   },
                   {
                      "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=\"/cortex.Ingester/Push\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=\"/cortex.Ingester/Push\"})",
                      "format": "time_series",
                      "legendFormat": "Average",
-                     "refId": "C",
-                     "step": 10
+                     "refId": "C"
                   }
                ],
                "thresholds": [ ],
