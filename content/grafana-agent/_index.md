@@ -25,7 +25,7 @@ alert: ClusterNotConverging
 annotations:
   message: Cluster is not converging.
 expr: stddev by (cluster, namespace) (sum without (state) (cluster_node_peers)) != 0
-for: 5m
+for: 10m
 {{< /code >}}
  
 ##### ClusterSplitBrain
@@ -38,17 +38,7 @@ expr: |
   sum without (state) (cluster_node_peers) !=
   on (cluster, namespace) group_left
   count by (cluster, namespace) (cluster_node_info)
-for: 5m
-{{< /code >}}
- 
-##### ClusterLamportClockDrift
-
-{{< code lang="yaml" >}}
-alert: ClusterLamportClockDrift
-annotations:
-  message: Cluster nodes' lamport clocks are not converging.
-expr: stddev by (cluster, namespace) (cluster_node_lamport_time) > 4 * sqrt(count by (cluster, namespace) (cluster_node_info))
-for: 5m
+for: 10m
 {{< /code >}}
  
 ##### ClusterNodeUnhealthy
@@ -59,19 +49,7 @@ annotations:
   message: Cluster node is reporting a health score > 0.
 expr: |
   cluster_node_gossip_health_score > 0
-for: 5m
-{{< /code >}}
- 
-##### ClusterLamportClockStuck
-
-{{< code lang="yaml" >}}
-alert: ClusterLamportClockStuck
-annotations:
-  message: Cluster nodes's lamport clocks is not progressing.
-expr: |
-  sum by (cluster, namespace, instance) (rate(cluster_node_lamport_time[2m])) == 0
-  and on (cluster, namespace, instance) (cluster_node_peers > 1)
-for: 5m
+for: 10m
 {{< /code >}}
  
 ##### ClusterNodeNameConflict
@@ -91,7 +69,7 @@ alert: ClusterNodeStuckTerminating
 annotations:
   message: Cluster node stuck in Terminating state.
 expr: sum by (cluster, namespace, instance) (cluster_node_peers{state="terminating"}) > 0
-for: 5m
+for: 10m
 {{< /code >}}
  
 ##### ClusterConfigurationDrift
