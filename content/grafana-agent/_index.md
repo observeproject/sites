@@ -114,5 +114,6 @@ Following dashboards are generated from mixins and hosted on github:
 - [agent-cluster-node](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-cluster-node.json)
 - [agent-cluster-overview](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-cluster-overview.json)
 - [agent-flow-controller](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-flow-controller.json)
+- [agent-flow-opentelemetry](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-flow-opentelemetry.json)
 - [agent-flow-prometheus-remote-write](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-flow-prometheus-remote-write.json)
 - [agent-flow-resources](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-flow-resources.json)

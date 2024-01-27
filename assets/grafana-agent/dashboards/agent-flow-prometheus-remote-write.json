@@ -53,7 +53,7 @@
          "description": "Percentage of targets successfully scraped by prometheus.scrape\ncomponents.\n\nThis metric is calculated by dividing the number of targets\nsuccessfully scraped by the total number of targets scraped,\nacross all the namespaces in the selected cluster.\n\nLow success rates can indicate a problem with scrape targets,\nstale service discovery, or agent misconfiguration.\n",
          "fieldConfig": {
             "defaults": {
-               "unit": "percent"
+               "unit": "percentunit"
             }
          },
          "gridPos": {
@@ -71,7 +71,7 @@
                "range": true
             }
          ],
-         "title": "Scrape success rate",
+         "title": "Scrape success rate in $cluster",
          "type": "timeseries"
       },
       {
@@ -111,7 +111,7 @@
                "range": true
             }
          ],
-         "title": "Scrape duration",
+         "title": "Scrape duration in $cluster",
          "type": "timeseries"
       },
       {
