@@ -34,6 +34,12 @@
             "description": "The Node Mixin is a set of configurable, reusable, and extensible alerts and dashboards based on the metrics exported by the Node Exporter. The mixin creates recording and alerting rules for Prometheus and suitable dashboard descriptions for Grafana."
         },
         {
+            "name": "cert-manager",
+            "source": "https://github.com/imusmanmalik/cert-manager-mixin.git",
+            "subdir": "",
+            "customfile": "cert-manager-custom.libsonnet"
+        },
+        {
             "name": "mimir",
             "source": "https://github.com/grafana/mimir",
             "subdir": "operations/mimir-mixin",
