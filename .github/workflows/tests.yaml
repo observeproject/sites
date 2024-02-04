@@ -18,3 +18,12 @@ jobs:
       with:
         go-version: '^1.21'
     - run: make
+    - uses: EndBug/add-and-commit@v4
+      with:
+        add: 'assets/ content/ static/'
+        author_name: "github-actions[bot]"
+        author_email: "github-actions@users.noreply.github.com"
+        message: 'assets,content: daily assets regeneration'
+      env:
+        # This is necessary in order to push a commit to the repo
+        GITHUB_TOKEN: ${{ secrets.OBSERVABILITY_SITE_TOKEN }}
