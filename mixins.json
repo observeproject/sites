@@ -13,7 +13,14 @@
             "subdir": "",
             "customfile": "coredns-custom.libsonnet"
         },
-       {
+        {
+            "name": "etcd",
+            "source": "https://github.com/etcd-io/etcd",
+            "subdir": "contrib/mixin",
+            "description": "A set of customisable Prometheus alerts for etcd.",
+            "customfile": "etcd-custom.libsonnet"
+        },
+        {
             "name": "kube-state-metrics",
             "source": "https://github.com/kubernetes/kube-state-metrics",
             "subdir": "jsonnet/kube-state-metrics-mixin",
@@ -25,6 +32,12 @@
             "subdir": "docs/node-mixin",
             "customfile": "node-exporter-custom.libsonnet",
             "description": "The Node Mixin is a set of configurable, reusable, and extensible alerts and dashboards based on the metrics exported by the Node Exporter. The mixin creates recording and alerting rules for Prometheus and suitable dashboard descriptions for Grafana."
+        },
+        {
+            "name": "cert-manager",
+            "source": "https://github.com/imusmanmalik/cert-manager-mixin.git",
+            "subdir": "",
+            "customfile": "cert-manager-custom.libsonnet"
         },
         {
             "name": "mimir",
@@ -44,6 +57,13 @@
             "source": "https://github.com/grafana/tempo",
             "subdir": "operations/tempo-mixin",
             "customfile": "tempo-custom.libsonnet"
+        },
+        {
+            "name": "memcached",
+            "source": "https://github.com/grafana/jsonnet-libs",
+            "subdir": "memcached-mixin",
+            "description": "Grafana dashboard for operating Memcached, in the form of a monitoring mixin.",
+            "customfile": "memcached-custom.libsonnet"
         },
         {
             "name": "pyroscope",

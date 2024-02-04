@@ -75,7 +75,7 @@ title: $name
 $description
 
 EOF
-panel "danger" "Jsonnet source code is available at [${repo#*//}]($url)"
+panel "danger" "Jsonnet 源码地址：[${repo#*//}]($url)"
 }
 
 
@@ -116,20 +116,20 @@ for mixin in $(cat "$CONFIG" | jq -r '.mixins[].name'); do
 	# Alerts
 	if [ -s "$dir/alerts.yaml" ] && [ "$(stat -c%s "$dir/alerts.yaml")" -gt 20 ]; then
 		echo -e "## Alerts\n" >> "$file"
-		panel "warning" "Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/$MANIFESTS/$mixin/alerts.yaml)." >> "$file"
+		panel "warning" "告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/$MANIFESTS/$mixin/alerts.yaml)." >> "$file"
 		parse_rules "$(gojsontoyaml -yamltojson < "$dir/alerts.yaml")" "alert" >> "$file"
 	fi
 
 	# Recording Rules
 	if [ -s "$dir/rules.yaml" ] && [ "$(stat -c%s "$dir/rules.yaml")" -gt 20 ]; then
-		echo -e "## Recording rules\n" >> "$file"
-		panel "warning" "Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/$MANIFESTS/$mixin/rules.yaml)." >> "$file"
+		echo -e "## Recording Rules\n" >> "$file"
+		panel "warning" "指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/$MANIFESTS/$mixin/rules.yaml)." >> "$file"
 		parse_rules "$(gojsontoyaml -yamltojson < "$dir/rules.yaml")" "record" >> "$file"
 	fi
 
 	# Dashboards
 	if [ "$(ls -A "$dir/dashboards")" ]; then
-		echo -e "## Dashboards\nFollowing dashboards are generated from mixins and hosted on github:\n\n" >> "$file"
+		echo -e "## Dashboards\n仪表盘配置文件下载地址:\n\n" >> "$file"
 		for dashboard in "$dir/dashboards"/*.json; do
 			d="$(basename "$dashboard")"
 			echo "- [${d%.*}](https://github.com/observeproject/sites/blob/main/$MANIFESTS/$mixin/dashboards/$d)" >> "$file"

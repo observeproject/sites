@@ -13,7 +13,14 @@
             "subdir": "",
             "customfile": "coredns-custom.libsonnet"
         },
-       {
+        {
+            "name": "etcd",
+            "source": "https://github.com/etcd-io/etcd",
+            "subdir": "contrib/mixin",
+            "description": "A set of customisable Prometheus alerts for etcd.",
+            "customfile": "etcd-custom.libsonnet"
+        },
+        {
             "name": "kube-state-metrics",
             "source": "https://github.com/kubernetes/kube-state-metrics",
             "subdir": "jsonnet/kube-state-metrics-mixin",
@@ -44,6 +51,13 @@
             "source": "https://github.com/grafana/tempo",
             "subdir": "operations/tempo-mixin",
             "customfile": "tempo-custom.libsonnet"
+        },
+        {
+            "name": "memcached",
+            "source": "https://github.com/grafana/jsonnet-libs",
+            "subdir": "memcached-mixin",
+            "description": "Grafana dashboard for operating Memcached, in the form of a monitoring mixin.",
+            "customfile": "memcached-custom.libsonnet"
         },
         {
             "name": "pyroscope",
