@@ -7,13 +7,13 @@ title: grafana-agent
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/agent.git](https://github.com/grafana/agent.git/tree/master/operations/agent-flow-mixin)
+Jsonnet 源码地址：[github.com/grafana/agent.git](https://github.com/grafana/agent.git/tree/master/operations/agent-flow-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/alerts.yaml).
 {{< /panel >}}
 
 ### clustering
@@ -108,7 +108,7 @@ for: 15m
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [agent-cluster-node](https://github.com/observeproject/sites/blob/main/assets/grafana-agent/dashboards/agent-cluster-node.json)

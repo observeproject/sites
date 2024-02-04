@@ -7,13 +7,13 @@ title: pyroscope
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/pyroscope.git](https://github.com/grafana/pyroscope.git/tree/master/operations/pyroscope/jsonnet/pyroscope-mixin/pyroscope-mixin)
+Jsonnet 源码地址：[github.com/grafana/pyroscope.git](https://github.com/grafana/pyroscope.git/tree/master/operations/pyroscope/jsonnet/pyroscope-mixin/pyroscope-mixin)
 {{< /panel >}}
 
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/pyroscope/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/pyroscope/rules.yaml).
 {{< /panel >}}
 
 ### pyroscope_rules
@@ -229,7 +229,7 @@ record: job_type_cluster:pyroscope_distributor_received_samples_count:sum_rate
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [pyroscope-reads](https://github.com/observeproject/sites/blob/main/assets/pyroscope/dashboards/pyroscope-reads.json)

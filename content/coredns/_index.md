@@ -7,13 +7,13 @@ title: coredns
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/povilasv/coredns-mixin.git](https://github.com/povilasv/coredns-mixin.git)
+Jsonnet 源码地址：[github.com/povilasv/coredns-mixin.git](https://github.com/povilasv/coredns-mixin.git)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/coredns/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/coredns/alerts.yaml).
 {{< /panel >}}
 
 ### coredns
@@ -173,7 +173,7 @@ labels:
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [coredns](https://github.com/observeproject/sites/blob/main/assets/coredns/dashboards/coredns.json)

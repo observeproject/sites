@@ -7,13 +7,13 @@ title: grafana
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/grafana.git](https://github.com/grafana/grafana.git/tree/master/grafana-mixin)
+Jsonnet 源码地址：[github.com/grafana/grafana.git](https://github.com/grafana/grafana.git/tree/master/grafana-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/grafana/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/grafana/alerts.yaml).
 {{< /panel >}}
 
 ### GrafanaAlerts
@@ -34,10 +34,10 @@ labels:
   severity: warning
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/grafana/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/grafana/rules.yaml).
 {{< /panel >}}
 
 ### grafana_rules
@@ -51,7 +51,7 @@ record: namespace_job_handler_statuscode:grafana_http_request_duration_seconds_c
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [grafana-overview](https://github.com/observeproject/sites/blob/main/assets/grafana/dashboards/grafana-overview.json)

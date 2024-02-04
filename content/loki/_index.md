@@ -7,13 +7,13 @@ title: loki
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/loki](https://github.com/grafana/loki/tree/master/production/loki-mixin)
+Jsonnet 源码地址：[github.com/grafana/loki](https://github.com/grafana/loki/tree/master/production/loki-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/loki/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/loki/alerts.yaml).
 {{< /panel >}}
 
 ### loki_alerts
@@ -76,10 +76,10 @@ labels:
   severity: warning
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/loki/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/loki/rules.yaml).
 {{< /panel >}}
 
 ### loki_rules
@@ -211,7 +211,7 @@ record: cluster_namespace_job_route:loki_request_duration_seconds_count:sum_rate
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [loki-chunks](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-chunks.json)

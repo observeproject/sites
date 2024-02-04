@@ -7,13 +7,13 @@ title: mimir
 The mimir Mixin is a set of configurable, reusable, and extensible alerts and dashboards for Mimir/Cortex.
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/mimir](https://github.com/grafana/mimir/tree/master/operations/mimir-mixin)
+Jsonnet 源码地址：[github.com/grafana/mimir](https://github.com/grafana/mimir/tree/master/operations/mimir-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/mimir/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/mimir/alerts.yaml).
 {{< /panel >}}
 
 ### mimir_alerts
@@ -1333,10 +1333,10 @@ labels:
   severity: warning
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/mimir/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/mimir/rules.yaml).
 {{< /panel >}}
 
 ### mimir_api_1
@@ -2434,7 +2434,7 @@ record: cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [mimir-alertmanager-resources](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-alertmanager-resources.json)

@@ -7,13 +7,13 @@ title: tempo
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/tempo](https://github.com/grafana/tempo/tree/master/operations/tempo-mixin)
+Jsonnet 源码地址：[github.com/grafana/tempo](https://github.com/grafana/tempo/tree/master/operations/tempo-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/tempo/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/tempo/alerts.yaml).
 {{< /panel >}}
 
 ### tempo_alerts
@@ -261,10 +261,10 @@ labels:
   severity: critical
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/tempo/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/tempo/rules.yaml).
 {{< /panel >}}
 
 ### tempo_rules
@@ -312,7 +312,7 @@ record: cluster_namespace_job_route:tempo_request_duration_seconds_count:sum_rat
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [tempo-operational](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-operational.json)

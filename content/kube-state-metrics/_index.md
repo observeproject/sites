@@ -7,13 +7,13 @@ title: kube-state-metrics
 
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/master/jsonnet/kube-state-metrics-mixin)
+Jsonnet 源码地址：[github.com/kubernetes/kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/master/jsonnet/kube-state-metrics-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/kube-state-metrics/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/kube-state-metrics/alerts.yaml).
 {{< /panel >}}
 
 ### kube-state-metrics

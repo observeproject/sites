@@ -7,13 +7,13 @@ title: memcached
 Grafana dashboard for operating Memcached, in the form of a monitoring mixin.
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/grafana/jsonnet-libs](https://github.com/grafana/jsonnet-libs/tree/master/memcached-mixin)
+Jsonnet 源码地址：[github.com/grafana/jsonnet-libs](https://github.com/grafana/jsonnet-libs/tree/master/memcached-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/memcached/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/memcached/alerts.yaml).
 {{< /panel >}}
 
 ### memcached
@@ -61,7 +61,7 @@ labels:
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [memcached-overview](https://github.com/observeproject/sites/blob/main/assets/memcached/dashboards/memcached-overview.json)

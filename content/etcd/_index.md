@@ -7,13 +7,13 @@ title: etcd
 A set of customisable Prometheus alerts for etcd.
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/etcd-io/etcd](https://github.com/etcd-io/etcd/tree/master/contrib/mixin)
+Jsonnet 源码地址：[github.com/etcd-io/etcd](https://github.com/etcd-io/etcd/tree/master/contrib/mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/etcd/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/etcd/alerts.yaml).
 {{< /panel >}}
 
 ### etcd
@@ -248,7 +248,7 @@ labels:
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [etcd](https://github.com/observeproject/sites/blob/main/assets/etcd/dashboards/etcd.json)

@@ -7,13 +7,13 @@ title: node-exporter
 The Node Mixin is a set of configurable, reusable, and extensible alerts and dashboards based on the metrics exported by the Node Exporter. The mixin creates recording and alerting rules for Prometheus and suitable dashboard descriptions for Grafana.
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/prometheus/node_exporter](https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin)
+Jsonnet 源码地址：[github.com/prometheus/node_exporter](https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/node-exporter/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/node-exporter/alerts.yaml).
 {{< /panel >}}
 
 ### node-exporter
@@ -430,10 +430,10 @@ labels:
   severity: warning
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/node-exporter/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/node-exporter/rules.yaml).
 {{< /panel >}}
 
 ### node-exporter.rules
@@ -559,7 +559,7 @@ record: instance:node_network_transmit_drop_excluding_lo:rate5m
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [node-cluster-rsrc-use](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/node-cluster-rsrc-use.json)

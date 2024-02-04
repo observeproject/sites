@@ -7,13 +7,13 @@ title: kubernetes
 A set of Grafana dashboards and Prometheus alerts for Kubernetes.
 
 {{< panel style="danger" >}}
-Jsonnet source code is available at [github.com/kubernetes-monitoring/kubernetes-mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin)
+Jsonnet 源码地址：[github.com/kubernetes-monitoring/kubernetes-mixin](https://github.com/kubernetes-monitoring/kubernetes-mixin)
 {{< /panel >}}
 
 ## Alerts
 
 {{< panel style="warning" >}}
-Complete list of pregenerated alerts is available [here](https://github.com/observeproject/sites/blob/main/assets/kubernetes/alerts.yaml).
+告警Alerts配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/kubernetes/alerts.yaml).
 {{< /panel >}}
 
 ### kubernetes-apps
@@ -1117,10 +1117,10 @@ labels:
   severity: critical
 {{< /code >}}
  
-## Recording rules
+## Recording Rules
 
 {{< panel style="warning" >}}
-Complete list of pregenerated recording rules is available [here](https://github.com/observeproject/sites/blob/main/assets/kubernetes/rules.yaml).
+指标计算Recording规则配置列表 [源文件](https://github.com/observeproject/sites/blob/main/assets/kubernetes/rules.yaml).
 {{< /panel >}}
 
 ### kube-apiserver-burnrate.rules
@@ -2156,7 +2156,7 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 {{< /code >}}
  
 ## Dashboards
-Following dashboards are generated from mixins and hosted on github:
+仪表盘配置文件下载地址:
 
 
 - [apiserver](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/apiserver.json)
