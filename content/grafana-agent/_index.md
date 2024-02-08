@@ -103,7 +103,7 @@ for: 15m
 alert: UnhealthyComponents
 annotations:
   message: Unhealthy Flow components detected.
-expr: sum(agent_component_controller_running_components{health_type!="healthy"}) > 0
+expr: sum by (cluster, namespace) (agent_component_controller_running_components{health_type!="healthy"}) > 0
 for: 15m
 {{< /code >}}
  
