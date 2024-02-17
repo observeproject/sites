@@ -303,12 +303,12 @@ Copy</button></div><div id=clipboard_4409b1875b><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
-</span></span></code></pre></div></div></div><h5 id=nodediskiosaturation>NodeDiskIOSaturation</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_e343662051>
-Copy</button></div><div id=clipboard_e343662051><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span></code></pre></div></div></div><h5 id=nodediskiosaturation>NodeDiskIOSaturation</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_740dbbd2ae>
+Copy</button></div><div id=clipboard_740dbbd2ae><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>NodeDiskIOSaturation</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>description</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
-</span></span></span><span style=display:flex><span><span style=color:#d88200>    Disk IO queue (aqu-sq) is high on {{ $labels.device }} at {{ $labels.instance }}, has been above 10 for the last 15 minutes, is currently at {{ printf &#34;%.2f&#34; $value }}.
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    Disk IO queue (aqu-sq) is high on {{ $labels.device }} at {{ $labels.instance }}, has been above 10 for the last 30 minutes, is currently at {{ printf &#34;%.2f&#34; $value }}.
 </span></span></span><span style=display:flex><span><span style=color:#d88200>    This symptom might indicate disk saturation.</span>    
 </span></span><span style=display:flex><span>  <span style=color:#f92672>summary</span><span style=color:#111>:</span> <span style=color:#ae81ff>Disk IO queue is high.</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
