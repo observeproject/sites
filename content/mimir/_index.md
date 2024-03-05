@@ -1383,6 +1383,13 @@ expr: sum(rate(cortex_request_duration_seconds_count[1m])) by (cluster, job)
 record: cluster_job:cortex_request_duration_seconds_count:sum_rate
 {{< /code >}}
  
+##### cluster_job:cortex_request_duration_seconds:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_request_duration_seconds[1m])) by (cluster, job)
+record: cluster_job:cortex_request_duration_seconds:sum_rate
+{{< /code >}}
+ 
 ### mimir_api_2
 
 ##### cluster_job_route:cortex_request_duration_seconds:99quantile
@@ -1427,6 +1434,13 @@ expr: sum(rate(cortex_request_duration_seconds_count[1m])) by (cluster, job, rou
 record: cluster_job_route:cortex_request_duration_seconds_count:sum_rate
 {{< /code >}}
  
+##### cluster_job_route:cortex_request_duration_seconds:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_request_duration_seconds[1m])) by (cluster, job, route)
+record: cluster_job_route:cortex_request_duration_seconds:sum_rate
+{{< /code >}}
+ 
 ### mimir_api_3
 
 ##### cluster_namespace_job_route:cortex_request_duration_seconds:99quantile
@@ -1469,6 +1483,13 @@ record: cluster_namespace_job_route:cortex_request_duration_seconds_sum:sum_rate
 {{< code lang="yaml" >}}
 expr: sum(rate(cortex_request_duration_seconds_count[1m])) by (cluster, namespace, job, route)
 record: cluster_namespace_job_route:cortex_request_duration_seconds_count:sum_rate
+{{< /code >}}
+ 
+##### cluster_namespace_job_route:cortex_request_duration_seconds:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_request_duration_seconds[1m])) by (cluster, namespace, job, route)
+record: cluster_namespace_job_route:cortex_request_duration_seconds:sum_rate
 {{< /code >}}
  
 ### mimir_querier_api
