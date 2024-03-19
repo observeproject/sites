@@ -23,22 +23,22 @@ Jsonnet 源码地址：[github.com/grafana/agent.git](https://github.com/grafana
 {{< code lang="yaml" >}}
 alert: ClusterNotConverging
 annotations:
-  message: Cluster is not converging.
+  message: 'Cluster is not converging: nodes report different number of peers in the cluster.'
 expr: stddev by (cluster, namespace) (sum without (state) (cluster_node_peers)) != 0
 for: 10m
 {{< /code >}}
  
-##### ClusterSplitBrain
+##### ClusterNodeCountMismatch
 
 {{< code lang="yaml" >}}
-alert: ClusterSplitBrain
+alert: ClusterNodeCountMismatch
 annotations:
-  message: Cluster nodes have entered a split brain state.
+  message: Nodes report different number of peers vs. the count of observed agent metrics. Some agent metrics may be missing or the cluster is in a split brain state.
 expr: |
   sum without (state) (cluster_node_peers) !=
   on (cluster, namespace) group_left
   count by (cluster, namespace) (cluster_node_info)
-for: 10m
+for: 15m
 {{< /code >}}
  
 ##### ClusterNodeUnhealthy
@@ -46,7 +46,7 @@ for: 10m
 {{< code lang="yaml" >}}
 alert: ClusterNodeUnhealthy
 annotations:
-  message: Cluster node is reporting a health score > 0.
+  message: Cluster node is reporting a gossip protocol health score > 0.
 expr: |
   cluster_node_gossip_health_score > 0
 for: 10m
