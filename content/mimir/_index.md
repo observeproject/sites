@@ -1290,6 +1290,25 @@ labels:
   severity: critical
 {{< /code >}}
  
+### mimir_ingest_storage_alerts
+
+##### MetricIngesterLastConsumedOffsetCommitFailed
+
+{{< code lang="yaml" >}}
+alert: MetricIngesterLastConsumedOffsetCommitFailed
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is failing to commit the last consumed offset.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterlastconsumedoffsetcommitfailed
+expr: |
+  sum by(cluster, namespace, pod) (rate(cortex_ingest_storage_reader_offset_commit_failures_total[5m]))
+  /
+  sum by(cluster, namespace, pod) (rate(cortex_ingest_storage_reader_offset_commit_requests_total[5m]))
+  > 0.2
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MetricContinuousTestNotRunningOnWrites
