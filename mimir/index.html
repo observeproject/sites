@@ -1048,6 +1048,84 @@ Copy</button></div><div id=clipboard_0d0458ab26><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=metricingesterfailedtoreadrecordsfromkafka>MetricIngesterFailedToReadRecordsFromKafka</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_ff8177e949>
+Copy</button></div><div id=clipboard_ff8177e949><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricIngesterFailedToReadRecordsFromKafka</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is failing to read records from Kafka.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailedtoreadrecordsfromkafka</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by(cluster, namespace, pod, node_id) (rate(cortex_ingest_storage_reader_read_errors_total[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  &gt; 0</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=metricingesterkafkafetcherrorsratetoohigh>MetricIngesterKafkaFetchErrorsRateTooHigh</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_b4336435e5>
+Copy</button></div><div id=clipboard_b4336435e5><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricIngesterKafkaFetchErrorsRateTooHigh</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is receiving fetch errors when reading records from Kafka.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterkafkafetcherrorsratetoohigh</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by (cluster, namespace, pod) (rate (cortex_ingest_storage_reader_fetch_errors_total[5m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  /
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by (cluster, namespace, pod) (rate (cortex_ingest_storage_reader_fetches_total[5m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  &gt; 0.1</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=metricstartingingesterkafkareceivedelayincreasing>MetricStartingIngesterKafkaReceiveDelayIncreasing</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_c5b39e7da9>
+Copy</button></div><div id=clipboard_c5b39e7da9><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricStartingIngesterKafkaReceiveDelayIncreasing</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in &#34;starting&#34; phase is not reducing consumption lag of write requests read from Kafka.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstartingingesterkafkareceivedelayincreasing</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  deriv((
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_sum{phase=&#34;starting&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      /
+</span></span></span><span style=display:flex><span><span style=color:#d88200>      sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_count{phase=&#34;starting&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  )[5m:1m]) &gt; 0</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>warning</span>
+</span></span></code></pre></div></div></div><h5 id=metricrunningingesterreceivedelaytoohigh>MetricRunningIngesterReceiveDelayTooHigh</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_17d1a54920>
+Copy</button></div><div id=clipboard_17d1a54920><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricRunningIngesterReceiveDelayTooHigh</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in &#34;running&#34; phase is too far behind in its consumption of write requests from Kafka.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrunningingesterreceivedelaytoohigh</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_sum{phase=&#34;running&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    /
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_count{phase=&#34;running&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  ) &gt; (10 * 60)</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=metricingesterfailstoprocessrecordsfromkafka>MetricIngesterFailsToProcessRecordsFromKafka</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_cc5ea77d44>
+Copy</button></div><div id=clipboard_cc5ea77d44><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricIngesterFailsToProcessRecordsFromKafka</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to consume write requests read from Kafka due to internal errors.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailstoprocessrecordsfromkafka</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_records_failed_total{cause=&#34;server&#34;}[1m])) &gt; 0</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
+</span></span></code></pre></div></div></div><h5 id=metricingesterfailsenforcestrongconsistencyonreadpath>MetricIngesterFailsEnforceStrongConsistencyOnReadPath</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9b75360790>
+Copy</button></div><div id=clipboard_9b75360790><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricIngesterFailsEnforceStrongConsistencyOnReadPath</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#ae81ff>Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to enforce strong-consistency on read-path.</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailsenforcestrongconsistencyonreadpath</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_strong_consistency_failures_total[1m])) &gt; 0</span>  
+</span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>5m</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
 </span></span></code></pre></div></div></div><h3 id=mimir_continuous_test>mimir_continuous_test</h3><h5 id=metriccontinuoustestnotrunningonwrites>MetricContinuousTestNotRunningOnWrites</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_9b1ee7898e>
 Copy</button></div><div id=clipboard_9b1ee7898e><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricContinuousTestNotRunningOnWrites</span>
