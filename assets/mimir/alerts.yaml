@@ -927,6 +927,72 @@ groups:
     for: 15m
     labels:
       severity: critical
+  - alert: MetricIngesterFailedToReadRecordsFromKafka
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is failing to read records from Kafka.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailedtoreadrecordsfromkafka
+    expr: |
+      sum by(cluster, namespace, pod, node_id) (rate(cortex_ingest_storage_reader_read_errors_total[1m]))
+      > 0
+    for: 5m
+    labels:
+      severity: critical
+  - alert: MetricIngesterKafkaFetchErrorsRateTooHigh
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is receiving fetch errors when reading records from Kafka.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterkafkafetcherrorsratetoohigh
+    expr: |
+      sum by (cluster, namespace, pod) (rate (cortex_ingest_storage_reader_fetch_errors_total[5m]))
+      /
+      sum by (cluster, namespace, pod) (rate (cortex_ingest_storage_reader_fetches_total[5m]))
+      > 0.1
+    for: 15m
+    labels:
+      severity: critical
+  - alert: MetricStartingIngesterKafkaReceiveDelayIncreasing
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in "starting" phase is not reducing consumption lag of write requests read from Kafka.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstartingingesterkafkareceivedelayincreasing
+    expr: |
+      deriv((
+          sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_sum{phase="starting"}[1m]))
+          /
+          sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_count{phase="starting"}[1m]))
+      )[5m:1m]) > 0
+    for: 5m
+    labels:
+      severity: warning
+  - alert: MetricRunningIngesterReceiveDelayTooHigh
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in "running" phase is too far behind in its consumption of write requests from Kafka.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrunningingesterreceivedelaytoohigh
+    expr: |
+      (
+        sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_sum{phase="running"}[1m]))
+        /
+        sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_receive_delay_seconds_count{phase="running"}[1m]))
+      ) > (10 * 60)
+    for: 5m
+    labels:
+      severity: critical
+  - alert: MetricIngesterFailsToProcessRecordsFromKafka
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to consume write requests read from Kafka due to internal errors.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailstoprocessrecordsfromkafka
+    expr: |
+      sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_records_failed_total{cause="server"}[1m])) > 0
+    for: 5m
+    labels:
+      severity: critical
+  - alert: MetricIngesterFailsEnforceStrongConsistencyOnReadPath
+    annotations:
+      message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to enforce strong-consistency on read-path.
+      runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailsenforcestrongconsistencyonreadpath
+    expr: |
+      sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_strong_consistency_failures_total[1m])) > 0
+    for: 5m
+    labels:
+      severity: critical
 - name: mimir_continuous_test
   rules:
   - alert: MetricContinuousTestNotRunningOnWrites
