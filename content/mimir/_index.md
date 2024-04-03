@@ -67,23 +67,6 @@ labels:
   severity: warning
 {{< /code >}}
  
-##### MetricQueriesIncorrect
-
-{{< code lang="yaml" >}}
-alert: MetricQueriesIncorrect
-annotations:
-  message: |
-    The Metric cluster {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ printf "%.2f" $value }}% incorrect query results.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricqueriesincorrect
-expr: |
-  100 * sum by (cluster, namespace) (rate(test_exporter_test_case_result_total{result="fail"}[5m]))
-    /
-  sum by (cluster, namespace) (rate(test_exporter_test_case_result_total[5m])) > 1
-for: 15m
-labels:
-  severity: warning
-{{< /code >}}
- 
 ##### MetricInconsistentRuntimeConfig
 
 {{< code lang="yaml" >}}
@@ -2459,6 +2442,7 @@ record: cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m
 - [mimir-reads-networking](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-reads-networking.json)
 - [mimir-reads-resources](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-reads-resources.json)
 - [mimir-reads](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-reads.json)
+- [mimir-remote-ruler-reads-networking](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-remote-ruler-reads-networking.json)
 - [mimir-remote-ruler-reads-resources](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-remote-ruler-reads-resources.json)
 - [mimir-remote-ruler-reads](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-remote-ruler-reads.json)
 - [mimir-rollout-progress](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-rollout-progress.json)
