@@ -359,9 +359,9 @@
          "targets": [
             {
                "datasource": "${datasource}",
-               "expr": "sum by (component_id) (rate(agent_component_evaluation_slow_seconds{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))\n/ scalar(sum(rate(agent_component_evaluation_seconds_sum{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])))\n",
+               "expr": "sum by (component_path, component_id) (rate(agent_component_evaluation_slow_seconds{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval]))\n/ scalar(sum(rate(agent_component_evaluation_seconds_sum{cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])))\n",
                "instant": false,
-               "legendFormat": "{{component_id}}",
+               "legendFormat": "{{component path}} {{component_id}}",
                "range": true
             }
          ],

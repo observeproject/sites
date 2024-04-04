@@ -93,7 +93,7 @@ for: 5m
 alert: SlowComponentEvaluations
 annotations:
   message: Flow component evaluations are taking too long.
-expr: sum by (cluster, namespace, component_id) (rate(agent_component_evaluation_slow_seconds[10m])) > 0
+expr: sum by (cluster, namespace, component_path, component_id) (rate(agent_component_evaluation_slow_seconds[10m])) > 0
 for: 15m
 {{< /code >}}
  
