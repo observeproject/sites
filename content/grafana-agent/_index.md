@@ -107,6 +107,28 @@ expr: sum by (cluster, namespace) (agent_component_controller_running_components
 for: 15m
 {{< /code >}}
  
+### otelcol
+
+##### OtelcolReceiverRefusedSpans
+
+{{< code lang="yaml" >}}
+alert: OtelcolReceiverRefusedSpans
+annotations:
+  message: The receiver could not push some spans to the pipeline.
+expr: sum(rate(receiver_refused_spans_ratio_total{}[1m])) > 0
+for: 5m
+{{< /code >}}
+ 
+##### OtelcolExporterFailedSpans
+
+{{< code lang="yaml" >}}
+alert: OtelcolExporterFailedSpans
+annotations:
+  message: The exporter failed to send spans to their destination.
+expr: sum(rate(exporter_send_failed_spans_ratio_total{}[1m])) > 0
+for: 5m
+{{< /code >}}
+ 
 ## Dashboards
 仪表盘配置文件下载地址:
 
