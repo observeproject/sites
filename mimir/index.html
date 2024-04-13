@@ -12,18 +12,22 @@ Copy</button></div><div id=clipboard_2844fa4976><div class=highlight><pre tabind
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
-</span></span></code></pre></div></div></div><h5 id=metricrequesterrors>MetricRequestErrors</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_4ea569619c>
-Copy</button></div><div id=clipboard_4ea569619c><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
+</span></span></code></pre></div></div></div><h5 id=metricrequesterrors>MetricRequestErrors</h5><div class=position-relative><div class=position-absolute style=right:0><button class="btn btn-light" data-clipboard-target=#clipboard_76f3f86aae>
+Copy</button></div><div id=clipboard_76f3f86aae><div class=highlight><pre tabindex=0 style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#f92672>alert</span><span style=color:#111>:</span> <span style=color:#ae81ff>MetricRequestErrors</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>annotations</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>message</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
 </span></span></span><span style=display:flex><span><span style=color:#d88200>    The route {{ $labels.route }} in {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ printf &#34;%.2f&#34; $value }}% errors.</span>    
 </span></span><span style=display:flex><span>  <span style=color:#f92672>runbook_url</span><span style=color:#111>:</span> <span style=color:#ae81ff>https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrequesterrors</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>expr</span><span style=color:#111>:</span> <span style=color:#111>|</span><span style=color:#d88200>
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  100 * sum by (cluster, namespace, job, route) (rate(cortex_request_duration_seconds_count{status_code=~&#34;5..&#34;,route!~&#34;ready|debug_pprof&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  # The following 5xx errors considered as non-error:
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  # - 529: used by distributor rate limiting (using 529 instead of 429 to let the client retry)
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  # - 598: used by GEM gateway when the client is very slow to send the request and the gateway times out reading the request body
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  (
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    sum by (cluster, namespace, job, route) (rate(cortex_request_duration_seconds_count{status_code=~&#34;5..&#34;,status_code!~&#34;529|598&#34;,route!~&#34;ready|debug_pprof&#34;}[1m]))
 </span></span></span><span style=display:flex><span><span style=color:#d88200>    /
-</span></span></span><span style=display:flex><span><span style=color:#d88200>  sum by (cluster, namespace, job, route) (rate(cortex_request_duration_seconds_count{route!~&#34;ready|debug_pprof&#34;}[1m]))
-</span></span></span><span style=display:flex><span><span style=color:#d88200>    &gt; 1</span>  
+</span></span></span><span style=display:flex><span><span style=color:#d88200>    sum by (cluster, namespace, job, route) (rate(cortex_request_duration_seconds_count{route!~&#34;ready|debug_pprof&#34;}[1m]))
+</span></span></span><span style=display:flex><span><span style=color:#d88200>  ) * 100 &gt; 1</span>  
 </span></span><span style=display:flex><span><span style=color:#f92672>for</span><span style=color:#111>:</span> <span style=color:#ae81ff>15m</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>labels</span><span style=color:#111>:</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>severity</span><span style=color:#111>:</span> <span style=color:#ae81ff>critical</span>
