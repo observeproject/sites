@@ -23,8 +23,9 @@ Jsonnet 源码地址：[github.com/grafana/loki](https://github.com/grafana/loki
 {{< code lang="yaml" >}}
 alert: LokiRequestErrors
 annotations:
-  message: |
+  description: |
     {{ $labels.job }} {{ $labels.route }} is experiencing {{ printf "%.2f" $value }}% errors.
+  summary: Loki request error rate is high.
 expr: |
   100 * sum(rate(loki_request_duration_seconds_count{status_code=~"5.."}[2m])) by (namespace, job, route)
     /
@@ -40,8 +41,9 @@ labels:
 {{< code lang="yaml" >}}
 alert: LokiRequestPanics
 annotations:
-  message: |
+  description: |
     {{ $labels.job }} is experiencing {{ printf "%.2f" $value }}% increase of panics.
+  summary: Loki requests are causing code panics.
 expr: |
   sum(increase(loki_panic_total[10m])) by (namespace, job) > 0
 labels:
@@ -53,8 +55,9 @@ labels:
 {{< code lang="yaml" >}}
 alert: LokiRequestLatency
 annotations:
-  message: |
+  description: |
     {{ $labels.job }} {{ $labels.route }} is experiencing {{ printf "%.2f" $value }}s 99th percentile latency.
+  summary: Loki request error latency is high.
 expr: |
   cluster_namespace_job_route:loki_request_duration_seconds:99quantile{route!~"(?i).*tail.*|/schedulerpb.SchedulerForQuerier/QuerierLoop"} > 1
 for: 15m
@@ -67,8 +70,9 @@ labels:
 {{< code lang="yaml" >}}
 alert: LokiTooManyCompactorsRunning
 annotations:
-  message: |
+  description: |
     {{ $labels.cluster }} {{ $labels.namespace }} has had {{ printf "%.0f" $value }} compactors running for more than 5m. Only one compactor should run at a time.
+  summary: Loki deployment is running more than one compactor.
 expr: |
   sum(loki_boltdb_shipper_compactor_running) by (namespace, cluster) > 1
 for: 5m
