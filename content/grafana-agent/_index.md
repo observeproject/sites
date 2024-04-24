@@ -115,7 +115,7 @@ for: 15m
 alert: OtelcolReceiverRefusedSpans
 annotations:
   message: The receiver could not push some spans to the pipeline.
-expr: sum(rate(receiver_refused_spans_ratio_total{}[1m])) > 0
+expr: sum by (cluster, namespace) (rate(receiver_refused_spans_ratio_total{}[1m])) > 0
 for: 5m
 {{< /code >}}
  
@@ -125,7 +125,7 @@ for: 5m
 alert: OtelcolExporterFailedSpans
 annotations:
   message: The exporter failed to send spans to their destination.
-expr: sum(rate(exporter_send_failed_spans_ratio_total{}[1m])) > 0
+expr: sum by (cluster, namespace) (rate(exporter_send_failed_spans_ratio_total{}[1m])) > 0
 for: 5m
 {{< /code >}}
  
