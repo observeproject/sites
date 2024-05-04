@@ -218,6 +218,8 @@ record: cluster_namespace_job_route:loki_request_duration_seconds_count:sum_rate
 仪表盘配置文件下载地址:
 
 
+- [loki-bloom-compactor](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-bloom-compactor.json)
+- [loki-bloom-gateway](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-bloom-gateway.json)
 - [loki-chunks](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-chunks.json)
 - [loki-deletion](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-deletion.json)
 - [loki-logs](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-logs.json)
