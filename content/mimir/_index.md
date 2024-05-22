@@ -1378,6 +1378,24 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricIngesterStuckProcessingRecordsFromKafka
+
+{{< code lang="yaml" >}}
+alert: MetricIngesterStuckProcessingRecordsFromKafka
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is stuck processing write requests from Kafka.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterstuckprocessingrecordsfromkafka
+expr: |
+  # Alert if the reader is not processing any records, but there buffered records to process in the Kafka client.
+  (sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_reader_records_total[5m])) == 0)
+  and
+  # NOTE: the cortex_ingest_storage_reader_buffered_fetch_records_total metric is a gauge showing the current number of buffered records.
+  (sum by (cluster, namespace, pod) (cortex_ingest_storage_reader_buffered_fetch_records_total) > 0)
+for: 5m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### MetricIngesterFailsEnforceStrongConsistencyOnReadPath
 
 {{< code lang="yaml" >}}
