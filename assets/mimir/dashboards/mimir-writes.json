@@ -2441,7 +2441,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Ingester - shipper",
+         "title": "Ingester – shipper",
          "titleSize": "h6"
       },
       {
@@ -2619,7 +2619,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Ingester - TSDB head",
+         "title": "Ingester – TSDB head",
          "titleSize": "h6"
       },
       {
@@ -2939,7 +2939,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Ingester - TSDB write ahead log (WAL)",
+         "title": "Ingester – TSDB write ahead log (WAL)",
          "titleSize": "h6"
       },
       {
