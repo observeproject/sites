@@ -294,7 +294,7 @@ labels:
 {{< code lang="yaml" >}}
 alert: MetricStoreGatewayTooManyFailedOperations
 annotations:
-  message: Metric store-gateway {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ $value | humanizePercentage }} errors while doing {{ $labels.operation }} on the object storage.
+  message: Metric store-gateway in {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing {{ $value | humanizePercentage }} errors while doing {{ $labels.operation }} on the object storage.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstoregatewaytoomanyfailedoperations
 expr: |
   sum by(cluster, namespace, operation) (rate(thanos_objstore_bucket_operation_failures_total{component="store-gateway"}[1m])) > 0
@@ -1015,7 +1015,7 @@ labels:
 {{< code lang="yaml" >}}
 alert: MetricIngesterTSDBWALCorrupted
 annotations:
-  message: Metric Ingester {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} got a corrupted TSDB WAL.
+  message: Metric Ingester in {{ $labels.cluster }}/{{ $labels.namespace }} got a corrupted TSDB WAL.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingestertsdbwalcorrupted
 expr: |
   # alert when there are more than one corruptions
@@ -1033,7 +1033,7 @@ labels:
 {{< code lang="yaml" >}}
 alert: MetricIngesterTSDBWALCorrupted
 annotations:
-  message: Metric Ingester {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} got a corrupted TSDB WAL.
+  message: Metric Ingester in {{ $labels.cluster }}/{{ $labels.namespace }} got a corrupted TSDB WAL.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingestertsdbwalcorrupted
 expr: |
   # alert when there are more than one corruptions
