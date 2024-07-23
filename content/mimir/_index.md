@@ -1171,6 +1171,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricCompactorHasRunOutOfDiskSpace
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorHasRunOutOfDiskSpace
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has run out of disk space.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorhasrunoutofdiskspace
+expr: |
+  increase(cortex_compactor_disk_out_of_space_errors_total{}[24h]) >= 1
+labels:
+  reason: non-transient
+  severity: critical
+{{< /code >}}
+ 
 ##### MetricCompactorHasNotUploadedBlocks
 
 {{< code lang="yaml" >}}
