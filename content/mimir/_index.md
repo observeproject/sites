@@ -1443,18 +1443,35 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricIngesterFailsEnforceStrongConsistencyOnReadPath
+##### MetricStrongConsistencyEnforcementFailed
 
 {{< code lang="yaml" >}}
-alert: MetricIngesterFailsEnforceStrongConsistencyOnReadPath
+alert: MetricStrongConsistencyEnforcementFailed
 annotations:
   message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to enforce strong-consistency on read-path.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingesterfailsenforcestrongconsistencyonreadpath
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstrongconsistencyenforcementfailed
 expr: |
   sum by (cluster, namespace, pod) (rate(cortex_ingest_storage_strong_consistency_failures_total[1m])) > 0
 for: 5m
 labels:
   severity: critical
+{{< /code >}}
+ 
+##### MetricStrongConsistencyOffsetNotPropagatedToIngesters
+
+{{< code lang="yaml" >}}
+alert: MetricStrongConsistencyOffsetNotPropagatedToIngesters
+annotations:
+  message: Metric ingesters in {{ $labels.cluster }}/{{ $labels.namespace }} are receiving an unexpected high number of strongly consistent requests without an offset specified.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstrongconsistencyoffsetnotpropagatedtoingesters
+expr: |
+  sum by (cluster, namespace) (rate(cortex_ingest_storage_strong_consistency_requests_total{component="partition-reader", with_offset="false"}[1m]))
+  /
+  sum by (cluster, namespace) (rate(cortex_ingest_storage_strong_consistency_requests_total{component="partition-reader"}[1m]))
+  * 100 > 5
+for: 5m
+labels:
+  severity: warning
 {{< /code >}}
  
 ##### MetricKafkaClientBufferedProduceBytesTooHigh
