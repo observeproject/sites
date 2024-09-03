@@ -1789,7 +1789,7 @@ expr: |
 record: node_namespace_pod_container:container_memory_swap
 {{< /code >}}
  
-### k8s.rules.container_resource
+### k8s.rules.container_memory_requests
 
 ##### cluster:namespace:pod_memory:active:kube_pod_container_resource_requests
 
@@ -1818,6 +1818,8 @@ expr: |
 record: namespace_memory:kube_pod_container_resource_requests:sum
 {{< /code >}}
  
+### k8s.rules.container_cpu_requests
+
 ##### cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests
 
 {{< code lang="yaml" >}}
@@ -1845,6 +1847,8 @@ expr: |
 record: namespace_cpu:kube_pod_container_resource_requests:sum
 {{< /code >}}
  
+### k8s.rules.container_memory_limits
+
 ##### cluster:namespace:pod_memory:active:kube_pod_container_resource_limits
 
 {{< code lang="yaml" >}}
@@ -1872,6 +1876,8 @@ expr: |
 record: namespace_memory:kube_pod_container_resource_limits:sum
 {{< /code >}}
  
+### k8s.rules.container_cpu_limits
+
 ##### cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits
 
 {{< code lang="yaml" >}}
