@@ -168,7 +168,7 @@ annotations:
   summary: StatefulSet update has not been rolled out.
 expr: |
   (
-    max by(namespace, statefulset) (
+    max by(namespace, statefulset, job, cluster) (
       kube_statefulset_status_current_revision{job="kube-state-metrics"}
         unless
       kube_statefulset_status_update_revision{job="kube-state-metrics"}
