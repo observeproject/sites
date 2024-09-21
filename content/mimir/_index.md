@@ -737,6 +737,60 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricGossipMembersEndpointsOutOfSync
+
+{{< code lang="yaml" >}}
+alert: MetricGossipMembersEndpointsOutOfSync
+annotations:
+  message: Metric gossip-ring service endpoints list in {{ $labels.cluster }}/{{ $labels.namespace }} is out of sync.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricgossipmembersendpointsoutofsync
+expr: |
+  (
+    count by(cluster, namespace) (
+      kube_endpoint_address{endpoint="gossip-ring"}
+      unless on (cluster, namespace, ip)
+      label_replace(kube_pod_info, "ip", "$1", "pod_ip", "(.*)"))
+    /
+    count by(cluster, namespace) (
+      kube_endpoint_address{endpoint="gossip-ring"}
+    )
+    * 100 > 10
+  )
+
+  # Filter by Mimir only.
+  and (count by(cluster, namespace) (cortex_build_info) > 0)
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricGossipMembersEndpointsOutOfSync
+
+{{< code lang="yaml" >}}
+alert: MetricGossipMembersEndpointsOutOfSync
+annotations:
+  message: Metric gossip-ring service endpoints list in {{ $labels.cluster }}/{{ $labels.namespace }} is out of sync.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricgossipmembersendpointsoutofsync
+expr: |
+  (
+    count by(cluster, namespace) (
+      kube_endpoint_address{endpoint="gossip-ring"}
+      unless on (cluster, namespace, ip)
+      label_replace(kube_pod_info, "ip", "$1", "pod_ip", "(.*)"))
+    /
+    count by(cluster, namespace) (
+      kube_endpoint_address{endpoint="gossip-ring"}
+    )
+    * 100 > 50
+  )
+
+  # Filter by Mimir only.
+  and (count by(cluster, namespace) (cortex_build_info) > 0)
+for: 5m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### etcd_alerts
 
 ##### EtcdAllocatingTooMuchMemory
