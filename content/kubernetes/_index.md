@@ -684,9 +684,9 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
   summary: The API server is burning too much error budget.
 expr: |
-  sum(apiserver_request:burnrate1h) > (14.40 * 0.01000)
-  and
-  sum(apiserver_request:burnrate5m) > (14.40 * 0.01000)
+  sum by(cluster) (apiserver_request:burnrate1h) > (14.40 * 0.01000)
+  and on(cluster)
+  sum by(cluster) (apiserver_request:burnrate5m) > (14.40 * 0.01000)
 for: 2m
 labels:
   long: 1h
@@ -704,9 +704,9 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
   summary: The API server is burning too much error budget.
 expr: |
-  sum(apiserver_request:burnrate6h) > (6.00 * 0.01000)
-  and
-  sum(apiserver_request:burnrate30m) > (6.00 * 0.01000)
+  sum by(cluster) (apiserver_request:burnrate6h) > (6.00 * 0.01000)
+  and on(cluster)
+  sum by(cluster) (apiserver_request:burnrate30m) > (6.00 * 0.01000)
 for: 15m
 labels:
   long: 6h
@@ -724,9 +724,9 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
   summary: The API server is burning too much error budget.
 expr: |
-  sum(apiserver_request:burnrate1d) > (3.00 * 0.01000)
-  and
-  sum(apiserver_request:burnrate2h) > (3.00 * 0.01000)
+  sum by(cluster) (apiserver_request:burnrate1d) > (3.00 * 0.01000)
+  and on(cluster)
+  sum by(cluster) (apiserver_request:burnrate2h) > (3.00 * 0.01000)
 for: 1h
 labels:
   long: 1d
@@ -744,9 +744,9 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
   summary: The API server is burning too much error budget.
 expr: |
-  sum(apiserver_request:burnrate3d) > (1.00 * 0.01000)
-  and
-  sum(apiserver_request:burnrate6h) > (1.00 * 0.01000)
+  sum by(cluster) (apiserver_request:burnrate3d) > (1.00 * 0.01000)
+  and on(cluster)
+  sum by(cluster) (apiserver_request:burnrate6h) > (1.00 * 0.01000)
 for: 3h
 labels:
   long: 3d
@@ -766,7 +766,7 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration
   summary: Client certificate is about to expire.
 expr: |
-  apiserver_client_certificate_expiration_seconds_count{job="kube-apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="kube-apiserver"}[5m]))) < 604800
+  apiserver_client_certificate_expiration_seconds_count{job="kube-apiserver"} > 0 and on(cluster, job) histogram_quantile(0.01, sum by (cluster, job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="kube-apiserver"}[5m]))) < 604800
 for: 5m
 labels:
   severity: warning
@@ -782,7 +782,7 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration
   summary: Client certificate is about to expire.
 expr: |
-  apiserver_client_certificate_expiration_seconds_count{job="kube-apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="kube-apiserver"}[5m]))) < 86400
+  apiserver_client_certificate_expiration_seconds_count{job="kube-apiserver"} > 0 and on(cluster, job) histogram_quantile(0.01, sum by (cluster, job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="kube-apiserver"}[5m]))) < 86400
 for: 5m
 labels:
   severity: critical
@@ -845,7 +845,7 @@ annotations:
   runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapiterminatedrequests
   summary: The kubernetes apiserver has terminated {{ $value | humanizePercentage }} of its incoming requests.
 expr: |
-  sum(rate(apiserver_request_terminations_total{job="kube-apiserver"}[10m]))  / (  sum(rate(apiserver_request_total{job="kube-apiserver"}[10m])) + sum(rate(apiserver_request_terminations_total{job="kube-apiserver"}[10m])) ) > 0.20
+  sum by(cluster) (rate(apiserver_request_terminations_total{job="kube-apiserver"}[10m])) / ( sum by(cluster) (rate(apiserver_request_total{job="kube-apiserver"}[10m])) + sum by(cluster) (rate(apiserver_request_terminations_total{job="kube-apiserver"}[10m])) ) > 0.20
 for: 5m
 labels:
   severity: warning
