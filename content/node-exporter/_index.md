@@ -564,5 +564,6 @@ record: instance:node_network_transmit_drop_excluding_lo:rate5m
 
 - [node-cluster-rsrc-use](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/node-cluster-rsrc-use.json)
 - [node-rsrc-use](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/node-rsrc-use.json)
+- [nodes-aix](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/nodes-aix.json)
 - [nodes-darwin](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/nodes-darwin.json)
 - [nodes](https://github.com/observeproject/sites/blob/main/assets/node-exporter/dashboards/nodes.json)
