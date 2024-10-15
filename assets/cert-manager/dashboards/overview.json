@@ -160,7 +160,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "sum by (condition) (certmanager_certificate_ready_status{ })",
+               "expr": "sum by (condition) (certmanager_certificate_ready_status{})",
                "interval": "",
                "legendFormat": "{{ condition }}",
                "refId": "A"
@@ -228,7 +228,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "min(certmanager_certificate_expiration_timestamp_seconds{ } > 0) - time()",
+               "expr": "min(certmanager_certificate_expiration_timestamp_seconds{} > 0) - time()",
                "hide": false,
                "instant": true,
                "interval": "",
@@ -359,7 +359,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "label_join(avg by (name, namespace, condition, exported_namespace) (certmanager_certificate_ready_status{ } == 1), \"namespaced_name\", \"-\", \"namespace\", \"exported_namespace\", \"name\")",
+               "expr": "label_join(avg by (name, namespace, condition, exported_namespace) (certmanager_certificate_ready_status{} == 1), \"namespaced_name\", \"-\", \"namespace\", \"exported_namespace\", \"name\")",
                "format": "table",
                "instant": true,
                "interval": "",
@@ -370,7 +370,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "label_join(avg by (name, namespace, exported_namespace) (certmanager_certificate_expiration_timestamp_seconds{ }) * 1000, \"namespaced_name\", \"-\", \"namespace\", \"exported_namespace\", \"name\")",
+               "expr": "label_join(avg by (name, namespace, exported_namespace) (certmanager_certificate_expiration_timestamp_seconds{}) * 1000, \"namespaced_name\", \"-\", \"namespace\", \"exported_namespace\", \"name\")",
                "format": "table",
                "instant": true,
                "interval": "",
@@ -522,7 +522,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "sum by (controller) (\n  rate(certmanager_controller_sync_call_count{ }[$__rate_interval ])\n)",
+               "expr": "sum by (controller) (\n  rate(certmanager_controller_sync_call_count{}[$__rate_interval ])\n)",
                "interval": "",
                "legendFormat": "{{ controller }}",
                "refId": "A"
@@ -641,7 +641,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "sum by (method, path, status) (\n  rate(certmanager_http_acme_client_request_count{ }[$__rate_interval ])\n)",
+               "expr": "sum by (method, path, status) (\n  rate(certmanager_http_acme_client_request_count{}[$__rate_interval ])\n)",
                "interval": "",
                "legendFormat": "{{ method }} {{ path }} {{ status }}",
                "refId": "A"
@@ -760,7 +760,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "sum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_sum{ }[$__rate_interval ]))\n/\nsum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_count{ }[$__rate_interval ]))",
+               "expr": "sum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_sum{}[$__rate_interval ]))\n/\nsum by (method, path, status) (rate(certmanager_http_acme_client_request_duration_seconds_count{}[$__rate_interval ]))",
                "interval": "",
                "legendFormat": "{{ method }} {{ path }} {{ status }}",
                "refId": "A"
@@ -940,7 +940,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (rate(container_cpu_usage_seconds_total{container=\"cert-manager\" }[$__rate_interval ]))",
+               "expr": "avg by (pod) (rate(container_cpu_usage_seconds_total{container=\"cert-manager\"}[$__rate_interval ]))",
                "format": "time_series",
                "hide": false,
                "interval": "",
@@ -952,7 +952,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (kube_pod_container_resource_limits_cpu_cores{container=\"cert-manager\" })",
+               "expr": "avg by (pod) (kube_pod_container_resource_limits_cpu_cores{container=\"cert-manager\"})",
                "format": "time_series",
                "hide": true,
                "interval": "",
@@ -964,7 +964,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (kube_pod_container_resource_requests_cpu_cores{container=\"cert-manager\" })",
+               "expr": "avg by (pod) (kube_pod_container_resource_requests_cpu_cores{container=\"cert-manager\"})",
                "format": "time_series",
                "hide": true,
                "interval": "",
@@ -1097,7 +1097,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (\n  rate(container_cpu_cfs_throttled_periods_total{container=\"cert-manager\" }[$__rate_interval ])\n  /\n  rate(container_cpu_cfs_periods_total{container=\"cert-manager\" }[$__rate_interval ])\n)",
+               "expr": "avg by (pod) (\n  rate(container_cpu_cfs_throttled_periods_total{container=\"cert-manager\"}[$__rate_interval ])\n  /\n  rate(container_cpu_cfs_periods_total{container=\"cert-manager\"}[$__rate_interval ])\n)",
                "format": "time_series",
                "hide": false,
                "interval": "",
@@ -1280,7 +1280,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (container_memory_usage_bytes{container=\"cert-manager\" })",
+               "expr": "avg by (pod) (container_memory_usage_bytes{container=\"cert-manager\"})",
                "format": "time_series",
                "hide": false,
                "interval": "",
@@ -1292,7 +1292,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (kube_pod_container_resource_limits_memory_bytes{container=\"cert-manager\" })",
+               "expr": "avg by (pod) (kube_pod_container_resource_limits_memory_bytes{container=\"cert-manager\"})",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -1303,7 +1303,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg by (pod) (kube_pod_container_resource_requests_memory_bytes{container=\"cert-manager\" })",
+               "expr": "avg by (pod) (kube_pod_container_resource_requests_memory_bytes{container=\"cert-manager\"})",
                "format": "time_series",
                "interval": "",
                "intervalFactor": 1,
@@ -1429,7 +1429,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg(\n  sum without (interface) (\n    rate(container_network_receive_bytes_total{namespace=\"cert-manager\" }[$__rate_interval ])\n  )\n)",
+               "expr": "avg(\n  sum without (interface) (\n    rate(container_network_receive_bytes_total{namespace=\"cert-manager\"}[$__rate_interval ])\n  )\n)",
                "format": "time_series",
                "hide": false,
                "interval": "",
@@ -1441,7 +1441,7 @@
                "datasource": {
                   "uid": "$datasource"
                },
-               "expr": "avg(\n  sum without (interface) (\n    rate(container_network_transmit_bytes_total{namespace=\"cert-manager\" }[$__rate_interval ])\n  )\n)",
+               "expr": "avg(\n  sum without (interface) (\n    rate(container_network_transmit_bytes_total{namespace=\"cert-manager\"}[$__rate_interval ])\n  )\n)",
                "format": "time_series",
                "hide": false,
                "interval": "",
@@ -1494,7 +1494,7 @@
             "name": "cluster",
             "options": [ ],
             "query": {
-               "query": "label_values(certmanager_certificate_ready_status{ }, cluster)",
+               "query": "label_values(certmanager_certificate_ready_status{}, cluster)",
                "refId": "Prometheus-cluster-Variable-Query"
             },
             "refresh": 2,
