@@ -1153,22 +1153,6 @@ labels:
 record: code:apiserver_request_total:increase30d
 {{< /code >}}
  
-##### cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase1h
-
-{{< code lang="yaml" >}}
-expr: |
-  sum by (cluster, verb, scope) (increase(apiserver_request_sli_duration_seconds_count{job="kube-apiserver"}[1h]))
-record: cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase1h
-{{< /code >}}
- 
-##### cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase30d
-
-{{< code lang="yaml" >}}
-expr: |
-  sum by (cluster, verb, scope) (avg_over_time(cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase1h[30d]) * 24 * 30)
-record: cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase30d
-{{< /code >}}
- 
 ##### cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:increase1h
 
 {{< code lang="yaml" >}}
@@ -1183,6 +1167,22 @@ record: cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:incr
 expr: |
   sum by (cluster, verb, scope, le) (avg_over_time(cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:increase1h[30d]) * 24 * 30)
 record: cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:increase30d
+{{< /code >}}
+ 
+##### cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase1h
+
+{{< code lang="yaml" >}}
+expr: |
+  sum by (cluster, verb, scope) (cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:increase1h{le="+Inf"})
+record: cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase1h
+{{< /code >}}
+ 
+##### cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase30d
+
+{{< code lang="yaml" >}}
+expr: |
+  sum by (cluster, verb, scope) (cluster_verb_scope_le:apiserver_request_sli_duration_seconds_bucket:increase30d{le="+Inf"} * 24 * 30)
+record: cluster_verb_scope:apiserver_request_sli_duration_seconds_count:increase30d
 {{< /code >}}
  
 ##### apiserver_request:availability30d
