@@ -167,14 +167,10 @@ annotations:
 expr: |
   (
     sum by(cluster, namespace, name, operation) (
-      rate(thanos_memcached_operation_failures_total{operation!="add"}[1m])
-      or
       rate(thanos_cache_operation_failures_total{operation!="add"}[1m])
     )
     /
     sum by(cluster, namespace, name, operation) (
-      rate(thanos_memcached_operations_total{operation!="add"}[1m])
-      or
       rate(thanos_cache_operations_total{operation!="add"}[1m])
     )
   ) * 100 > 5
