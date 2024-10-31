@@ -1603,6 +1603,48 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricBlockBuilderNoCycleProcessing
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderNoCycleProcessing
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not processed cycles in the past hour.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildernocycleprocessing
+expr: |
+  max by(cluster, namespace, pod) (histogram_count(increase(cortex_blockbuilder_consume_cycle_duration_seconds[60m]))) == 0
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricBlockBuilderLagging
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderLagging
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}%.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderlagging
+expr: |
+  max by(cluster, namespace, pod) (max_over_time(cortex_blockbuilder_consumer_lag_records[10m])) > 4e6
+for: 75m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricBlockBuilderCompactAndUploadFailed
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderCompactAndUploadFailed
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} fails to compact and upload blocks.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildercompactanduploadfailed
+expr: |
+  sum by (cluster, namespace, pod) (rate(cortex_blockbuilder_tsdb_compact_and_upload_failed_total[1m])) > 0
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MetricContinuousTestNotRunningOnWrites
