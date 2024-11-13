@@ -71,7 +71,7 @@ annotations:
 expr: |
   sum by (cluster, namespace) (increase(tempodb_compaction_errors_total{}[1h])) > 2 and
   sum by (cluster, namespace) (increase(tempodb_compaction_errors_total{}[5m])) > 0
-for: 5m
+for: 1h
 labels:
   severity: critical
 {{< /code >}}
