@@ -1558,6 +1558,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricIngesterMissedRecordsFromKafka
+
+{{< code lang="yaml" >}}
+alert: MetricIngesterMissedRecordsFromKafka
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} missed processing records from Kafka. There may be data loss.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricingestermissedrecordsfromkafka
+expr: |
+  # Alert if the ingester missed some records from Kafka.
+  increase(cortex_ingest_storage_reader_missed_records_total[10m]) > 0
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### MetricStrongConsistencyEnforcementFailed
 
 {{< code lang="yaml" >}}
