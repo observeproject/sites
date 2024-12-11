@@ -673,13 +673,13 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n < ($latency_metrics * +Inf)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n < ($latency_metrics * -Inf)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A"
@@ -728,37 +728,37 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3 < ($latency_metrics * +Inf)",
+                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3 < ($latency_metrics * -Inf)",
+                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_native"
                   },
                   {
-                     "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3 < ($latency_metrics * +Inf)",
+                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_classic"
                   },
                   {
-                     "expr": "histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3 < ($latency_metrics * -Inf)",
+                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_native"
                   },
                   {
-                     "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})\n < ($latency_metrics * +Inf)",
+                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_classic"
                   },
                   {
-                     "expr": "1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))\n < ($latency_metrics * -Inf)",
+                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_native"
@@ -806,13 +806,13 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "histogram_quantile(0.99, sum by (le,route) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) < ($latency_metrics * +Inf)",
+                     "expr": "(histogram_quantile(0.99, sum by (le,route) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "{{ route }}",
                      "legendLink": null
                   },
                   {
-                     "expr": "histogram_quantile(0.99, sum by (route) (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"})) < ($latency_metrics * -Inf)",
+                     "expr": "(histogram_quantile(0.99, sum by (route) (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"((api_prom_api_v1|prometheus_api_v1)_(rules|alerts|status_buildinfo))|((api_prom|api_v1|prometheus|prometheus_config_v1)_rules.*)\"}))) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "{{ route }}",
                      "legendLink": null
