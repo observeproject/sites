@@ -133,7 +133,7 @@ groups:
       severity: warning
   - alert: NodeHighNumberConntrackEntriesUsed
     annotations:
-      description: '{{ $value | humanizePercentage }} of conntrack entries are used.'
+      description: '{{ $labels.instance }} {{ $value | humanizePercentage }} of conntrack entries are used.'
       summary: Number of conntrack are getting close to the limit.
     expr: |
       (node_nf_conntrack_entries{job="node_exporter"} / node_nf_conntrack_entries_limit) > 0.75
