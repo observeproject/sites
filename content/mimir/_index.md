@@ -715,7 +715,7 @@ annotations:
 expr: |
   max by (cluster, namespace) (memberlist_client_cluster_members_count)
   >
-  (sum by (cluster, namespace) (up{job=~".*/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)"}) + 10)
+  (sum by (cluster, namespace) (up{job=~".*/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|query-frontend.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)"}) + 10)
 for: 20m
 labels:
   severity: warning
@@ -731,7 +731,7 @@ annotations:
 expr: |
   min by (cluster, namespace) (memberlist_client_cluster_members_count)
   <
-  (sum by (cluster, namespace) (up{job=~".+/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)"}) * 0.5)
+  (sum by (cluster, namespace) (up{job=~".+/(admin-api|alertmanager|compactor.*|distributor.*|ingester.*|query-frontend.*|querier.*|ruler|ruler-querier.*|store-gateway.*|cortex|mimir|mimir-write.*|mimir-read.*|mimir-backend.*)"}) * 0.5)
 for: 20m
 labels:
   severity: warning
