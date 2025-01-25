@@ -1629,7 +1629,21 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildernocycleprocessing
 expr: |
   max by(cluster, namespace, pod) (histogram_count(increase(cortex_blockbuilder_consume_cycle_duration_seconds[60m]))) == 0
-for: 5m
+for: 20m
+labels:
+  severity: critical
+{{< /code >}}
+ 
+##### MetricBlockBuilderLagging
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderLagging
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderlagging
+expr: |
+  max by(cluster, namespace, pod) (max_over_time(cortex_blockbuilder_consumer_lag_records[10m])) > 4e6
+for: 75m
 labels:
   severity: warning
 {{< /code >}}
@@ -1639,13 +1653,13 @@ labels:
 {{< code lang="yaml" >}}
 alert: MetricBlockBuilderLagging
 annotations:
-  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}%.
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderlagging
 expr: |
   max by(cluster, namespace, pod) (max_over_time(cortex_blockbuilder_consumer_lag_records[10m])) > 4e6
-for: 75m
+for: 140m
 labels:
-  severity: warning
+  severity: critical
 {{< /code >}}
  
 ##### MetricBlockBuilderCompactAndUploadFailed
@@ -1657,9 +1671,8 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildercompactanduploadfailed
 expr: |
   sum by (cluster, namespace, pod) (rate(cortex_blockbuilder_tsdb_compact_and_upload_failed_total[1m])) > 0
-for: 5m
 labels:
-  severity: warning
+  severity: critical
 {{< /code >}}
  
 ### mimir_continuous_test
