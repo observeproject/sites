@@ -273,3 +273,4 @@ record: cluster_namespace_job_route:loki_request_duration_seconds_count:sum_rate
 - [loki-retention](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-retention.json)
 - [loki-writes-resources](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-writes-resources.json)
 - [loki-writes](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki-writes.json)
+- [loki_thanos_object_storage](https://github.com/observeproject/sites/blob/main/assets/loki/dashboards/loki_thanos_object_storage.json)
