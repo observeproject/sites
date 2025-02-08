@@ -2160,6 +2160,7 @@
          "panels": [
             {
                "datasource": "$datasource",
+               "description": "### Requests / sec\nThis panel shows ingester query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by ingesters.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2350,6 +2351,7 @@
             },
             {
                "datasource": "$datasource",
+               "description": "### Latency\nThis panel shows ingester query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by ingesters.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2429,6 +2431,7 @@
             },
             {
                "datasource": "$datasource",
+               "description": "### Per ingester pod p99 latency\nThis panel shows ingester query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by ingesters.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2481,7 +2484,7 @@
                      "legendLink": null
                   }
                ],
-               "title": "Per pod p99 latency",
+               "title": "Per ingester pod p99 latency",
                "type": "timeseries"
             }
          ],
@@ -2489,7 +2492,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Ingester",
+         "title": "Ingester - query requests from all sources",
          "titleSize": "h6"
       },
       {
@@ -2498,6 +2501,7 @@
          "panels": [
             {
                "datasource": "$datasource",
+               "description": "### Requests / sec\nThis panel shows ingester query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2671,13 +2675,13 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_ingester_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_ingester_client_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A"
@@ -2688,6 +2692,7 @@
             },
             {
                "datasource": "$datasource",
+               "description": "### Latency\nThis panel shows ingester query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2726,47 +2731,48 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "expr": "histogram_quantile(0.99, sum(rate(cortex_ingester_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
-                     "legendFormat": "99th percentile",
-                     "refId": "A_classic"
+                     "legendFormat": "99th Percentile",
+                     "refId": "A"
                   },
                   {
-                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "expr": "histogram_quantile(0.50, sum(rate(cortex_ingester_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])) by (le)) * 1e3",
                      "format": "time_series",
-                     "legendFormat": "99th percentile",
-                     "refId": "A_native"
+                     "legendFormat": "50th Percentile",
+                     "refId": "B"
                   },
                   {
-                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
-                     "format": "time_series",
-                     "legendFormat": "50th percentile",
-                     "refId": "B_classic"
-                  },
-                  {
-                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
-                     "format": "time_series",
-                     "legendFormat": "50th percentile",
-                     "refId": "B_native"
-                  },
-                  {
-                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "sum(rate(cortex_ingester_client_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_ingester_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval]))",
                      "format": "time_series",
                      "legendFormat": "Average",
-                     "refId": "C_classic"
-                  },
-                  {
-                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}))\n) and on() (vector($latency_metrics) == -1)",
-                     "format": "time_series",
-                     "legendFormat": "Average",
-                     "refId": "C_native"
+                     "refId": "C"
                   }
                ],
                "title": "Latency",
-               "type": "timeseries"
+               "type": "timeseries",
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
             },
             {
                "datasource": "$datasource",
+               "description": "### Per querier pod p99 latency\nThis panel shows ingester query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -2806,20 +2812,20 @@
                "targets": [
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_ingester_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
                   },
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_ingester_client_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/cortex.Ingester/(QueryStream|QueryExemplars|LabelValues|LabelNames|UserStats|AllUserStats|MetricsForLabelMatchers|MetricsMetadata|LabelNamesAndValues|LabelValuesCardinality|ActiveSeries)\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
                   }
                ],
-               "title": "Per pod p99 latency",
+               "title": "Per querier pod p99 latency",
                "type": "timeseries"
             }
          ],
@@ -2827,7 +2833,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Store-gateway",
+         "title": "Ingester - query requests from this query path only",
          "titleSize": "h6"
       },
       {
@@ -2836,6 +2842,7 @@
          "panels": [
             {
                "datasource": "$datasource",
+               "description": "### Requests / sec\nThis panel shows store-gateway query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by store-gateways.\n",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -3006,6 +3013,687 @@
                      "sort": "none"
                   }
                },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A_classic"
+                  },
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A"
+                  }
+               ],
+               "title": "Requests / sec",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Latency\nThis panel shows store-gateway query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by store-gateways.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "ms"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 32,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "99th percentile",
+                     "refId": "A_classic"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "99th percentile",
+                     "refId": "A_native"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "50th percentile",
+                     "refId": "B_classic"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "50th percentile",
+                     "refId": "B_native"
+                  },
+                  {
+                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})\n) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "Average",
+                     "refId": "C_classic"
+                  },
+                  {
+                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}))\n) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "Average",
+                     "refId": "C_native"
+                  }
+               ],
+               "title": "Latency",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Per store-gateway pod p99 latency\nThis panel shows store-gateway query requests from all sources: the main query path, and the remote ruler query path, if in use. The data shown is as reported by store-gateways.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 33,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "displayMode": "hidden",
+                     "showLegend": false
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  },
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Per store-gateway pod p99 latency",
+               "type": "timeseries"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Store-gateway - query requests from all sources",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
+            {
+               "datasource": "$datasource",
+               "description": "### Requests / sec\nThis panel shows store-gateway query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "normal"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "reqps"
+                  },
+                  "overrides": [
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "1xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EAB839",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "2xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "3xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#6ED0E0",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "4xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EF843C",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "5xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "OK"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "cancel"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#A9A9A9",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "error"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "success"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "id": 34,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_storegateway_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A_classic"
+                  },
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_storegateway_client_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A"
+                  }
+               ],
+               "title": "Requests / sec",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Latency\nThis panel shows store-gateway query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "ms"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 35,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "histogram_quantile(0.99, sum(rate(cortex_storegateway_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])) by (le)) * 1e3",
+                     "format": "time_series",
+                     "legendFormat": "99th Percentile",
+                     "refId": "A"
+                  },
+                  {
+                     "expr": "histogram_quantile(0.50, sum(rate(cortex_storegateway_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])) by (le)) * 1e3",
+                     "format": "time_series",
+                     "legendFormat": "50th Percentile",
+                     "refId": "B"
+                  },
+                  {
+                     "expr": "sum(rate(cortex_storegateway_client_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_storegateway_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]))",
+                     "format": "time_series",
+                     "legendFormat": "Average",
+                     "refId": "C"
+                  }
+               ],
+               "title": "Latency",
+               "type": "timeseries",
+               "yaxes": [
+                  {
+                     "format": "ms",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": 0,
+                     "show": true
+                  },
+                  {
+                     "format": "short",
+                     "label": null,
+                     "logBase": 1,
+                     "max": null,
+                     "min": null,
+                     "show": false
+                  }
+               ]
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Per querier pod p99 latency\nThis panel shows store-gateway query requests from just the main query path (ie. excluding the ruler query path, if enabled). The data shown is as reported by queriers.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 36,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "displayMode": "hidden",
+                     "showLegend": false
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_storegateway_client_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  },
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_storegateway_client_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", operation=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Per querier pod p99 latency",
+               "type": "timeseries"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Store-gateway - query requests from this query path only",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
+            {
+               "datasource": "$datasource",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "normal"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "reqps"
+                  },
+                  "overrides": [
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "1xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EAB839",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "2xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "3xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#6ED0E0",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "4xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EF843C",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "5xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "OK"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "cancel"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#A9A9A9",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "error"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "success"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "id": 37,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
                "span": 6,
                "targets": [
                   {
@@ -3043,7 +3731,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 32,
+               "id": 38,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3134,7 +3822,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 33,
+               "id": 39,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3182,7 +3870,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 34,
+               "id": 40,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3262,7 +3950,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 35,
+               "id": 41,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3322,7 +4010,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 36,
+               "id": 42,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3370,7 +4058,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 37,
+               "id": 43,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3449,7 +4137,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 38,
+               "id": 44,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3509,7 +4197,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 39,
+               "id": 45,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3557,7 +4245,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 40,
+               "id": 46,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3636,7 +4324,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 41,
+               "id": 47,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3696,7 +4384,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 42,
+               "id": 48,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3744,7 +4432,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 43,
+               "id": 49,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3823,7 +4511,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 44,
+               "id": 50,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3883,7 +4571,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 45,
+               "id": 51,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3916,7 +4604,7 @@
                      "unit": "percentunit"
                   }
                },
-               "id": 46,
+               "id": 52,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3964,7 +4652,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 47,
+               "id": 53,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4043,7 +4731,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 48,
+               "id": 54,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4134,7 +4822,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 49,
+               "id": 55,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4213,7 +4901,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 50,
+               "id": 56,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4292,7 +4980,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 51,
+               "id": 57,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4371,7 +5059,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 52,
+               "id": 58,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4462,7 +5150,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 53,
+               "id": 59,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4495,7 +5183,7 @@
                      "unit": "percentunit"
                   }
                },
-               "id": 54,
+               "id": 60,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4543,7 +5231,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 55,
+               "id": 61,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4622,7 +5310,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 56,
+               "id": 62,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4713,7 +5401,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 57,
+               "id": 63,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4792,7 +5480,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 58,
+               "id": 64,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4871,7 +5559,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 59,
+               "id": 65,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4950,7 +5638,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 60,
+               "id": 66,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
