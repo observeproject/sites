@@ -600,7 +600,8 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrulertoomanyfailedpushes
 expr: |
   100 * (
-  sum by (cluster, namespace, pod) (rate(cortex_ruler_write_requests_failed_total[1m]))
+  # Here it matches on empty "reason" for backwards compatibility, with when the metric didn't have this label.
+  sum by (cluster, namespace, pod) (rate(cortex_ruler_write_requests_failed_total{reason=~"(error|^$)"}[1m]))
     /
   sum by (cluster, namespace, pod) (rate(cortex_ruler_write_requests_total[1m]))
   ) > 1
@@ -619,7 +620,8 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrulertoomanyfailedqueries
 expr: |
   100 * (
-  sum by (cluster, namespace, pod) (rate(cortex_ruler_queries_failed_total[1m]))
+  # Here it matches on empty "reason" for backwards compatibility, with when the metric didn't have this label.
+  sum by (cluster, namespace, pod) (rate(cortex_ruler_queries_failed_total{reason=~"(error|^$)"}[1m]))
     /
   sum by (cluster, namespace, pod) (rate(cortex_ruler_queries_total[1m]))
   ) > 1
