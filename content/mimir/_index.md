@@ -1354,6 +1354,32 @@ labels:
   severity: critical
 {{< /code >}}
  
+### mimir_distributor_alerts
+
+##### MetricDistributorGcUsesTooMuchCpu
+
+{{< code lang="yaml" >}}
+alert: MetricDistributorGcUsesTooMuchCpu
+annotations:
+  message: Metric distributors in {{ $labels.cluster }}/{{ $labels.namespace }} GC CPU utilization is too high.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricdistributorgcusestoomuchcpu
+expr: |
+  (quantile by (cluster, namespace) (0.9, sum by (cluster, namespace, pod) (rate(go_cpu_classes_gc_total_cpu_seconds_total{container="distributor"}[5m]))
+    /
+    (
+      sum by (cluster, namespace, pod) (rate(go_cpu_classes_total_cpu_seconds_total{container="distributor"}[5m]))
+      -
+      sum by (cluster, namespace, pod) (rate(go_cpu_classes_idle_cpu_seconds_total{container="distributor"}[5m]))
+    )
+  ) * 100) > 10
+
+  # Alert only for namespaces with Mimir clusters.
+  and (count by (cluster, namespace) (mimir_build_info) > 0)
+for: 10m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_autoscaling
 
 ##### MetricAutoscalerNotActive
