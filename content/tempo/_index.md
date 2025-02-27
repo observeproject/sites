@@ -61,6 +61,34 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### TempoIngesterUnhealthy
+
+{{< code lang="yaml" >}}
+alert: TempoIngesterUnhealthy
+annotations:
+  message: There are {{ printf "%f" $value }} unhealthy ingester(s).
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoIngesterUnhealthy
+expr: |
+  max by (cluster, namespace) (tempo_ring_members{state="Unhealthy", name="ingester", namespace=~".*"}) > 0
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
+##### TempoMetricsGeneratorUnhealthy
+
+{{< code lang="yaml" >}}
+alert: TempoMetricsGeneratorUnhealthy
+annotations:
+  message: There are {{ printf "%f" $value }} unhealthy metric-generator(s).
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoMetricsGeneratorUnhealthy
+expr: |
+  max by (cluster, namespace) (tempo_ring_members{state="Unhealthy", name="metrics-generator", namespace=~".*"}) > 0
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### TempoCompactionsFailing
 
 {{< code lang="yaml" >}}
@@ -171,7 +199,7 @@ annotations:
   message: Tempo block list length is up 40 percent over the last 7 days.  Consider scaling compactors.
   runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoBlockListRisingQuickly
 expr: |
-  avg(tempodb_blocklist_length{namespace=".*"}) / avg(tempodb_blocklist_length{namespace=".*", job=~"$namespace/$component"} offset 7d) > 1.4
+  avg(tempodb_blocklist_length{namespace=~".*", container="compactor"}) / avg(tempodb_blocklist_length{namespace=~".*", container="compactor"} offset 7d) > 1.4
 for: 15m
 labels:
   severity: critical
