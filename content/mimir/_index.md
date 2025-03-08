@@ -172,7 +172,7 @@ expr: |
     /
     sum by(cluster, namespace, name, operation) (
       rate(thanos_cache_operations_total{operation!~"add|delete"}[1m])
-    )
+    ) > 10
   ) * 100 > 5
 for: 5m
 labels:
