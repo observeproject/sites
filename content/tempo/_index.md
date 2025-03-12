@@ -274,6 +274,34 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### TempoPartitionLagWarning
+
+{{< code lang="yaml" >}}
+alert: TempoPartitionLagWarning
+annotations:
+  message: Tempo partition {{ $labels.partition }} in consumer group {{ $labels.group }} is lagging by more than 300 seconds in {{ $labels.cluster }}/{{ $labels.namespace }}.
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoPartitionLag
+expr: |
+  max by (cluster, namespace, group, partition) (tempo_ingest_group_partition_lag_seconds{namespace=~".*", group=~"metrics-generator|block-builder"}) > 300
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### TempoPartitionLagCritical
+
+{{< code lang="yaml" >}}
+alert: TempoPartitionLagCritical
+annotations:
+  message: Tempo partition {{ $labels.partition }} in consumer group {{ $labels.group }} is lagging by more than 900 seconds in {{ $labels.cluster }}/{{ $labels.namespace }}.
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoPartitionLag
+expr: |
+  max by (cluster, namespace, group, partition) (tempo_ingest_group_partition_lag_seconds{namespace=~".*", group=~"metrics-generator|block-builder"}) > 900
+for: 5m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ## Recording Rules
 
 {{< panel style="warning" >}}
