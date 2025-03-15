@@ -1354,6 +1354,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricCompactorFailingToBuildSparseIndexHeaders
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorFailingToBuildSparseIndexHeaders
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is failing to build sparse index headers
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorfailingtobuildsparseindexheaders
+expr: |
+  (sum by(cluster, namespace, pod) (increase(cortex_compactor_build_sparse_headers_failures_total[5m])) > 0)
+for: 30m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_distributor_alerts
 
 ##### MetricDistributorGcUsesTooMuchCpu
@@ -1657,7 +1671,7 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildernocycleprocessing
 expr: |
   max by(cluster, namespace, pod) (histogram_count(increase(cortex_blockbuilder_consume_cycle_duration_seconds[60m]))) == 0
-for: 20m
+for: 60m
 labels:
   severity: critical
 {{< /code >}}
