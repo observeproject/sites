@@ -508,6 +508,39 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrolloutstuck
 expr: |
   (
+    max without (revision) (
+      sum without(statefulset) (label_replace(kube_statefulset_status_current_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+        unless
+      sum without(statefulset) (label_replace(kube_statefulset_status_update_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+    )
+      *
+    (
+      sum without(statefulset) (label_replace(kube_statefulset_replicas, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+        !=
+      sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+    )
+  ) and (
+    changes(sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
+      ==
+    0
+  )
+  * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+for: 6h
+labels:
+  severity: critical
+  workload_type: statefulset
+{{< /code >}}
+ 
+##### MetricRolloutStuck
+
+{{< code lang="yaml" >}}
+alert: MetricRolloutStuck
+annotations:
+  message: |
+    The {{ $labels.rollout_group }} rollout is stuck in {{ $labels.cluster }}/{{ $labels.namespace }}.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrolloutstuck
+expr: |
+  (
     sum without(deployment) (label_replace(kube_deployment_spec_replicas, "rollout_group", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"))
       !=
     sum without(deployment) (label_replace(kube_deployment_status_replicas_updated, "rollout_group", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"))
@@ -520,6 +553,31 @@ expr: |
 for: 30m
 labels:
   severity: warning
+  workload_type: deployment
+{{< /code >}}
+ 
+##### MetricRolloutStuck
+
+{{< code lang="yaml" >}}
+alert: MetricRolloutStuck
+annotations:
+  message: |
+    The {{ $labels.rollout_group }} rollout is stuck in {{ $labels.cluster }}/{{ $labels.namespace }}.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrolloutstuck
+expr: |
+  (
+    sum without(deployment) (label_replace(kube_deployment_spec_replicas, "rollout_group", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"))
+      !=
+    sum without(deployment) (label_replace(kube_deployment_status_replicas_updated, "rollout_group", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"))
+  ) and (
+    changes(sum without(deployment) (label_replace(kube_deployment_status_replicas_updated, "rollout_group", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
+      ==
+    0
+  )
+  * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
+for: 6h
+labels:
+  severity: critical
   workload_type: deployment
 {{< /code >}}
  
