@@ -356,6 +356,7 @@ record: cluster_namespace_job_route:tempo_request_duration_seconds_count:sum_rat
 仪表盘配置文件下载地址:
 
 
+- [tempo-block-builder](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-block-builder.json)
 - [tempo-operational](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-operational.json)
 - [tempo-reads](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-reads.json)
 - [tempo-resources](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-resources.json)
