@@ -327,6 +327,36 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricServerInvalidClusterValidationLabelRequests
+
+{{< code lang="yaml" >}}
+alert: MetricServerInvalidClusterValidationLabelRequests
+annotations:
+  message: Metric servers in {{ $labels.cluster }}/{{ $labels.namespace }} are receiving requests with invalid cluster validation labels.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricserverinvalidclustervalidationlabelrequests
+expr: |
+  (sum by (cluster, namespace, pod) (rate(cortex_server_invalid_cluster_validation_label_requests_total{}[5m]))) > 0
+  # Alert only for namespaces with Mimir clusters.
+  and (count by (cluster, namespace) (mimir_build_info) > 0)
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricClientInvalidClusterValidationLabelRequests
+
+{{< code lang="yaml" >}}
+alert: MetricClientInvalidClusterValidationLabelRequests
+annotations:
+  message: Metric clients in {{ $labels.cluster }}/{{ $labels.namespace }} are having requests rejected due to invalid cluster validation labels.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricclientinvalidclustervalidationlabelrequests
+expr: |
+  (sum by (cluster, namespace, pod) (rate(cortex_client_invalid_cluster_validation_label_requests_total{}[5m]))) > 0
+  # Alert only for namespaces with Mimir clusters.
+  and (count by (cluster, namespace) (mimir_build_info) > 0)
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ##### MetricRingMembersMismatch
 
 {{< code lang="yaml" >}}
