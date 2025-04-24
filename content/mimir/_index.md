@@ -505,22 +505,26 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrolloutstuck
 expr: |
   (
-    max without (revision) (
-      sum without(statefulset) (label_replace(kube_statefulset_status_current_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+    # Query for rollout groups in certain namespaces that are being updated, dropping the revision label.
+    max by (cluster, namespace, rollout_group) (
+      sum by (cluster, namespace, rollout_group, revision) (label_replace(kube_statefulset_status_current_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
         unless
-      sum without(statefulset) (label_replace(kube_statefulset_status_update_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group, revision) (label_replace(kube_statefulset_status_update_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
     )
+      # Multiply by replicas in corresponding rollout groups not fully updated to the current revision.
       *
     (
-      sum without(statefulset) (label_replace(kube_statefulset_replicas, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_replicas, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
         !=
-      sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
     )
   ) and (
-    changes(sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
+    # Pick only those which are unchanging for the interval.
+    changes(sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
       ==
     0
   )
+  # Include only Mimir namespaces.
   * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
 for: 30m
 labels:
@@ -538,22 +542,26 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrolloutstuck
 expr: |
   (
-    max without (revision) (
-      sum without(statefulset) (label_replace(kube_statefulset_status_current_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+    # Query for rollout groups in certain namespaces that are being updated, dropping the revision label.
+    max by (cluster, namespace, rollout_group) (
+      sum by (cluster, namespace, rollout_group, revision) (label_replace(kube_statefulset_status_current_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
         unless
-      sum without(statefulset) (label_replace(kube_statefulset_status_update_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group, revision) (label_replace(kube_statefulset_status_update_revision, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
     )
+      # Multiply by replicas in corresponding rollout groups not fully updated to the current revision.
       *
     (
-      sum without(statefulset) (label_replace(kube_statefulset_replicas, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_replicas, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
         !=
-      sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
+      sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))
     )
   ) and (
-    changes(sum without(statefulset) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
+    # Pick only those which are unchanging for the interval.
+    changes(sum by (cluster, namespace, rollout_group) (label_replace(kube_statefulset_status_replicas_updated, "rollout_group", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?"))[15m:1m])
       ==
     0
   )
+  # Include only Mimir namespaces.
   * on(cluster, namespace) group_left max by(cluster, namespace) (cortex_build_info)
 for: 6h
 labels:
@@ -2456,18 +2464,28 @@ record: cluster_namespace_job:cortex_ingester_tsdb_exemplar_exemplars_appended:r
 {{< code lang="yaml" >}}
 expr: |
   # Convenience rule to get the number of replicas for both a deployment and a statefulset.
-  # Multi-zone deployments are grouped together removing the "zone-X" suffix.
+  #
+  # Notes:
+  # - Multi-zone deployments are grouped together removing the "zone-X" suffix.
+  # - To avoid "vector cannot contain metrics with the same labelset" errors we need to add an additional
+  #   label "deployment_without_zone" first, then run the aggregation, and finally rename "deployment_without_zone"
+  #   to "deployment".
   sum by (cluster, namespace, deployment) (
     label_replace(
-      kube_deployment_spec_replicas,
-      # The question mark in "(.*?)" is used to make it non-greedy, otherwise it
-      # always matches everything and the (optional) zone is not removed.
-      "deployment", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"
+      sum by (cluster, namespace, deployment_without_zone) (
+        label_replace(
+          kube_deployment_spec_replicas,
+          # The question mark in "(.*?)" is used to make it non-greedy, otherwise it
+          # always matches everything and the (optional) zone is not removed.
+          "deployment_without_zone", "$1", "deployment", "(.*?)(?:-zone-[a-z])?"
+        )
+      )
+      or
+      sum by (cluster, namespace, deployment_without_zone) (
+        label_replace(kube_statefulset_replicas, "deployment_without_zone", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?")
+      ),
+      "deployment", "$1", "deployment_without_zone", "(.*)"
     )
-  )
-  or
-  sum by (cluster, namespace, deployment) (
-    label_replace(kube_statefulset_replicas, "deployment", "$1", "statefulset", "(.*?)(?:-zone-[a-z])?")
   )
 record: cluster_namespace_deployment:actual_replicas:count
 {{< /code >}}
