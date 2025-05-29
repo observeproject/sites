@@ -333,6 +333,20 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### TempoBackendSchedulerCompactionEmptyJobRateHigh
+
+{{< code lang="yaml" >}}
+alert: TempoBackendSchedulerCompactionEmptyJobRateHigh
+annotations:
+  message: Tempo backend scheduler empty job rate is high ({{ printf "%0.2f" $value }} jobs/minute) in {{ $labels.cluster }}/{{ $labels.namespace }}
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoBackendSchedulerCompactionEmptyJobRateHigh
+expr: |
+  sum(increase(tempo_backend_scheduler_compaction_tenant_empty_job_total{namespace=~".*"}[1m])) by (cluster, namespace) > 10
+for: 10m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ##### TempoBackendWorkerBadJobsRateHigh
 
 {{< code lang="yaml" >}}
@@ -415,6 +429,7 @@ record: cluster_namespace_job_route:tempo_request_duration_seconds_count:sum_rat
 仪表盘配置文件下载地址:
 
 
+- [tempo-backendwork](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-backendwork.json)
 - [tempo-block-builder](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-block-builder.json)
 - [tempo-operational](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-operational.json)
 - [tempo-reads](https://github.com/observeproject/sites/blob/main/assets/tempo/dashboards/tempo-reads.json)
