@@ -468,13 +468,13 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(sum (rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval]))) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(sum (rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval]))) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "instant": true,
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(sum (histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(sum (histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "instant": true,
                      "refId": "A"
@@ -853,13 +853,13 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A"
@@ -908,37 +908,37 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_native"
                   },
                   {
-                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_classic"
                   },
                   {
-                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_native"
                   },
                   {
-                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_classic"
                   },
                   {
-                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}))\n) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_native"
@@ -988,14 +988,14 @@
                "targets": [
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
                   },
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
@@ -1994,6 +1994,494 @@
          "panels": [
             {
                "datasource": "$datasource",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "normal"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "reqps"
+                  },
+                  "overrides": [
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "1xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EAB839",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "2xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "3xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#6ED0E0",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "4xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EF843C",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "5xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "OK"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "cancel"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#A9A9A9",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "error"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "success"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "1xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EAB839",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "2xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "3xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#6ED0E0",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "4xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#EF843C",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "5xx"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "Canceled"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#A9A9A9",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "OK"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "Success"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "cancel"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#A9A9A9",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "error"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E24D42",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "id": 17,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A_classic"
+                  },
+                  {
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "{{status}}",
+                     "refId": "A"
+                  }
+               ],
+               "title": "Requests / sec",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "ms"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 18,
+               "links": [ ],
+               "nullPointMode": "null as zero",
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "99th percentile",
+                     "refId": "A_classic"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "99th percentile",
+                     "refId": "A_native"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "50th percentile",
+                     "refId": "B_classic"
+                  },
+                  {
+                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "50th percentile",
+                     "refId": "B_native"
+                  },
+                  {
+                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})\n) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "Average",
+                     "refId": "C_classic"
+                  },
+                  {
+                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}))\n) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "Average",
+                     "refId": "C_native"
+                  }
+               ],
+               "title": "Latency",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 19,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "displayMode": "hidden",
+                     "showLegend": false
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "span": 4,
+               "targets": [
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  },
+                  {
+                     "exemplar": true,
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((gateway|cortex-gw.*))\", route=~\"api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "format": "time_series",
+                     "legendFormat": "",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Per pod p99 latency",
+               "type": "timeseries"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Gateway - Influx write requests",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
+            {
+               "datasource": "$datasource",
                "description": "### Request added latency\nArtificial delay added by distributors to requests.\n",
                "fieldConfig": {
                   "defaults": {
@@ -2018,7 +2506,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 17,
+               "id": 20,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2383,7 +2871,7 @@
                      }
                   ]
                },
-               "id": 18,
+               "id": 21,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2397,13 +2885,13 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(sum by (status) (\n  label_replace(label_replace(histogram_count(rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "{{status}}",
                      "refId": "A"
@@ -2437,7 +2925,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 19,
+               "id": 22,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2452,37 +2940,37 @@
                "span": 4,
                "targets": [
                   {
-                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_classic"
                   },
                   {
-                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.99, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "99th percentile",
                      "refId": "A_native"
                   },
                   {
-                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_classic"
                   },
                   {
-                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.50, sum (cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) * 1e3) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "50th percentile",
                      "refId": "B_native"
                   },
                   {
-                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})\n) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}) /\nsum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})\n) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_classic"
                   },
                   {
-                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}))\n) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(1e3 * sum(histogram_sum(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"})) /\nsum(histogram_count(cluster_job_route:cortex_request_duration_seconds:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}))\n) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "Average",
                      "refId": "C_native"
@@ -2516,7 +3004,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 20,
+               "id": 23,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2532,14 +3020,14 @@
                "targets": [
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
+                     "expr": "(histogram_quantile(0.99, sum by (le,pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == 1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
                   },
                   {
                      "exemplar": true,
-                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
+                     "expr": "(histogram_quantile(0.99, sum by (pod) (rate(cortex_request_duration_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((distributor.*|cortex|mimir|mimir-write.*))\", route=~\"/distributor.Distributor/Push|/httpgrpc.*|api_(v1|prom)_push|otlp_v1_metrics|api_v1_push_influx_write\"}[$__rate_interval])))) and on() (vector($latency_metrics) == -1)",
                      "format": "time_series",
                      "legendFormat": "",
                      "legendLink": null
@@ -2872,7 +3360,7 @@
                      }
                   ]
                },
-               "id": 21,
+               "id": 24,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2926,7 +3414,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 22,
+               "id": 25,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3005,7 +3493,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 23,
+               "id": 26,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3225,7 +3713,7 @@
                      }
                   ]
                },
-               "id": 24,
+               "id": 27,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3273,7 +3761,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 25,
+               "id": 28,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3515,7 +4003,7 @@
                      }
                   ]
                },
-               "id": 26,
+               "id": 29,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3563,7 +4051,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 27,
+               "id": 30,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3805,7 +4293,7 @@
                      }
                   ]
                },
-               "id": 28,
+               "id": 31,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3853,7 +4341,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 29,
+               "id": 32,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3976,7 +4464,7 @@
                      }
                   ]
                },
-               "id": 30,
+               "id": 33,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4031,7 +4519,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 31,
+               "id": 34,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4154,7 +4642,7 @@
                      }
                   ]
                },
-               "id": 32,
+               "id": 35,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4209,7 +4697,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 33,
+               "id": 36,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4332,7 +4820,7 @@
                      }
                   ]
                },
-               "id": 34,
+               "id": 37,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4418,7 +4906,7 @@
                      }
                   ]
                },
-               "id": 35,
+               "id": 38,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4474,7 +4962,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 36,
+               "id": 39,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4554,7 +5042,7 @@
                      }
                   ]
                },
-               "id": 37,
+               "id": 40,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4621,7 +5109,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 38,
+               "id": 41,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4670,7 +5158,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 39,
+               "id": 42,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4719,7 +5207,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 40,
+               "id": 43,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4768,7 +5256,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 41,
+               "id": 44,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4828,7 +5316,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 42,
+               "id": 45,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4876,7 +5364,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 43,
+               "id": 46,
                "links": [ ],
                "options": {
                   "legend": {
