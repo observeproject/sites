@@ -2313,8 +2313,13 @@ record: cluster:node_cpu:ratio_rate5m
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: |
-  histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le) * on(cluster, instance) group_left(node) kubelet_node_name{job="kubelet"})
+expr: "histogram_quantile(
+  0.99, 
+  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
+  * on(cluster, instance) group_left (node) 
+  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
+)
+"
 labels:
   quantile: "0.99"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
@@ -2323,8 +2328,13 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: |
-  histogram_quantile(0.9, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le) * on(cluster, instance) group_left(node) kubelet_node_name{job="kubelet"})
+expr: "histogram_quantile(
+  0.9, 
+  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
+  * on(cluster, instance) group_left (node) 
+  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
+)
+"
 labels:
   quantile: "0.9"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
@@ -2333,8 +2343,13 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: |
-  histogram_quantile(0.5, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le) * on(cluster, instance) group_left(node) kubelet_node_name{job="kubelet"})
+expr: "histogram_quantile(
+  0.5, 
+  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
+  * on(cluster, instance) group_left (node) 
+  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
+)
+"
 labels:
   quantile: "0.5"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile

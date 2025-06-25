@@ -929,6 +929,46 @@ labels:
   severity: critical
 {{< /code >}}
  
+### golang_alerts
+
+##### MetricGoThreadsTooHigh
+
+{{< code lang="yaml" >}}
+alert: MetricGoThreadsTooHigh
+annotations:
+  message: |
+    Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is running a very high number of Go threads.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricgothreadstoohigh
+expr: |
+  # We filter by the namespace because go_threads can be very high cardinality in a large organization.
+  max by(cluster, namespace, pod) (go_threads{namespace=~".*(cortex|mimir).*"} > 5000)
+
+  # Further filter on namespaces actually running Mimir.
+  and on (cluster, namespace) (count by (cluster, namespace) (cortex_build_info))
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricGoThreadsTooHigh
+
+{{< code lang="yaml" >}}
+alert: MetricGoThreadsTooHigh
+annotations:
+  message: |
+    Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is running a very high number of Go threads.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricgothreadstoohigh
+expr: |
+  # We filter by the namespace because go_threads can be very high cardinality in a large organization.
+  max by(cluster, namespace, pod) (go_threads{namespace=~".*(cortex|mimir).*"} > 8000)
+
+  # Further filter on namespaces actually running Mimir.
+  and on (cluster, namespace) (count by (cluster, namespace) (cortex_build_info))
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### alertmanager_alerts
 
 ##### MetricAlertmanagerSyncConfigsFailing
