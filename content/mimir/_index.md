@@ -1340,6 +1340,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricHighVolumeLevel1BlocksQueried
+
+{{< code lang="yaml" >}}
+alert: MetricHighVolumeLevel1BlocksQueried
+annotations:
+  message: Metric store-gateway in {{ $labels.cluster }}/{{ $labels.namespace }} is querying level 1 blocks, indicating the compactor may not be keeping up with compaction.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metrichighvolumelevel1blocksqueried
+expr: |
+  sum by(cluster, namespace) (rate(cortex_bucket_store_series_blocks_queried_sum{component="store-gateway",level="1",out_of_order="false",job=~".*/(store-gateway.*|cortex|mimir|mimir-backend.*)"}[5m])) > 0
+for: 6h
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_compactor_alerts
 
 ##### MetricCompactorHasNotSuccessfullyCleanedUpBlocks
