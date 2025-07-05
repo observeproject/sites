@@ -201,7 +201,7 @@ expr: |
   sum(tempo_runtime_config_last_reload_successful{namespace=~".*"} == 0) by (cluster, namespace, job)
 for: 15m
 labels:
-  severity: warning
+  severity: critical
 {{< /code >}}
  
 ##### TempoUserConfigurableOverridesReloadFailing
