@@ -1144,6 +1144,9 @@ expr: |
   # receiving samples again. Without this check, the alert would fire as soon as it gets back receiving
   # samples, while the a block shipping is expected within the next 4h.
   (max by(cluster, namespace, pod) (max_over_time(cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m[1h] offset 4h)) > 0)
+  # And only if blocks aren't shipped by the block-builder.
+  unless on (cluster, namespace)
+  (max by (cluster, namespace) (cortex_blockbuilder_tsdb_last_successful_compact_and_upload_timestamp_seconds) > 0)
 for: 15m
 labels:
   severity: critical
@@ -1160,6 +1163,9 @@ expr: |
   (max by(cluster, namespace, pod) (cortex_ingester_shipper_last_successful_upload_timestamp_seconds) == 0)
   and
   (max by(cluster, namespace, pod) (max_over_time(cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m[4h])) > 0)
+  # Only if blocks aren't shipped by the block-builder.
+  unless on (cluster, namespace)
+  (max by (cluster, namespace) (cortex_blockbuilder_tsdb_last_successful_compact_and_upload_timestamp_seconds) > 0)
 for: 4h
 labels:
   severity: critical
@@ -1176,6 +1182,9 @@ expr: |
   (time() - cortex_ingester_oldest_unshipped_block_timestamp_seconds > 3600)
   and
   (cortex_ingester_oldest_unshipped_block_timestamp_seconds > 0)
+  # Only if blocks aren't shipped by the block-builder.
+  unless on (cluster, namespace)
+  (max by (cluster, namespace) (cortex_blockbuilder_tsdb_last_successful_compact_and_upload_timestamp_seconds) > 0)
 for: 15m
 labels:
   severity: critical
@@ -1865,6 +1874,25 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuildercompactanduploadfailed
 expr: |
   sum by (cluster, namespace, pod) (rate(cortex_blockbuilder_tsdb_compact_and_upload_failed_total[1m])) > 0
+labels:
+  severity: critical
+{{< /code >}}
+ 
+##### MetricBlockBuilderHasNotShippedBlocks
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderHasNotShippedBlocks
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not shipped any block in the last 4 hours.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderhasnotshippedblocks
+expr: |
+  (min by(cluster, namespace, pod) (time() - cortex_blockbuilder_tsdb_last_successful_compact_and_upload_timestamp_seconds) > 60 * 60 * 4)
+  and
+  (max by(cluster, namespace, pod) (cortex_blockbuilder_tsdb_last_successful_compact_and_upload_timestamp_seconds) > 0)
+  # Only if blocks aren't shipped by ingesters.
+  unless on (cluster, namespace)
+  (max by (cluster, namespace) (cortex_ingester_shipper_last_successful_upload_timestamp_seconds) > 0)
+for: 15m
 labels:
   severity: critical
 {{< /code >}}
