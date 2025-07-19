@@ -1897,6 +1897,19 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricBlockBuilderDataSkipped
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderDataSkipped
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has detected skipped data.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderdataskipped
+expr: |
+  increase(cortex_blockbuilder_scheduler_job_gap_detected[1m]) > 0
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MetricContinuousTestNotRunningOnWrites
