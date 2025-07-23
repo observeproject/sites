@@ -202,19 +202,19 @@ expr: |
   (
     (
       kube_daemonset_status_current_number_scheduled{job="kube-state-metrics"}
-       !=
+        !=
       kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
     ) or (
       kube_daemonset_status_number_misscheduled{job="kube-state-metrics"}
-       !=
+        !=
       0
     ) or (
       kube_daemonset_status_updated_number_scheduled{job="kube-state-metrics"}
-       !=
+        !=
       kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
     ) or (
       kube_daemonset_status_number_available{job="kube-state-metrics"}
-       !=
+        !=
       kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"}
     )
   ) and (
@@ -1963,8 +1963,8 @@ record: namespace_memory:kube_pod_container_resource_limits:sum
 expr: |
   kube_pod_container_resource_limits{resource="cpu",job="kube-state-metrics"}  * on (namespace, pod, cluster)
   group_left() max by (namespace, pod, cluster) (
-   (kube_pod_status_phase{phase=~"Pending|Running"} == 1)
-   )
+    (kube_pod_status_phase{phase=~"Pending|Running"} == 1)
+  )
 record: cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits
 {{< /code >}}
  
@@ -2112,44 +2112,44 @@ record: namespace_workload_pod:kube_pod_owner:relabel
 ##### namespace_workload_pod:kube_pod_owner:relabel
 
 {{< code lang="yaml" >}}
-expr: "group by (cluster, namespace, workload, workload_type, pod) (
-  label_join(
+expr: |
+  group by (cluster, namespace, workload, workload_type, pod) (
     label_join(
-      group by (cluster, namespace, job_name, pod) (
-        label_join(
-          kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"Job\"}
-        , \"job_name\", \"\", \"owner_name\")
-      )
-      * on (cluster, namespace, job_name) group_left(owner_kind, owner_name)
-      group by (cluster, namespace, job_name, owner_kind, owner_name) (
-        kube_job_owner{job=\"kube-state-metrics\", owner_kind!=\"Pod\", owner_kind!=\"\"}
-      )
-    , \"workload\", \"\", \"owner_name\")
-  , \"workload_type\", \"\", \"owner_kind\")
-  
-  OR
+      label_join(
+        group by (cluster, namespace, job_name, pod) (
+          label_join(
+            kube_pod_owner{job="kube-state-metrics", owner_kind="Job"}
+          , "job_name", "", "owner_name")
+        )
+        * on (cluster, namespace, job_name) group_left(owner_kind, owner_name)
+        group by (cluster, namespace, job_name, owner_kind, owner_name) (
+          kube_job_owner{job="kube-state-metrics", owner_kind!="Pod", owner_kind!=""}
+        )
+      , "workload", "", "owner_name")
+    , "workload_type", "", "owner_kind")
 
-  label_replace(
+    OR
+
     label_replace(
       label_replace(
-        kube_pod_owner{job=\"kube-state-metrics\", owner_kind=\"ReplicaSet\"}
-        , \"replicaset\", \"$1\", \"owner_name\", \"(.+)\"
+        label_replace(
+          kube_pod_owner{job="kube-state-metrics", owner_kind="ReplicaSet"}
+          , "replicaset", "$1", "owner_name", "(.+)"
+        )
+        * on(cluster, namespace, replicaset) group_left(owner_kind, owner_name)
+        group by (cluster, namespace, replicaset, owner_kind, owner_name) (
+          kube_replicaset_owner{job="kube-state-metrics", owner_kind!="Deployment", owner_kind!=""}
+        )
+      , "workload", "$1", "owner_name", "(.+)")
+      OR
+      label_replace(
+        group by (cluster, namespace, pod, owner_name, owner_kind) (
+          kube_pod_owner{job="kube-state-metrics", owner_kind!="ReplicaSet", owner_kind!="DaemonSet", owner_kind!="StatefulSet", owner_kind!="Job", owner_kind!="Node", owner_kind!=""}
+        )
+        , "workload", "$1", "owner_name", "(.+)"
       )
-      * on(cluster, namespace, replicaset) group_left(owner_kind, owner_name)
-      group by (cluster, namespace, replicaset, owner_kind, owner_name) (
-        kube_replicaset_owner{job=\"kube-state-metrics\", owner_kind!=\"Deployment\", owner_kind!=\"\"}
-      )
-    , \"workload\", \"$1\", \"owner_name\", \"(.+)\")
-    OR
-    label_replace(
-      group by (cluster, namespace, pod, owner_name, owner_kind) (
-        kube_pod_owner{job=\"kube-state-metrics\", owner_kind!=\"ReplicaSet\", owner_kind!=\"DaemonSet\", owner_kind!=\"StatefulSet\", owner_kind!=\"Job\", owner_kind!=\"Node\", owner_kind!=\"\"}
-      )
-      , \"workload\", \"$1\", \"owner_name\", \"(.+)\"
-    )
-  , \"workload_type\", \"$1\", \"owner_kind\", \"(.+)\")
-)
-"
+    , "workload_type", "$1", "owner_kind", "(.+)")
+  )
 record: namespace_workload_pod:kube_pod_owner:relabel
 {{< /code >}}
  
@@ -2313,13 +2313,13 @@ record: cluster:node_cpu:ratio_rate5m
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: "histogram_quantile(
-  0.99, 
-  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
-  * on(cluster, instance) group_left (node) 
-  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
-)
-"
+expr: |
+  histogram_quantile(
+    0.99,
+    sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le)
+    * on(cluster, instance) group_left (node)
+    max by (cluster, instance, node) (kubelet_node_name{job="kubelet"})
+  )
 labels:
   quantile: "0.99"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
@@ -2328,13 +2328,13 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: "histogram_quantile(
-  0.9, 
-  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
-  * on(cluster, instance) group_left (node) 
-  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
-)
-"
+expr: |
+  histogram_quantile(
+    0.9,
+    sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le)
+    * on(cluster, instance) group_left (node)
+    max by (cluster, instance, node) (kubelet_node_name{job="kubelet"})
+  )
 labels:
   quantile: "0.9"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
@@ -2343,13 +2343,13 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 ##### node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 
 {{< code lang="yaml" >}}
-expr: "histogram_quantile(
-  0.5, 
-  sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\"}[5m])) by (cluster, instance, le) 
-  * on(cluster, instance) group_left (node) 
-  max by (cluster, instance, node) (kubelet_node_name{job=\"kubelet\"})
-)
-"
+expr: |
+  histogram_quantile(
+    0.5,
+    sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job="kubelet"}[5m])) by (cluster, instance, le)
+    * on(cluster, instance) group_left (node)
+    max by (cluster, instance, node) (kubelet_node_name{job="kubelet"})
+  )
 labels:
   quantile: "0.5"
 record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
