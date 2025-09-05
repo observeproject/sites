@@ -1825,44 +1825,18 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricBlockBuilderLagging
+##### MetricBlockBuilderSchedulerPendingJobs
 
 {{< code lang="yaml" >}}
-alert: MetricBlockBuilderLagging
+alert: MetricBlockBuilderSchedulerPendingJobs
 annotations:
-  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderlagging
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports {{ printf "%.2f" $value }} pending jobs.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderschedulerpendingjobs
 expr: |
-  max by(cluster, namespace, pod) (
-  max_over_time(
-  (
-  cortex_blockbuilder_scheduler_partition_end_offset offset 1h
-  -
-  cortex_blockbuilder_scheduler_partition_committed_offset
-  )[10m:])) > 4e6
-for: 75m
+  sum by (cluster, namespace, pod) (cortex_blockbuilder_scheduler_pending_jobs) > 0
+for: 40m
 labels:
   severity: warning
-{{< /code >}}
- 
-##### MetricBlockBuilderLagging
-
-{{< code lang="yaml" >}}
-alert: MetricBlockBuilderLagging
-annotations:
-  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} reports partition lag of {{ printf "%.2f" $value }}.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderlagging
-expr: |
-  max by(cluster, namespace, pod) (
-  max_over_time(
-  (
-  cortex_blockbuilder_scheduler_partition_end_offset offset 1h
-  -
-  cortex_blockbuilder_scheduler_partition_committed_offset
-  )[10m:])) > 4e6
-for: 140m
-labels:
-  severity: critical
 {{< /code >}}
  
 ##### MetricBlockBuilderCompactAndUploadFailed
