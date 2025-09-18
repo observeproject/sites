@@ -380,6 +380,22 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricHighGRPCConcurrentStreamsPerConnection
+
+{{< code lang="yaml" >}}
+alert: MetricHighGRPCConcurrentStreamsPerConnection
+annotations:
+  message: |
+    Container {{ $labels.container }} in {{ $labels.cluster }}/{{ $labels.namespace }} is experiencing high GRPC concurrent streams per connection.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metrichighgrpcconcurrentstreamsperconnection
+expr: |
+  max(avg_over_time(grpc_concurrent_streams_by_conn_max[10m])) by (cluster, namespace, container)
+  /
+  min(cortex_grpc_concurrent_streams_limit) by (cluster, namespace, container) > 0.9
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_instance_limits_alerts
 
 ##### MetricIngesterReachingSeriesLimit
