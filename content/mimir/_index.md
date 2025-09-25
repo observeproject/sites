@@ -126,21 +126,6 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### MetricFrontendQueriesStuck
-
-{{< code lang="yaml" >}}
-alert: MetricFrontendQueriesStuck
-annotations:
-  message: |
-    There are {{ $value }} queued up queries in {{ $labels.cluster }}/{{ $labels.namespace }} {{ $labels.job }}.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricfrontendqueriesstuck
-expr: |
-  sum by (cluster, namespace, job) (min_over_time(cortex_query_frontend_queue_length[1m])) > 0
-for: 5m
-labels:
-  severity: critical
-{{< /code >}}
- 
 ##### MetricSchedulerQueriesStuck
 
 {{< code lang="yaml" >}}
