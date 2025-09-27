@@ -1064,7 +1064,7 @@ annotations:
 expr: |
   increase(cortex_alertmanager_state_initial_sync_completed_total{outcome="failed"}[1m]) > 0
 labels:
-  severity: critical
+  severity: warning
 {{< /code >}}
  
 ##### MetricAlertmanagerAllocatingTooMuchMemory
