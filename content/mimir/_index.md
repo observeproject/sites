@@ -2961,3 +2961,4 @@ record: cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m
 - [mimir-writes-networking](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-writes-networking.json)
 - [mimir-writes-resources](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-writes-resources.json)
 - [mimir-writes](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/mimir-writes.json)
+- [rollout-operator](https://github.com/observeproject/sites/blob/main/assets/mimir/dashboards/rollout-operator.json)
