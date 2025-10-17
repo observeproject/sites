@@ -60,6 +60,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### TempoLiveStoreUnhealthy
+
+{{< code lang="yaml" >}}
+alert: TempoLiveStoreUnhealthy
+annotations:
+  message: There are {{ printf "%f" $value }} unhealthy livestore(s).
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoLiveStoreUnhealthy
+expr: |
+  max by (cluster, namespace) (tempo_ring_members{state="Unhealthy", name="live-store", namespace=~".*"}) > 0
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ##### TempoMetricsGeneratorUnhealthy
 
 {{< code lang="yaml" >}}
