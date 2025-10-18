@@ -293,7 +293,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(rate(cortex_ingester_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\", operation=\"/cortex.Ingester/Push\"}[$__rate_interval]))\n",
+                     "expr": "# Classic architecture.\n(sum(rate(cortex_ingester_client_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\", operation=\"/cortex.Ingester/Push\"}[$__rate_interval])) or vector(0))\n+\n# Ingest storage architecture.\n(sum(\n    # Old metric.\n    rate(cortex_ingest_storage_writer_produce_requests_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n    or\n    # New metric.\n    rate(cortex_ingest_storage_writer_produce_records_enqueued_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n) or vector(0))\n",
                      "format": "time_series",
                      "instant": true,
                      "refId": "A"
@@ -302,7 +302,7 @@
                "thresholds": "70,80",
                "timeFrom": null,
                "timeShift": null,
-               "title": "Writes to ingesters - RPS",
+               "title": "Writes to ingesters / ingest storage - RPS",
                "tooltip": {
                   "shared": false,
                   "sort": 0,
@@ -1275,6 +1275,156 @@
          "panels": [
             {
                "datasource": "$datasource",
+               "description": "### Kafka produced records / sec\nRate of records synchronously produced to Kafka.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 100,
+                        "lineWidth": 0,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "normal"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "short"
+                  },
+                  "overrides": [
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "success"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#7EB26D",
+                                 "mode": "fixed"
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "id": 12,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 6,
+               "targets": [
+                  {
+                     "expr": "sum(\n    # Old metric.\n    rate(cortex_ingest_storage_writer_produce_requests_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n    or\n    # New metric.\n    rate(cortex_ingest_storage_writer_produce_records_enqueued_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n)\n-\n(sum(\n    # Old metric.\n    rate(cortex_ingest_storage_writer_produce_failures_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n    or\n    # New metric.\n    rate(cortex_ingest_storage_writer_produce_records_failed_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n) or vector(0))\n",
+                     "format": "time_series",
+                     "legendFormat": "success",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "sum by(reason) (\n    # Old metric.\n    rate(cortex_ingest_storage_writer_produce_failures_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n    or\n    # New metric.\n    rate(cortex_ingest_storage_writer_produce_records_failed_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])\n)\n",
+                     "format": "time_series",
+                     "legendFormat": "failed - {{ reason }}",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Kafka produced records / sec",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Kafka produced records latency\nLatency of records synchronously produced to Kafka.\n\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 13,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 6,
+               "targets": [
+                  {
+                     "expr": "histogram_avg(sum(rate(cortex_ingest_storage_writer_latency_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])))",
+                     "format": "time_series",
+                     "legendFormat": "avg",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "histogram_quantile(0.99, sum(rate(cortex_ingest_storage_writer_latency_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])))",
+                     "format": "time_series",
+                     "legendFormat": "99th percentile",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "histogram_quantile(0.999, sum(rate(cortex_ingest_storage_writer_latency_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])))",
+                     "format": "time_series",
+                     "legendFormat": "99.9th percentile",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "histogram_quantile(1.0, sum(rate(cortex_ingest_storage_writer_latency_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir))\"}[$__rate_interval])))",
+                     "format": "time_series",
+                     "legendFormat": "100th percentile",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Kafka produced records latency",
+               "type": "timeseries"
+            }
+         ],
+         "repeat": null,
+         "repeatIteration": null,
+         "repeatRowId": null,
+         "showTitle": true,
+         "title": "Writes (ingest storage)",
+         "titleSize": "h6"
+      },
+      {
+         "collapse": false,
+         "height": "250px",
+         "panels": [
+            {
+               "datasource": "$datasource",
                "fieldConfig": {
                   "defaults": {
                      "custom": {
@@ -1449,7 +1599,7 @@
                      }
                   ]
                },
-               "id": 12,
+               "id": 14,
                "links": [ ],
                "options": {
                   "legend": {
@@ -1497,7 +1647,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 13,
+               "id": 15,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -1639,7 +1789,7 @@
                      }
                   ]
                },
-               "id": 14,
+               "id": 16,
                "links": [ ],
                "options": {
                   "legend": {
@@ -1750,7 +1900,7 @@
                      }
                   ]
                },
-               "id": 15,
+               "id": 17,
                "links": [ ],
                "options": {
                   "legend": {
@@ -1810,7 +1960,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 16,
+               "id": 18,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2021,7 +2171,7 @@
                      }
                   ]
                },
-               "id": 17,
+               "id": 19,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2069,7 +2219,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 18,
+               "id": 20,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2160,7 +2310,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 19,
+               "id": 21,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2239,7 +2389,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 20,
+               "id": 22,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2336,7 +2486,7 @@
                      }
                   ]
                },
-               "id": 21,
+               "id": 23,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2397,7 +2547,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 22,
+               "id": 24,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2459,7 +2609,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 23,
+               "id": 25,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2514,7 +2664,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 24,
+               "id": 26,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2574,7 +2724,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 25,
+               "id": 27,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2622,7 +2772,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 26,
+               "id": 28,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2670,7 +2820,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 27,
+               "id": 29,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2730,7 +2880,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 28,
+               "id": 30,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2790,7 +2940,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 29,
+               "id": 31,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2823,7 +2973,7 @@
                      "unit": "percentunit"
                   }
                },
-               "id": 30,
+               "id": 32,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2871,7 +3021,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 31,
+               "id": 33,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2950,7 +3100,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 32,
+               "id": 34,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3041,7 +3191,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 33,
+               "id": 35,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3120,7 +3270,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 34,
+               "id": 36,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3199,7 +3349,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 35,
+               "id": 37,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3278,7 +3428,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 36,
+               "id": 38,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
