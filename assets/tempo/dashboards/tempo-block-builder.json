@@ -27,36 +27,45 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
                "datasource": "$datasource",
                "description": "### Kafka fetched records / sec\nOverview of per-second rate of records fetched from Kafka.\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
+               },
                "fill": 10,
                "id": 1,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
                "linewidth": 0,
                "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "single",
+                     "sort": "none"
+                  }
+               },
                "span": 4,
                "stack": true,
-               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum (rate(tempo_block_builder_fetch_records_total{cluster=~\"$cluster\", job=~\"($namespace)/block-builder\"}[$__rate_interval]))",
@@ -73,41 +82,8 @@
                      "legendLink": null
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
                "title": "Kafka fetched records / sec",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": false
-                  }
-               ]
+               "type": "timeseries"
             },
             {
                "datasource": "$datasource",
@@ -226,41 +202,45 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
                "datasource": "$datasource",
                "description": "### Kafka read bytes / sec\nOverview of per-second rate of bytes readed from Kafka.\n",
                "fieldConfig": {
                   "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
                      "unit": "binBps"
-                  }
+                  },
+                  "overrides": [ ]
                },
                "fill": 10,
                "id": 4,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
                "linewidth": 0,
                "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "single",
+                     "sort": "none"
+                  }
+               },
                "span": 4,
                "stack": true,
-               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum (rate(tempo_block_builder_fetch_bytes_total{cluster=~\"$cluster\", job=~\"($namespace)/block-builder\"}[$__rate_interval]))",
@@ -270,23 +250,8 @@
                      "legendLink": null
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
                "title": "Kafka read bytes / sec",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
+               "type": "timeseries",
                "yaxes": [
                   {
                      "format": "binBps",
@@ -459,41 +424,45 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
                "datasource": "$datasource",
                "description": "### Block builder partition section duration\nOverview of the partition section duration.\n",
                "fieldConfig": {
                   "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
                      "unit": "short"
-                  }
+                  },
+                  "overrides": [ ]
                },
                "fill": 10,
                "id": 7,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
-               },
-               "lines": true,
                "linewidth": 0,
                "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
-               "seriesOverrides": [ ],
-               "spaceLength": 10,
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "single",
+                     "sort": "none"
+                  }
+               },
                "span": 6,
                "stack": true,
-               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum (rate(tempo_block_builder_flushed_blocks{cluster=~\"$cluster\", job=~\"($namespace)/block-builder\"}[$__rate_interval]))",
@@ -503,41 +472,8 @@
                      "legendLink": null
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
                "title": "Flushed blocks / sec",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": false
-                  }
-               ]
+               "type": "timeseries"
             },
             {
                "datasource": "$datasource",
@@ -894,30 +830,40 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
                "datasource": "$datasource",
-               "fill": 1,
-               "id": 13,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
                },
-               "lines": true,
-               "linewidth": 1,
+               "id": 13,
                "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "single",
+                     "sort": "none"
+                  }
+               },
                "seriesOverrides": [
                   {
                      "alias": "limit",
@@ -930,10 +876,7 @@
                      "fill": 0
                   }
                ],
-               "spaceLength": 10,
                "span": 6,
-               "stack": false,
-               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum by(pod) (rate(container_cpu_usage_seconds_total{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"block-builder\"}[$__rate_interval]))",
@@ -957,67 +900,44 @@
                      "legendLink": null
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
                "title": "CPU",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
-               "yaxes": [
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": 0,
-                     "show": true
-                  },
-                  {
-                     "format": "short",
-                     "label": null,
-                     "logBase": 1,
-                     "max": null,
-                     "min": null,
-                     "show": false
-                  }
-               ]
+               "type": "timeseries"
             },
             {
-               "aliasColors": { },
-               "bars": false,
-               "dashLength": 10,
-               "dashes": false,
                "datasource": "$datasource",
-               "fill": 1,
-               "id": 14,
-               "legend": {
-                  "avg": false,
-                  "current": false,
-                  "max": false,
-                  "min": false,
-                  "show": true,
-                  "total": false,
-                  "values": false
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "s"
+                  },
+                  "overrides": [ ]
                },
-               "lines": true,
-               "linewidth": 1,
+               "id": 14,
                "links": [ ],
-               "nullPointMode": "null as zero",
-               "percentage": false,
-               "pointradius": 5,
-               "points": false,
-               "renderer": "flot",
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "single",
+                     "sort": "none"
+                  }
+               },
                "seriesOverrides": [
                   {
                      "alias": "limit",
@@ -1030,10 +950,7 @@
                      "fill": 0
                   }
                ],
-               "spaceLength": 10,
                "span": 6,
-               "stack": false,
-               "steppedLine": false,
                "targets": [
                   {
                      "expr": "sum by(pod) (container_memory_working_set_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"block-builder\"})",
@@ -1057,23 +974,8 @@
                      "legendLink": null
                   }
                ],
-               "thresholds": [ ],
-               "timeFrom": null,
-               "timeShift": null,
                "title": "Memory (workingset)",
-               "tooltip": {
-                  "shared": true,
-                  "sort": 2,
-                  "value_type": "individual"
-               },
-               "type": "graph",
-               "xaxis": {
-                  "buckets": null,
-                  "mode": "time",
-                  "name": null,
-                  "show": true,
-                  "values": [ ]
-               },
+               "type": "timeseries",
                "yaxes": [
                   {
                      "format": "bytes",
