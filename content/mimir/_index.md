@@ -381,6 +381,89 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricMixedQuerierQueryPlanVersionSupport
+
+{{< code lang="yaml" >}}
+alert: MetricMixedQuerierQueryPlanVersionSupport
+annotations:
+  message: |
+    Queriers in the same %(product)s cluster and query path are reporting different maximum supported query plan versions.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricmixedquerierqueryplanversionsupport
+expr: |
+  min by (cluster, namespace, container) (cortex_querier_maximum_supported_query_plan_version)
+  !=
+  max by (cluster, namespace, container) (cortex_querier_maximum_supported_query_plan_version)
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricMixedQueryFrontendQueryPlanVersionSupport
+
+{{< code lang="yaml" >}}
+alert: MetricMixedQueryFrontendQueryPlanVersionSupport
+annotations:
+  message: |
+    Query-frontends in the same Metric cluster and query path have calculated different maximum supported query plan versions.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricmixedqueryfrontendqueryplanversionsupport
+expr: |
+  min by (cluster, namespace, container) (cortex_query_frontend_querier_ring_calculated_maximum_supported_query_plan_version)
+  !=
+  max by (cluster, namespace, container) (cortex_query_frontend_querier_ring_calculated_maximum_supported_query_plan_version)
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricQueryFrontendsAndQueriersDisagreeOnSupportedQueryPlanVersion
+
+{{< code lang="yaml" >}}
+alert: MetricQueryFrontendsAndQueriersDisagreeOnSupportedQueryPlanVersion
+annotations:
+  message: |
+    Query-frontends and queriers are reporting different maximum supported query plan versions.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricqueryfrontendsandqueriersdisagreeonsupportedqueryplanversion
+expr: |
+  # The label_replace calls below are so that we can match queriers with container labels like "ruler-querier" to
+  # query-frontends with container labels like "ruler-query-frontend".
+  # We support having the querier/query-frontend part as both a prefix and a suffix to support situations where the
+  # query path name appears at the beginning (eg. "ruler-querier") or at the end (eg. "querier-mqe-test").
+
+  min by (cluster, namespace, query_path) (
+    label_replace(
+      cortex_querier_maximum_supported_query_plan_version,
+      "query_path", "$2", "container", "(querier)?-?(.*)-?(querier)?"
+    )
+  )
+  !=
+  min by (cluster, namespace, query_path) (
+    label_replace(
+      # Exclude the case where query-frontends failed to compute a maximum supported query plan version altogether (reporting -1), as
+      # that is covered by the QueryFrontendNotComputingSupportedQueryPlanVersion alert.
+      cortex_query_frontend_querier_ring_calculated_maximum_supported_query_plan_version != -1,
+      "query_path", "$2", "container", "(query-frontend)?-?(.*)-?(query-frontend)?"
+    )
+  )
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricQueryFrontendNotComputingSupportedQueryPlanVersion
+
+{{< code lang="yaml" >}}
+alert: MetricQueryFrontendNotComputingSupportedQueryPlanVersion
+annotations:
+  message: |
+    Query-frontends are failing to compute a maximum supported query plan version.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricqueryfrontendnotcomputingsupportedqueryplanversion
+expr: |
+  count by (cluster, namespace, container) (cortex_query_frontend_querier_ring_calculated_maximum_supported_query_plan_version == -1) > 0
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_instance_limits_alerts
 
 ##### MetricIngesterReachingSeriesLimit
