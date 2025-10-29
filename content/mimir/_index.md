@@ -1928,6 +1928,20 @@ labels:
   severity: warning
 {{< /code >}}
  
+##### MetricFewerIngestersConsumingThanActivePartitions
+
+{{< code lang="yaml" >}}
+alert: MetricFewerIngestersConsumingThanActivePartitions
+annotations:
+  message: Metric ingesters in {{ $labels.cluster }}/{{ $labels.namespace }} have fewer ingesters consuming than active partitions.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricfeweringestersconsumingthanactivepartitions
+expr: |
+  max(cortex_partition_ring_partitions{name="ingester-partitions", state="Active"}) by (cluster, namespace) > count(count(cortex_ingest_storage_reader_last_consumed_offset{}) by (cluster, namespace, partition)) by (cluster, namespace)
+for: 15m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MetricContinuousTestNotRunningOnWrites
