@@ -1915,6 +1915,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricBlockBuilderSchedulerNotRunning
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderSchedulerNotRunning
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} is not running.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderschedulernotrunning
+expr: |
+  max by (cluster, namespace, pod) (histogram_count(increase(cortex_blockbuilder_scheduler_schedule_update_seconds[5m])) == 0)
+for: 30m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ##### MetricBlockBuilderDataSkipped
 
 {{< code lang="yaml" >}}
@@ -1925,7 +1939,20 @@ annotations:
 expr: |
   increase(cortex_blockbuilder_scheduler_job_gap_detected[1m]) > 0
 labels:
-  severity: warning
+  severity: critical
+{{< /code >}}
+ 
+##### MetricBlockBuilderPersistentJobFailure
+
+{{< code lang="yaml" >}}
+alert: MetricBlockBuilderPersistentJobFailure
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has detected a persistently failing job.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricblockbuilderpersistentjobfailure
+expr: |
+  increase(cortex_blockbuilder_scheduler_persistent_job_failures_total[1m]) > 0
+labels:
+  severity: critical
 {{< /code >}}
  
 ##### MetricFewerIngestersConsumingThanActivePartitions
