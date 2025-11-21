@@ -92,4 +92,4 @@ labels:
 仪表盘配置文件下载地址:
 
 
-- [overview](https://github.com/observeproject/sites/blob/main/assets/cert-manager/dashboards/overview.json)
+- [cert-manager-overview](https://github.com/observeproject/sites/blob/main/assets/cert-manager/dashboards/cert-manager-overview.json)
