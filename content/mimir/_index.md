@@ -973,6 +973,35 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricMemberlistBridgeZoneUnavailable
+
+{{< code lang="yaml" >}}
+alert: MetricMemberlistBridgeZoneUnavailable
+annotations:
+  message: Metric memberlist-bridge in {{ $labels.cluster }}/{{ $labels.namespace }} {{ $labels.zone }} has no available pods.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricmemberlistbridgezoneunavailable
+expr: |
+  # Find the expected memberlist-bridge zonal deployments.
+  count by (cluster, namespace, zone) (
+      label_replace(
+          kube_deployment_spec_replicas{deployment=~"memberlist-bridge-zone-[abc]"} > 0,
+          "zone", "$1", "deployment", "memberlist-bridge-(zone-[abc])"
+      )
+  )
+  # Excluding zones where there is at least 1 healthy memberlist-bridge.
+  unless (
+      count by(cluster, namespace, zone) (
+          label_replace(
+              kube_pod_status_ready{pod=~"memberlist-bridge-zone-[abc]-.*", condition="true"} == 1,
+              "zone", "$1", "pod", "memberlist-bridge-(zone-[abc]).*"
+          )
+      ) > 0
+  )
+for: 3m
+labels:
+  severity: critical
+{{< /code >}}
+ 
 ### golang_alerts
 
 ##### MetricGoThreadsTooHigh
@@ -3086,6 +3115,57 @@ record: cluster_job:cortex_alertmanager_partial_state_merges_failed_total:rate5m
 expr: |
   sum by(cluster, namespace, pod) (rate(cortex_ingester_ingested_samples_total[1m]))
 record: cluster_namespace_pod:cortex_ingester_ingested_samples_total:rate1m
+{{< /code >}}
+ 
+### mimir_usage_tracker_rules
+
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:99quantile
+
+{{< code lang="yaml" >}}
+expr: histogram_quantile(0.99, sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_bucket[1m])) by (le, cluster, job))
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:99quantile
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:50quantile
+
+{{< code lang="yaml" >}}
+expr: histogram_quantile(0.50, sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_bucket[1m])) by (le, cluster, job))
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:50quantile
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:avg
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_sum[1m])) by (cluster, job) / sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_count[1m])) by (cluster, job)
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:avg
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_bucket:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_bucket[1m])) by (le, cluster, job)
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_bucket:sum_rate
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_sum:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_sum[1m])) by (cluster, job)
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_sum:sum_rate
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_count:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds_count[1m])) by (cluster, job)
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_count:sum_rate
+{{< /code >}}
+ 
+##### cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:sum_rate
+
+{{< code lang="yaml" >}}
+expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds[1m])) by (cluster, job)
+record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:sum_rate
 {{< /code >}}
  
 ## Dashboards
