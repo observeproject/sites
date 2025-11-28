@@ -2512,53 +2512,53 @@ record: cluster_job:cortex_query_frontend_queue_duration_seconds:sum_rate
  
 ### mimir_ingester_queries
 
-##### cluster_job:cortex_ingester_queried_series:99quantile
+##### cluster_job_stage:cortex_ingester_queried_series:99quantile
 
 {{< code lang="yaml" >}}
-expr: histogram_quantile(0.99, sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job))
-record: cluster_job:cortex_ingester_queried_series:99quantile
+expr: histogram_quantile(0.99, sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job, stage))
+record: cluster_job_stage:cortex_ingester_queried_series:99quantile
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series:50quantile
+##### cluster_job_stage:cortex_ingester_queried_series:50quantile
 
 {{< code lang="yaml" >}}
-expr: histogram_quantile(0.50, sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job))
-record: cluster_job:cortex_ingester_queried_series:50quantile
+expr: histogram_quantile(0.50, sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job, stage))
+record: cluster_job_stage:cortex_ingester_queried_series:50quantile
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series:avg
+##### cluster_job_stage:cortex_ingester_queried_series:avg
 
 {{< code lang="yaml" >}}
-expr: sum(rate(cortex_ingester_queried_series_sum[1m])) by (cluster, job) / sum(rate(cortex_ingester_queried_series_count[1m])) by (cluster, job)
-record: cluster_job:cortex_ingester_queried_series:avg
+expr: sum(rate(cortex_ingester_queried_series_sum[1m])) by (cluster, job, stage) / sum(rate(cortex_ingester_queried_series_count[1m])) by (cluster, job, stage)
+record: cluster_job_stage:cortex_ingester_queried_series:avg
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series_bucket:sum_rate
+##### cluster_job_stage:cortex_ingester_queried_series_bucket:sum_rate
 
 {{< code lang="yaml" >}}
-expr: sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job)
-record: cluster_job:cortex_ingester_queried_series_bucket:sum_rate
+expr: sum(rate(cortex_ingester_queried_series_bucket[1m])) by (le, cluster, job, stage)
+record: cluster_job_stage:cortex_ingester_queried_series_bucket:sum_rate
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series_sum:sum_rate
+##### cluster_job_stage:cortex_ingester_queried_series_sum:sum_rate
 
 {{< code lang="yaml" >}}
-expr: sum(rate(cortex_ingester_queried_series_sum[1m])) by (cluster, job)
-record: cluster_job:cortex_ingester_queried_series_sum:sum_rate
+expr: sum(rate(cortex_ingester_queried_series_sum[1m])) by (cluster, job, stage)
+record: cluster_job_stage:cortex_ingester_queried_series_sum:sum_rate
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series_count:sum_rate
+##### cluster_job_stage:cortex_ingester_queried_series_count:sum_rate
 
 {{< code lang="yaml" >}}
-expr: sum(rate(cortex_ingester_queried_series_count[1m])) by (cluster, job)
-record: cluster_job:cortex_ingester_queried_series_count:sum_rate
+expr: sum(rate(cortex_ingester_queried_series_count[1m])) by (cluster, job, stage)
+record: cluster_job_stage:cortex_ingester_queried_series_count:sum_rate
 {{< /code >}}
  
-##### cluster_job:cortex_ingester_queried_series:sum_rate
+##### cluster_job_stage:cortex_ingester_queried_series:sum_rate
 
 {{< code lang="yaml" >}}
-expr: sum(rate(cortex_ingester_queried_series[1m])) by (cluster, job)
-record: cluster_job:cortex_ingester_queried_series:sum_rate
+expr: sum(rate(cortex_ingester_queried_series[1m])) by (cluster, job, stage)
+record: cluster_job_stage:cortex_ingester_queried_series:sum_rate
 {{< /code >}}
  
 ##### cluster_job:cortex_ingester_queried_samples:99quantile
