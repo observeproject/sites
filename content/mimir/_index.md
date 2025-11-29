@@ -997,7 +997,7 @@ expr: |
           )
       ) > 0
   )
-for: 3m
+for: 10m
 labels:
   severity: critical
 {{< /code >}}
