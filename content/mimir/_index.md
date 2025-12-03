@@ -1002,6 +1002,20 @@ labels:
   severity: critical
 {{< /code >}}
  
+##### MetricMemberlistZoneAwareRoutingAutoFailover
+
+{{< code lang="yaml" >}}
+alert: MetricMemberlistZoneAwareRoutingAutoFailover
+annotations:
+  message: Metric memberlist in {{ $labels.cluster }}/{{ $labels.namespace }} has automatically temporarily disabled zone-aware routing because it detected missing memberlist bridges.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricmemberlistzoneawareroutingautofailover
+expr: |
+  sum by (cluster, namespace) (rate(memberlist_client_zone_aware_routing_select_nodes_skipped_total[1m])) > 0
+for: 10m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### golang_alerts
 
 ##### MetricGoThreadsTooHigh
