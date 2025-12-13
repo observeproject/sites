@@ -88,7 +88,7 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrequestlatency
 expr: |
   cluster_namespace_job_route:cortex_request_duration_seconds:99quantile{route!~"metrics|/frontend.Frontend/Process|ready|/schedulerpb.SchedulerForFrontend/FrontendLoop|/schedulerpb.SchedulerForQuerier/QuerierLoop|debug_pprof"}
-     >
+    >
   2.5
 for: 15m
 labels:
@@ -196,14 +196,37 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metrickvstorefailure
 expr: |
   (
-    sum by(cluster, namespace, pod, status_code, kv_name) (rate(cortex_kv_request_duration_seconds_count{status_code!~"2.+"}[1m]))
+    sum by (cluster, namespace, pod, status_code, kv_name) (rate(cortex_kv_request_duration_seconds_count{status_code!~"2.+"}[1m]))
     /
-    sum by(cluster, namespace, pod, status_code, kv_name) (rate(cortex_kv_request_duration_seconds_count[1m]))
+    sum by (cluster, namespace, pod, status_code, kv_name) (rate(cortex_kv_request_duration_seconds_count{}[1m]))
   )
   # We want to get alerted only in case there's a constant failure.
   == 1
 for: 5m
 labels:
+  histogram: classic
+  severity: critical
+{{< /code >}}
+ 
+##### MetricKVStoreFailure
+
+{{< code lang="yaml" >}}
+alert: MetricKVStoreFailure
+annotations:
+  message: |
+    Metric {{ $labels.pod }} in  {{ $labels.cluster }}/{{ $labels.namespace }} is failing to talk to the KV store {{ $labels.kv_name }}.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metrickvstorefailure
+expr: |
+  (
+    sum by (cluster, namespace, pod, status_code, kv_name) (histogram_count(rate(cortex_kv_request_duration_seconds{status_code!~"2.+"}[1m])))
+    /
+    sum by (cluster, namespace, pod, status_code, kv_name) (histogram_count(rate(cortex_kv_request_duration_seconds{}[1m])))
+  )
+  # We want to get alerted only in case there's a constant failure.
+  == 1
+for: 5m
+labels:
+  histogram: native
   severity: critical
 {{< /code >}}
  
@@ -1766,6 +1789,26 @@ expr: |
   )[5m:1m]) > 0
 for: 5m
 labels:
+  histogram: classic
+  severity: warning
+{{< /code >}}
+ 
+##### MetricStartingIngesterKafkaDelayGrowing
+
+{{< code lang="yaml" >}}
+alert: MetricStartingIngesterKafkaDelayGrowing
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in "starting" phase is not reducing consumption lag of write requests read from Kafka.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricstartingingesterkafkadelaygrowing
+expr: |
+  deriv((
+      sum by (cluster, namespace, pod) (histogram_sum(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="starting"}[1m])))
+      /
+      sum by (cluster, namespace, pod) (histogram_count(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="starting"}[1m])))
+  )[5m:1m]) > 0
+for: 5m
+labels:
+  histogram: native
   severity: warning
 {{< /code >}}
  
@@ -1784,6 +1827,27 @@ expr: |
   ) > (2 * 60)
 for: 3m
 labels:
+  histogram: classic
+  severity: critical
+  threshold: very_high_for_short_period
+{{< /code >}}
+ 
+##### MetricRunningIngesterReceiveDelayTooHigh
+
+{{< code lang="yaml" >}}
+alert: MetricRunningIngesterReceiveDelayTooHigh
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in "running" phase is too far behind in its consumption of write requests from Kafka.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrunningingesterreceivedelaytoohigh
+expr: |
+  (
+    sum by (cluster, namespace, pod) (histogram_sum(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="running"}[1m])))
+    /
+    sum by (cluster, namespace, pod) (histogram_count(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="running"}[1m])))
+  ) > (2 * 60)
+for: 3m
+labels:
+  histogram: native
   severity: critical
   threshold: very_high_for_short_period
 {{< /code >}}
@@ -1803,6 +1867,27 @@ expr: |
   ) > 30
 for: 15m
 labels:
+  histogram: classic
+  severity: critical
+  threshold: relatively_high_for_long_period
+{{< /code >}}
+ 
+##### MetricRunningIngesterReceiveDelayTooHigh
+
+{{< code lang="yaml" >}}
+alert: MetricRunningIngesterReceiveDelayTooHigh
+annotations:
+  message: Metric {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} in "running" phase is too far behind in its consumption of write requests from Kafka.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricrunningingesterreceivedelaytoohigh
+expr: |
+  (
+    sum by (cluster, namespace, pod) (histogram_sum(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="running"}[1m])))
+    /
+    sum by (cluster, namespace, pod) (histogram_count(rate(cortex_ingest_storage_reader_receive_delay_seconds{phase="running"}[1m])))
+  ) > 30
+for: 15m
+labels:
+  histogram: native
   severity: critical
   threshold: relatively_high_for_long_period
 {{< /code >}}
