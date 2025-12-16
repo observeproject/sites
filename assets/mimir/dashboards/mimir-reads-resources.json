@@ -67,7 +67,7 @@
                   },
                   "tooltip": {
                      "mode": "multi",
-                     "sort": "none"
+                     "sort": "desc"
                   }
                },
                "span": 4,
@@ -115,7 +115,7 @@
                   },
                   "tooltip": {
                      "mode": "multi",
-                     "sort": "none"
+                     "sort": "desc"
                   }
                },
                "span": 4,
@@ -2734,7 +2734,7 @@
                   },
                   "tooltip": {
                      "mode": "multi",
-                     "sort": "none"
+                     "sort": "desc"
                   }
                },
                "span": 4,
@@ -2782,7 +2782,7 @@
                   },
                   "tooltip": {
                      "mode": "multi",
-                     "sort": "none"
+                     "sort": "desc"
                   }
                },
                "span": 4,
@@ -2833,7 +2833,7 @@
                   },
                   "tooltip": {
                      "mode": "multi",
-                     "sort": "none"
+                     "sort": "desc"
                   }
                },
                "span": 4,
