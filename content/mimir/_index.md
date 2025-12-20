@@ -2107,6 +2107,48 @@ labels:
   severity: critical
 {{< /code >}}
  
+### rollout_operator_alerts
+
+##### MetricIncorrectWebhookConfigurationFailurePolicy
+
+{{< code lang="yaml" >}}
+alert: MetricIncorrectWebhookConfigurationFailurePolicy
+annotations:
+  message: |
+    A validating or mutating rollout-operator webhook has an Ignore policy set. This should be set to Fail.
+  runbook_url: https://github.com/grafana/rollout-operator/tree/main/docs/runbooks.md#metricincorrectwebhookconfigurationfailurepolicy
+expr: count by(type, webhook) (kube_validating_webhook_failure_policy{policy="Ignore", webhook=~"^(pod-eviction|zpdb-validation).+"} > 0)
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricBadZoneAwarePodDisruptionBudgetConfiguration
+
+{{< code lang="yaml" >}}
+alert: MetricBadZoneAwarePodDisruptionBudgetConfiguration
+annotations:
+  message: An invalid zone aware pod disruption budget configuration has been observed.
+  runbook_url: https://github.com/grafana/rollout-operator/tree/main/docs/runbooks.md#metricbadzoneawarepoddisruptionbudgetconfiguration
+expr: sum by (job)(rate(rollout_operator_zpdb_configurations_observed_total{result="invalid"}[5m])) > 0
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricHighNumberInflightZpdbRequests
+
+{{< code lang="yaml" >}}
+alert: MetricHighNumberInflightZpdbRequests
+annotations:
+  message: A sustained number of inflight ZPDB eviction requests has been observed.
+  runbook_url: https://github.com/grafana/rollout-operator/tree/main/docs/runbooks.md#metrichighnumberinflightzpdbrequests
+expr: avg_over_time(rollout_operator_zpdb_inflight_eviction_requests[5m]) > 10
+for: 5m
+labels:
+  severity: warning
+{{< /code >}}
+ 
 ### mimir_continuous_test
 
 ##### MetricContinuousTestNotRunningOnWrites
