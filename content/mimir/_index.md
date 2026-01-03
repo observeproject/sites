@@ -1597,30 +1597,18 @@ labels:
   time_period: since-start
 {{< /code >}}
  
-##### MetricCompactorSkippedUnhealthyBlocks
+##### MetricCompactorSkippedBlocks
 
 {{< code lang="yaml" >}}
-alert: MetricCompactorSkippedUnhealthyBlocks
+alert: MetricCompactorSkippedBlocks
 annotations:
-  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored unhealthy blocks.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedunhealthyblocks
+  message: 'Metric Compactor in {{ $labels.cluster }}/{{ $labels.namespace }} has marked {{ $value }} blocks for no-compaction (reason: {{ $labels.reason }}).'
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedblocks
 expr: |
-  increase(cortex_compactor_blocks_marked_for_no_compaction_total[5m]) > 0
-for: 1m
-labels:
-  severity: warning
-{{< /code >}}
- 
-##### MetricCompactorSkippedUnhealthyBlocks
-
-{{< code lang="yaml" >}}
-alert: MetricCompactorSkippedUnhealthyBlocks
-annotations:
-  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has found and ignored unhealthy blocks.
-  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactorskippedunhealthyblocks
-expr: |
-  increase(cortex_compactor_blocks_marked_for_no_compaction_total[5m]) > 1
-for: 30m
+  sum by (cluster, namespace, reason) (
+    increase(cortex_compactor_blocks_marked_for_no_compaction_total[24h]) > 0
+  )
+for: 5m
 labels:
   severity: critical
 {{< /code >}}
