@@ -3527,7 +3527,7 @@
                      "sort": "none"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "expr": "histogram_avg(sum(rate(cortex_ingest_storage_reader_receive_delay_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir))\", phase=\"running\"}[$__rate_interval])))",
@@ -3595,7 +3595,7 @@
                      "sort": "desc"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "exemplar": true,
@@ -3645,7 +3645,7 @@
                      "sort": "none"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "expr": "histogram_avg(sum(rate(cortex_ingest_storage_reader_receive_delay_seconds{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir))\", phase=\"starting\"}[$__rate_interval])))",
@@ -3673,6 +3673,55 @@
                   }
                ],
                "title": "Kafka end-to-end latency when starting",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "description": "### Forced TSDB head compactions in progress\nThe number of ingesters currently performing a forced TSDB head compaction. During a forced compaction,\nKafka consumption may be paused, which is a common cause of elevated — but temporary — end-to-end latency.\n\n",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 1,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "short"
+                  },
+                  "overrides": [ ]
+               },
+               "id": 40,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "none"
+                  }
+               },
+               "span": 3,
+               "targets": [
+                  {
+                     "expr": "sum(max_over_time(cortex_ingester_tsdb_forced_compactions_in_progress{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir))\"}[$__rate_interval]))",
+                     "format": "time_series",
+                     "legendFormat": "In progress",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Forced TSDB head compactions in progress",
                "type": "timeseries"
             }
          ],
@@ -3744,7 +3793,7 @@
                      }
                   ]
                },
-               "id": 40,
+               "id": 41,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3799,7 +3848,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 41,
+               "id": 42,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4028,7 +4077,7 @@
                      }
                   ]
                },
-               "id": 42,
+               "id": 43,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4082,7 +4131,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 43,
+               "id": 44,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4342,7 +4391,7 @@
                      }
                   ]
                },
-               "id": 44,
+               "id": 45,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4396,7 +4445,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 45,
+               "id": 46,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4656,7 +4705,7 @@
                      }
                   ]
                },
-               "id": 46,
+               "id": 47,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4710,7 +4759,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 47,
+               "id": 48,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -4851,7 +4900,7 @@
                      }
                   ]
                },
-               "id": 48,
+               "id": 49,
                "links": [ ],
                "options": {
                   "legend": {
@@ -4906,7 +4955,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 49,
+               "id": 50,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -5047,7 +5096,7 @@
                      }
                   ]
                },
-               "id": 50,
+               "id": 51,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5102,7 +5151,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 51,
+               "id": 52,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -5243,7 +5292,7 @@
                      }
                   ]
                },
-               "id": 52,
+               "id": 53,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5329,7 +5378,7 @@
                      }
                   ]
                },
-               "id": 53,
+               "id": 54,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5385,7 +5434,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 54,
+               "id": 55,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5465,7 +5514,7 @@
                      }
                   ]
                },
-               "id": 55,
+               "id": 56,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5532,7 +5581,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 56,
+               "id": 57,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5581,7 +5630,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 57,
+               "id": 58,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5630,7 +5679,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 58,
+               "id": 59,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5679,7 +5728,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 59,
+               "id": 60,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5739,7 +5788,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 60,
+               "id": 61,
                "links": [ ],
                "options": {
                   "legend": {
@@ -5787,7 +5836,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 61,
+               "id": 62,
                "links": [ ],
                "options": {
                   "legend": {
