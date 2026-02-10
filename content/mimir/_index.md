@@ -1500,18 +1500,18 @@ labels:
 {{< code lang="yaml" >}}
 alert: MetricCompactorNotRunningCompaction
 annotations:
-  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not run compaction in the last 24 hours.
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not run compaction in the last 6 hours.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactornotrunningcompaction
 expr: |
   # The "last successful run" metric is updated even if the compactor owns no tenants,
   # so this alert correctly doesn't fire if compactor has nothing to do.
-  (time() - cortex_compactor_last_successful_run_timestamp_seconds > 60 * 60 * 24)
+  (time() - max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) > 60 * 60 * 6)
   and
-  (cortex_compactor_last_successful_run_timestamp_seconds > 0)
-for: 1h
+  (max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) > 0)
+for: 15m
 labels:
-  reason: in-last-24h
-  severity: critical
+  reason: in-last-6h
+  severity: warning
 {{< /code >}}
  
 ##### MetricCompactorNotRunningCompaction
@@ -1524,8 +1524,44 @@ annotations:
 expr: |
   # The "last successful run" metric is updated even if the compactor owns no tenants,
   # so this alert correctly doesn't fire if compactor has nothing to do.
-  cortex_compactor_last_successful_run_timestamp_seconds == 0
-for: 24h
+  (time() - max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) > 60 * 60 * 24)
+  and
+  (max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) > 0)
+for: 15m
+labels:
+  reason: in-last-24h
+  severity: critical
+{{< /code >}}
+ 
+##### MetricCompactorNotRunningCompaction
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorNotRunningCompaction
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not run compaction since startup.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactornotrunningcompaction
+expr: |
+  # The "last successful run" metric is updated even if the compactor owns no tenants,
+  # so this alert correctly doesn't fire if compactor has nothing to do.
+  max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) == 0
+for: 6h
+labels:
+  reason: since-startup
+  severity: warning
+{{< /code >}}
+ 
+##### MetricCompactorNotRunningCompaction
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorNotRunningCompaction
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has not run compaction since startup.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactornotrunningcompaction
+expr: |
+  # The "last successful run" metric is updated even if the compactor owns no tenants,
+  # so this alert correctly doesn't fire if compactor has nothing to do.
+  max by(cluster, namespace, pod) (cortex_compactor_last_successful_run_timestamp_seconds) == 0
+for: 12h
 labels:
   reason: since-startup
   severity: critical
@@ -1539,7 +1575,7 @@ annotations:
   message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} failed to run 2 consecutive compactions.
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactornotrunningcompaction
 expr: |
-  increase(cortex_compactor_runs_failed_total{reason!="shutdown"}[2h]) >= 2
+  sum by(cluster, namespace, pod) (increase(cortex_compactor_runs_failed_total{reason!="shutdown"}[2h])) >= 2
 labels:
   reason: consecutive-failures
   severity: critical
@@ -1625,6 +1661,52 @@ expr: |
 for: 30m
 labels:
   severity: warning
+{{< /code >}}
+ 
+##### MetricCompactorOOMKilled
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorOOMKilled
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has been OOMKilled {{ printf "%.2f" $value }} times in the last 4h.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactoroomkilled
+expr: |
+  (
+    sum by(cluster, namespace, pod) (
+      increase(kube_pod_container_status_restarts_total{container=~"compactor"}[4h])
+    )
+    > 2
+  )
+  and on (cluster, namespace, pod)
+  (
+    kube_pod_container_status_last_terminated_reason{container=~"compactor", reason="OOMKilled"} > 0
+  )
+for: 15m
+labels:
+  severity: warning
+{{< /code >}}
+ 
+##### MetricCompactorOOMKilled
+
+{{< code lang="yaml" >}}
+alert: MetricCompactorOOMKilled
+annotations:
+  message: Metric Compactor {{ $labels.pod }} in {{ $labels.cluster }}/{{ $labels.namespace }} has been OOMKilled {{ printf "%.2f" $value }} times in the last 2h.
+  runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metriccompactoroomkilled
+expr: |
+  (
+    sum by(cluster, namespace, pod) (
+      increase(kube_pod_container_status_restarts_total{container=~"compactor"}[2h])
+    )
+    > 5
+  )
+  and on (cluster, namespace, pod)
+  (
+    kube_pod_container_status_last_terminated_reason{container=~"compactor", reason="OOMKilled"} > 0
+  )
+for: 15m
+labels:
+  severity: critical
 {{< /code >}}
  
 ### mimir_distributor_alerts
