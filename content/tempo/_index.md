@@ -18,20 +18,6 @@ Jsonnet 源码地址：[github.com/grafana/tempo](https://github.com/grafana/tem
 
 ### tempo_alerts
 
-##### TempoCompactorUnhealthy
-
-{{< code lang="yaml" >}}
-alert: TempoCompactorUnhealthy
-annotations:
-  message: There are {{ printf "%f" $value }} unhealthy compactor(s).
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoCompactorUnhealthy
-expr: |
-  max by (cluster, namespace) (tempo_ring_members{state="Unhealthy", name="compactor", namespace=~".*"}) > 0
-for: 15m
-labels:
-  severity: critical
-{{< /code >}}
- 
 ##### TempoDistributorUnhealthy
 
 {{< code lang="yaml" >}}
@@ -44,20 +30,6 @@ expr: |
 for: 15m
 labels:
   severity: warning
-{{< /code >}}
- 
-##### TempoIngesterUnhealthy
-
-{{< code lang="yaml" >}}
-alert: TempoIngesterUnhealthy
-annotations:
-  message: There are {{ printf "%f" $value }} unhealthy ingester(s).
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoIngesterUnhealthy
-expr: |
-  max by (cluster, namespace) (tempo_ring_members{state="Unhealthy", name="ingester", namespace=~".*"}) > 0
-for: 15m
-labels:
-  severity: critical
 {{< /code >}}
  
 ##### TempoLiveStoreUnhealthy
@@ -99,36 +71,6 @@ expr: |
   sum by (cluster, namespace) (increase(tempodb_compaction_errors_total{}[1h])) > 2 and
   sum by (cluster, namespace) (increase(tempodb_compaction_errors_total{}[5m])) > 0
 for: 1h
-labels:
-  severity: critical
-{{< /code >}}
- 
-##### TempoIngesterFlushesUnhealthy
-
-{{< code lang="yaml" >}}
-alert: TempoIngesterFlushesUnhealthy
-annotations:
-  message: Greater than 2 flush retries have occurred in the past hour.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoIngesterFlushesFailing
-expr: |
-  sum by (cluster, namespace) (increase(tempo_ingester_failed_flushes_total{}[1h])) > 2 and
-  sum by (cluster, namespace) (increase(tempo_ingester_failed_flushes_total{}[5m])) > 0
-for: 5m
-labels:
-  severity: warning
-{{< /code >}}
- 
-##### TempoIngesterFlushesFailing
-
-{{< code lang="yaml" >}}
-alert: TempoIngesterFlushesFailing
-annotations:
-  message: Greater than 2 flush retries have failed in the past hour.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoIngesterFlushesFailing
-expr: |
-  sum by (cluster, namespace) (increase(tempo_ingester_flush_failed_retries_total{}[1h])) > 2 and
-  sum by (cluster, namespace) (increase(tempo_ingester_flush_failed_retries_total{}[5m])) > 0
-for: 5m
 labels:
   severity: critical
 {{< /code >}}
@@ -232,27 +174,13 @@ labels:
   severity: critical
 {{< /code >}}
  
-##### TempoProvisioningTooManyWrites
+##### TempoCompactionTooManyOutstandingBlocks
 
 {{< code lang="yaml" >}}
-alert: TempoProvisioningTooManyWrites
-annotations:
-  message: Ingesters in {{ $labels.cluster }}/{{ $labels.namespace }} are receiving more data/second than desired, add more ingesters.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoProvisioningTooManyWrites
-expr: |
-  avg by (cluster, namespace) (rate(tempo_ingester_bytes_received_total{job=~".+/ingester"}[5m])) / 1024 / 1024 > 30
-for: 15m
-labels:
-  severity: warning
-{{< /code >}}
- 
-##### TempoCompactorsTooManyOutstandingBlocks
-
-{{< code lang="yaml" >}}
-alert: TempoCompactorsTooManyOutstandingBlocks
+alert: TempoCompactionTooManyOutstandingBlocks
 annotations:
   message: There are too many outstanding compaction blocks in {{ $labels.cluster }}/{{ $labels.namespace }} for tenant {{ $labels.tenant }}, increase compactor's CPU or add more compactors.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoCompactorsTooManyOutstandingBlocks
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoCompactionTooManyOutstandingBlocks
 expr: |
   sum by (cluster, namespace, tenant) (tempodb_compaction_outstanding_blocks{container="compactor", namespace=~".*"}) / ignoring(tenant) group_left count(tempo_build_info{container="compactor", namespace=~".*"}) by (cluster, namespace) > 100
 for: 6h
@@ -260,30 +188,16 @@ labels:
   severity: warning
 {{< /code >}}
  
-##### TempoCompactorsTooManyOutstandingBlocks
+##### TempoCompactionTooManyOutstandingBlocks
 
 {{< code lang="yaml" >}}
-alert: TempoCompactorsTooManyOutstandingBlocks
+alert: TempoCompactionTooManyOutstandingBlocks
 annotations:
   message: There are too many outstanding compaction blocks in {{ $labels.cluster }}/{{ $labels.namespace }} for tenant {{ $labels.tenant }}, increase compactor's CPU or add more compactors.
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoCompactorsTooManyOutstandingBlocks
+  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoCompactionTooManyOutstandingBlocks
 expr: |
   sum by (cluster, namespace, tenant) (tempodb_compaction_outstanding_blocks{container="compactor", namespace=~".*"}) / ignoring(tenant) group_left count(tempo_build_info{container="compactor", namespace=~".*"}) by (cluster, namespace) > 250
 for: 24h
-labels:
-  severity: critical
-{{< /code >}}
- 
-##### TempoIngesterReplayErrors
-
-{{< code lang="yaml" >}}
-alert: TempoIngesterReplayErrors
-annotations:
-  message: Tempo ingester has encountered errors while replaying a block on startup in {{ $labels.cluster }}/{{ $labels.namespace }} for tenant {{ $labels.tenant }}
-  runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoIngesterReplayErrors
-expr: |
-  sum by (cluster, namespace, tenant) (increase(tempo_ingester_replay_errors_total{namespace=~".*"}[5m])) > 0
-for: 5m
 labels:
   severity: critical
 {{< /code >}}
@@ -469,7 +383,7 @@ annotations:
   message: Tempo block-builder partitions mismatch in {{ $labels.cluster }}/{{ $labels.namespace }}.
   runbook_url: https://github.com/grafana/tempo/tree/main/operations/tempo-mixin/runbook.md#TempoBlockBuildersPartitionsMismatch
 expr: |
-  max(tempo_partition_ring_partitions{name=~"ingester-partitions|livestore-partitions", state=~"Active|Inactive"}) by (namespace,cluster)
+  max(tempo_partition_ring_partitions{name=~"livestore-partitions", state=~"Active|Inactive"}) by (namespace,cluster)
   >
   sum(tempo_block_builder_owned_partitions) by(namespace,cluster)
 for: 10m
