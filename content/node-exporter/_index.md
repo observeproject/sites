@@ -572,6 +572,46 @@ expr: |
 record: instance:node_network_transmit_drop_excluding_lo:rate5m
 {{< /code >}}
  
+##### instance:node_network_receive_bytes_physical:rate5m
+
+{{< code lang="yaml" >}}
+expr: |
+  sum without (device) (
+    rate(node_network_receive_bytes_total{job="node_exporter", device!~"lo|veth.+"}[5m])
+  )
+record: instance:node_network_receive_bytes_physical:rate5m
+{{< /code >}}
+ 
+##### instance:node_network_transmit_bytes_physical:rate5m
+
+{{< code lang="yaml" >}}
+expr: |
+  sum without (device) (
+    rate(node_network_transmit_bytes_total{job="node_exporter", device!~"lo|veth.+"}[5m])
+  )
+record: instance:node_network_transmit_bytes_physical:rate5m
+{{< /code >}}
+ 
+##### instance:node_network_receive_drop_physical:rate5m
+
+{{< code lang="yaml" >}}
+expr: |
+  sum without (device) (
+    rate(node_network_receive_drop_total{job="node_exporter", device!~"lo|veth.+"}[5m])
+  )
+record: instance:node_network_receive_drop_physical:rate5m
+{{< /code >}}
+ 
+##### instance:node_network_transmit_drop_physical:rate5m
+
+{{< code lang="yaml" >}}
+expr: |
+  sum without (device) (
+    rate(node_network_transmit_drop_total{job="node_exporter", device!~"lo|veth.+"}[5m])
+  )
+record: instance:node_network_transmit_drop_physical:rate5m
+{{< /code >}}
+ 
 ## Dashboards
 仪表盘配置文件下载地址:
 
