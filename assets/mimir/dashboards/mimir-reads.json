@@ -5027,19 +5027,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Blocks object store (store-gateway accesses)",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "datasource": "$datasource",
                "fieldConfig": {
@@ -5433,7 +5421,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "",
+         "title": "Blocks object store (store-gateway accesses)",
          "titleSize": "h6"
       },
       {
@@ -5714,19 +5702,7 @@
                      "show": false
                   }
                ]
-            }
-         ],
-         "repeat": null,
-         "repeatIteration": null,
-         "repeatRowId": null,
-         "showTitle": true,
-         "title": "Blocks object store (querier accesses)",
-         "titleSize": "h6"
-      },
-      {
-         "collapse": false,
-         "height": "250px",
-         "panels": [
+            },
             {
                "datasource": "$datasource",
                "fieldConfig": {
@@ -6120,7 +6096,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "",
+         "title": "Blocks object store (querier accesses)",
          "titleSize": "h6"
       }
    ],
