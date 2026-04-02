@@ -382,8 +382,16 @@ annotations:
   runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#metricringmembersmismatch
 expr: |
   (
-    avg by(cluster, namespace) (sum by(cluster, namespace, pod) (cortex_ring_members{name="ingester",job=~".*/(ingester.*|cortex|mimir)",job!~".*/(ingester.*-partition)"}))
-    != sum by(cluster, namespace) (up{job=~".*/(ingester.*|cortex|mimir)",job!~".*/(ingester.*-partition)"})
+    (
+      avg by(cluster, namespace) (sum by(cluster, namespace, pod) (cortex_ring_members{name="ingester",job=~".*/(ingester.*|cortex|mimir)",job!~".*/(ingester.*-partition)"}))
+      != sum by(cluster, namespace) (up{job=~".*/(ingester.*|cortex|mimir)",job!~".*/(ingester.*-partition)"})
+    )
+    unless on(cluster, namespace)
+    (
+      sum by(cluster, namespace) (kube_statefulset_replicas{statefulset=~".*ingester.*"})
+        !=
+      sum by(cluster, namespace) (kube_statefulset_status_replicas_updated{statefulset=~".*ingester.*"})
+    )
   )
   and
   (
@@ -3386,6 +3394,14 @@ record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds_co
 {{< code lang="yaml" >}}
 expr: sum(rate(cortex_usage_tracker_client_track_series_duration_seconds[1m])) by (cluster, job)
 record: cluster_job:cortex_usage_tracker_client_track_series_duration_seconds:sum_rate
+{{< /code >}}
+ 
+##### cluster_namespace_job:cortex_usage_tracker_active_series:sum
+
+{{< code lang="yaml" >}}
+expr: |
+  sum by (cluster, namespace, job) (cortex_usage_tracker_active_series)
+record: cluster_namespace_job:cortex_usage_tracker_active_series:sum
 {{< /code >}}
  
 ## Dashboards
