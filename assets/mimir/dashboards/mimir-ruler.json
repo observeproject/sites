@@ -1775,7 +1775,7 @@
                      "sort": "desc"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "expr": "sum by(pod) (rate(container_cpu_usage_seconds_total{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\"}[$__rate_interval]))",
@@ -1913,7 +1913,7 @@
                      "sort": "desc"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "expr": "max by(pod) (container_memory_working_set_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\"})",
@@ -1979,7 +1979,7 @@
                      "sort": "desc"
                   }
                },
-               "span": 4,
+               "span": 3,
                "targets": [
                   {
                      "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\"})",
@@ -1989,6 +1989,117 @@
                   }
                ],
                "title": "Memory (go heap inuse)",
+               "type": "timeseries"
+            },
+            {
+               "datasource": "$datasource",
+               "fieldConfig": {
+                  "defaults": {
+                     "custom": {
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "showPoints": "never",
+                        "spanNulls": false,
+                        "stacking": {
+                           "group": "A",
+                           "mode": "none"
+                        }
+                     },
+                     "min": 0,
+                     "thresholds": {
+                        "mode": "absolute",
+                        "steps": [ ]
+                     },
+                     "unit": "bytes"
+                  },
+                  "overrides": [
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "request"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#FFC000",
+                                 "mode": "fixed"
+                              }
+                           },
+                           {
+                              "id": "custom.fillOpacity",
+                              "value": 0
+                           },
+                           {
+                              "id": "custom.lineStyle",
+                              "value": {
+                                 "fill": "dash"
+                              }
+                           }
+                        ]
+                     },
+                     {
+                        "matcher": {
+                           "id": "byName",
+                           "options": "limit"
+                        },
+                        "properties": [
+                           {
+                              "id": "color",
+                              "value": {
+                                 "fixedColor": "#E02F44",
+                                 "mode": "fixed"
+                              }
+                           },
+                           {
+                              "id": "custom.fillOpacity",
+                              "value": 0
+                           },
+                           {
+                              "id": "custom.lineStyle",
+                              "value": {
+                                 "fill": "dash"
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               },
+               "id": 19,
+               "links": [ ],
+               "options": {
+                  "legend": {
+                     "showLegend": true
+                  },
+                  "tooltip": {
+                     "mode": "multi",
+                     "sort": "desc"
+                  }
+               },
+               "span": 3,
+               "targets": [
+                  {
+                     "expr": "max by(pod) (kubelet_container_log_filesystem_used_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\"})",
+                     "format": "time_series",
+                     "legendFormat": "{{pod}}",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "min(kube_pod_container_resource_limits{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\",resource=\"ephemeral_storage\"})",
+                     "format": "time_series",
+                     "legendFormat": "limit",
+                     "legendLink": null
+                  },
+                  {
+                     "expr": "min(kube_pod_container_resource_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",container=~\"ruler\",resource=\"ephemeral_storage\"})",
+                     "format": "time_series",
+                     "legendFormat": "request",
+                     "legendLink": null
+                  }
+               ],
+               "title": "Ephemeral Storage (log fs)",
                "type": "timeseries"
             }
          ],
@@ -2179,7 +2290,7 @@
                      }
                   ]
                },
-               "id": 19,
+               "id": 20,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2233,7 +2344,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 20,
+               "id": 21,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2342,7 +2453,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 21,
+               "id": 22,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2439,7 +2550,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 22,
+               "id": 23,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -2554,7 +2665,7 @@
                      }
                   ]
                },
-               "id": 23,
+               "id": 24,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2615,7 +2726,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 24,
+               "id": 25,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2677,7 +2788,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 25,
+               "id": 26,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2732,7 +2843,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 26,
+               "id": 27,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2792,7 +2903,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 27,
+               "id": 28,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2840,7 +2951,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 28,
+               "id": 29,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2888,7 +2999,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 29,
+               "id": 30,
                "links": [ ],
                "options": {
                   "legend": {
@@ -2948,7 +3059,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 30,
+               "id": 31,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3008,7 +3119,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 31,
+               "id": 32,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3041,7 +3152,7 @@
                      "unit": "percentunit"
                   }
                },
-               "id": 32,
+               "id": 33,
                "links": [ ],
                "options": {
                   "legend": {
@@ -3089,7 +3200,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 33,
+               "id": 34,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3186,7 +3297,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 34,
+               "id": 35,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3283,7 +3394,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 35,
+               "id": 36,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3380,7 +3491,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 36,
+               "id": 37,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3477,7 +3588,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 37,
+               "id": 38,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
@@ -3574,7 +3685,7 @@
                   },
                   "overrides": [ ]
                },
-               "id": 38,
+               "id": 39,
                "links": [ ],
                "nullPointMode": "null as zero",
                "options": {
