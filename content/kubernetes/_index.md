@@ -2542,6 +2542,7 @@ record: node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile
 - [k8s-resources-cluster](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-cluster.json)
 - [k8s-resources-namespace](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-namespace.json)
 - [k8s-resources-node](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-node.json)
+- [k8s-resources-nodes-overview](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-nodes-overview.json)
 - [k8s-resources-pod](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-pod.json)
 - [k8s-resources-windows-cluster](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-windows-cluster.json)
 - [k8s-resources-windows-namespace](https://github.com/observeproject/sites/blob/main/assets/kubernetes/dashboards/k8s-resources-windows-namespace.json)
